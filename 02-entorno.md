@@ -12,7 +12,7 @@ Laravel Sail está disponible para macOS, Linux y Windows (vía WSL2).
 ### Pasos
 Para crear una aplicación de Laravel con Laravel Sail, necesitarás tener instalado [Docker Desktop](https://www.docker.com/products/docker-desktop). En el caso de Windows, asegúrate también que [Windows Subsystem for Linux 2 (WSL2)](https://docs.microsoft.com/en-us/windows/wsl/install-win10) está instalado y habilitado.
 
-#### 1. Crea un nuevo proyecto de Laravel
+#### 1. Crea un nuevo proyecto de Laravel utilizando el servicio laravel.build
 
 Abre una terminal (en el caso de Windows, ábrela iniciando una sesión en WSL2) y ejecuta el siguiente comando dentro del directorio en el que deseas crear tu aplicación:
 ```
@@ -25,7 +25,7 @@ curl -s "https://laravel.build/example-app?with=mysql,redis" | bash
 ```
 
 #### 2. Inicia el entorno de desarrollo
-Espera a que Laravel Sail instale todas las dependencias necesarias para tu aplicación.
+Espera a que Laravel Sail instale todas las dependencias necesarias para tu aplicación. Este proceso puede llevar varios minutos ya que debe preparar todos los contenedores para el desarrollo desde tu máquina local.
 
 Una vez que la instalación haya finalizado, entra en la carpeta creada para tu aplicación `cd example-app` y ejecuta el comando `./vendor/bin/sail up` para levantar el entorno de desarrollo local (utiliza `./vendor/bin/sail up -d` para arrancarlo en el background).
 
@@ -35,8 +35,45 @@ Ya puedes empezar a trabajar en tu aplicación de Laravel.
 
 Puedes utilizar el comando `sail stop` para parar el entorno.
 
+#### (Opcional) 3. Crea un alias para sail
 
+Para evitar tener que escribir `./vendor/bin/sail` continuamente, puedes crear un alias y así ejecutar simplemente `sail` directamente.
 
+Edita tu archivo añadiendo esto al final del fichero `~/.zshrc` o `~/.bashrc`:
+```
+alias sail='[ -f sail ] && sh sail || sh vendor/bin/sail'
+```
+
+Una forma sencilla de editar/crear el fichero puede ser mediante el editor de texto nano:
+```
+nano ~/.zshrc
+```
+
+Vuelve a abrir el terminal y a partir de ahora ya podrás ejecutar comandos como `sail up` o `sail stop` directamente.
+
+#### 4. Ejecutar comandos en Sail
+En Laravel es muy común ejecutar comandos de utilizades como Composer, Artisan o Node.
+Para ejecutar esos comandos sin tener que conectarte al contenedor `laravel.test` puedes hacerlo de la siguiente forma:
+```
+# Ejemplo de comando desde dentro del contenedor:
+php artisan queue:work
+composer require laravel/sanctum
+ 
+# Ejemplo de comando desde utilizando Laravel Sail:
+sail artisan queue:work
+sail composer require laravel/sanctum
+```
+De todas formas, siempre tienes la opción de conectarte con el siguiente comando:
+```
+docker exec -it <id_contenedor> bash
+```
+#### 5. Configuración inicial
+Todos los archivos de configuración sobre la aplicación se almacenan en el directorio de configuración `config`. Laravel trae una configuración establecida por defecto, por lo que no es necesario configurar nada adicional para comenzar a desarrollar. No obstante, puedes entrar a ver el archivo `config/app.php` para hacerte a la idea de distintos parámetros a configurar.
+
+La configuración relativa al entorno se almacena en el fichero `.env`. El tipo de configuración almacenada en este entorno es especialmente aquella que variará en función de si se trata de un entorno de desarrollo local, producción, etc. Nunca deberías subir este fichero a tu repositorio de código (por ejemplo Github).
+
+#### 4. Base de datos
+Por defecto Laravel Sail crea automáticamente una base de datos con el mismo nombre de la aplicación. Puedes encontrar los datos relativos a la base de datos en el fichero `.env`. Este es un tema que trataremos más adelante.
 
 ## Laravel Homestead
 ### Pasos
