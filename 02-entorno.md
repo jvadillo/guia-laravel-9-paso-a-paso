@@ -5,18 +5,16 @@ Puedes lanzar una aplicación desarrollada con Laravel en cualquier máquina o s
 
 No obstante, si te sientes más cómodo utilizando tu propio servidor o entorno de desarrollo, puedes hacerlo perfectamente siempre que cumplas con los requerimientos citados.
 
-En esta sección veremos paso a paso como preparar nuestro entorno de desarrollo con Homestead.
-
 ## Laravel Sail
 Con Laravel Sail puedes configurar fácilmente un entorno de desarrollo local para tu aplicación Laravel ejecutando un solo comando. Este entorno incluye un servidor de desarrollo PHP, una base de datos MySQL y todas las demás herramientas que se necesitan para empezar a trabajar en una aplicación.
 Laravel Sail está disponible para macOS, Linux y Windows (vía WSL2).
 
 ### Pasos
-Para crear una aplicación de Laravel con Laravel Sail, necesitarás tener instalado Docker. A continuación, sigue estos pasos:
+Para crear una aplicación de Laravel con Laravel Sail, necesitarás tener instalado [Docker Desktop](https://www.docker.com/products/docker-desktop). En el caso de Windows, asegúrate también que [Windows Subsystem for Linux 2 (WSL2)](https://docs.microsoft.com/en-us/windows/wsl/install-win10) está instalado y habilitado.
 
 #### 1. Crea un nuevo proyecto de Laravel
 
-En macOS y Linux tendrás que ejecutar el siguiente comando directamente:
+Abre una terminal (en el caso de Windows, ábrela iniciando una sesión en WSL2) y ejecuta el siguiente comando dentro del directorio en el que deseas crear tu aplicación:
 ```
 curl -s "https://laravel.build/example-app" | bash
 ```
@@ -26,7 +24,7 @@ Otro aspecto importante es que el comando anterior instalará por defecto mysql,
 curl -s "https://laravel.build/example-app?with=mysql,redis" | bash
 ```
 
-#### 3. Inicia el entorno de desarrollo
+#### 2. Inicia el entorno de desarrollo
 Espera a que Laravel Sail instale todas las dependencias necesarias para tu aplicación.
 
 Una vez que la instalación haya finalizado, entra en la carpeta creada para tu aplicación `cd example-app` y ejecuta el comando `./vendor/bin/sail up` para levantar el entorno de desarrollo local (utiliza `./vendor/bin/sail up -d` para arrancarlo en el background).
@@ -36,6 +34,8 @@ Abre tu navegador y visita la dirección http://localhost:8000 para ver tu aplic
 Ya puedes empezar a trabajar en tu aplicación de Laravel.
 
 Puedes utilizar el comando `sail stop` para parar el entorno.
+
+
 
 
 ## Laravel Homestead
