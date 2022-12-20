@@ -78,7 +78,7 @@ Todos los archivos de configuración sobre la aplicación se almacenan en el dir
 
 La configuración relativa al entorno se almacena en el fichero `.env`. El tipo de configuración almacenada en este entorno es especialmente aquella que variará en función de si se trata de un entorno de desarrollo local, producción, etc. Nunca deberías subir este fichero a tu repositorio de código (por ejemplo Github).
 
-#### 4. Base de datos
+#### 6. Base de datos
 Por defecto Laravel Sail crea dos bases de datos automáticamente.
 La primera con el mismo nombre de la aplicación. Puedes encontrar los datos relativos a la base de datos en el fichero `.env`.
 ```
@@ -93,7 +93,7 @@ Si deseas conectarte a la base de datos (mediante [TablePlus](https://tableplus.
 
 La segunda es una base de datos llamada `test` que se utilizará para testing (en caso de necesitarlo).
 
-### 5. Configuración adicional
+#### 7. Configuración adicional
 Si quieres saber más detalles sobre la configuración de Sail, como por ejemplo cambiar la versión de PHP por defecto o configurar opciones de testing, puedes visitar el siguiente enlace: [https://laravel.com/docs/9.x/sail](https://laravel.com/docs/9.x/sail)
 
 ## Laravel Homestead
