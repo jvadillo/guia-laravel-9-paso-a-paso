@@ -55,13 +55,19 @@ Vuelve a abrir el terminal y a partir de ahora ya podrás ejecutar comandos como
 En Laravel es muy común ejecutar comandos de utilizades como Composer, Artisan o Node.
 Para ejecutar esos comandos sin tener que conectarte al contenedor `laravel.test` puedes hacerlo de la siguiente forma:
 ```
-# Ejemplo de comando desde dentro del contenedor:
+# Ejemplos de comandos desde dentro del contenedor:
+php --version
+php script.php
 php artisan queue:work
 composer require laravel/sanctum
+node --version
  
-# Ejemplo de comando desde utilizando Laravel Sail:
+# Ejemplos de comandos utilizando Laravel Sail:
+sail php --version
+sail php script.php
 sail artisan queue:work
 sail composer require laravel/sanctum
+sail node --version
 ```
 De todas formas, siempre tienes la opción de conectarte con el siguiente comando:
 ```
@@ -73,7 +79,22 @@ Todos los archivos de configuración sobre la aplicación se almacenan en el dir
 La configuración relativa al entorno se almacena en el fichero `.env`. El tipo de configuración almacenada en este entorno es especialmente aquella que variará en función de si se trata de un entorno de desarrollo local, producción, etc. Nunca deberías subir este fichero a tu repositorio de código (por ejemplo Github).
 
 #### 4. Base de datos
-Por defecto Laravel Sail crea automáticamente una base de datos con el mismo nombre de la aplicación. Puedes encontrar los datos relativos a la base de datos en el fichero `.env`. Este es un tema que trataremos más adelante.
+Por defecto Laravel Sail crea dos bases de datos automáticamente.
+La primera con el mismo nombre de la aplicación. Puedes encontrar los datos relativos a la base de datos en el fichero `.env`.
+```
+DB_CONNECTION=mysql
+DB_HOST=mysql
+DB_PORT=3306
+DB_DATABASE=example_app
+DB_USERNAME=sail
+DB_PASSWORD=password
+```
+Si deseas conectarte a la base de datos (mediante [TablePlus](https://tableplus.com/) o [MySQL Workbench](https://www.mysql.com/products/workbench/) por ejemplo) deberás utilizar los datos de conexión de este fichero.
+
+La segunda es una base de datos llamada `test` que se utilizará para testing (en caso de necesitarlo).
+
+### 5. Configuración adicional
+Si quieres saber más detalles sobre la configuración de Sail, como por ejemplo cambiar la versión de PHP por defecto o configurar opciones de testing, puedes visitar el siguiente enlace: [https://laravel.com/docs/9.x/sail](https://laravel.com/docs/9.x/sail)
 
 ## Laravel Homestead
 ### Pasos
