@@ -69,9 +69,13 @@ sail artisan queue:work
 sail composer require laravel/sanctum
 sail node --version
 ```
-De todas formas, siempre tienes la opción de conectarte con el siguiente comando:
+De todas formas, siempre tienes la opción de conectarte al contenedor con el siguiente comando:
 ```
 docker exec -it <id_contenedor> bash
+```
+Además del anterior comando, Laravel Sail también ofrece la posibilidad de acceder al contenedor mediante el siguiente comando:
+```
+sail shell
 ```
 #### 5. Configuración inicial
 Todos los archivos de configuración sobre la aplicación se almacenan en el directorio de configuración `config`. Laravel trae una configuración establecida por defecto, por lo que no es necesario configurar nada adicional para comenzar a desarrollar. No obstante, puedes entrar a ver el archivo `config/app.php` para hacerte a la idea de distintos parámetros a configurar.
