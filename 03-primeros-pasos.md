@@ -332,7 +332,23 @@ php artisan make:controller ArticuloController
 # recuerda que si estás utilizado Sail el comando será: sail artisan ...
 ```
 
-De este modo Laravel creará automáticamente el controlador, que vendrá a ser una subclase de la clase `Controller`:.
+De este modo Laravel creará automáticamente un controlador vacío, que vendrá a ser una subclase de la clase `Controller`:.
+
+```php
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+
+class ArticuloController extends Controller
+{
+    //
+}
+```
+
+Como hemos comentado antes los controladores son los responsables de procesar las peticiones entrantes y devolver al cliente la respuesta. En el siguiente ejemplo se muestra cómo añadirle métodos que devuelvan vistas (como se puede ver en el caso de la función de nombre `show()`), es decir, mover la lógica de la aplicación del router al controlador.
+
 
 ```php
 <?php
@@ -356,7 +372,6 @@ class ArticuloController extends Controller
     }
 }
 ```
-En el ejemplo anterior se muestra cómo añadirle métodos que devuelvan vistas (como se puede ver en el caso de la función de nombre `show()`), es decir, mover la lógica de la aplicación del router al controlador.
 
 Es posible añadir más opciones al comando `make:controller`, aunque el único obligatorio es el nombre del controlador. Añadiendo `--resource` al comando anterior, Artisan añadirá al controlador creado los siete métodos REST más comunes: `index()`, `create()`, `store()`, `show()`, `edit()`, `update()`, `destroy()`:
 
@@ -378,7 +393,7 @@ Cada método tiene su función:
 
 
 #### Enrutar el Controlador
-El siguiente paso es añadir al Router las llamadas a los métodos del Controlador. En este caso crearemos las siguientes
+El siguiente paso es incluir en el Router las llamadas a los métodos del Controlador. En este caso crearemos las siguientes
 
 ```php
 use App\Http\Controllers\ArticuloController;
@@ -388,9 +403,9 @@ Route::get('articulos/{id}', [ArticuloController::class, 'show']);
 Route::get('articulos/{id}/create', [ArticuloController::class, 'create']);
 Route::post('articulos/', [ArticuloController::class, 'store']);
 ```
-De esta forma direccionaremos las peticiones a los métodos de los controladores.
+De esta forma direccionaremos las peticiones a los métodos de los controladores. Recuerda que el router no debe incluir ninguna lógica de la aplicación, únicamente redireccionar las peticiones a los controladores.
 
-Existe otra forma más rápida para generar automáticamente las rutas a todos los métodos de nuestro controlador:
+Existe también otra forma más rápida para generar automáticamente las rutas a todos los métodos de nuestro controlador:
 
 ```php
 Route::resource('articulos', ArticuloController::class);
@@ -407,24 +422,24 @@ Route::resource('articulos', ArticuloController::class)->only([
 ```
 
 
-## Paso 6 - Configurar la base de datos
+## Paso 5 - Configurar la base de datos
 Es muy difícil de imaginar una aplicación web que no haga uso de una base de datos para almacenar la información. A continuación veremos como preparar la base de datos para nuestra aplicación.
 
 #### Configuración de la base de datos
-El fichero `.env` de Laravel contiene la configuración relacionada con la aplicación y el entorno, como por ejemplo la configuración de la base de datos. Abre el fichero `.env` con un editor y modifica las siguientes credenciales de la base de datos:
+El fichero `.env` de Laravel contiene la configuración relacionada con la aplicación y el entorno, como por ejemplo la configuración de la base de datos. Abre el fichero `.env` para visualizar las credenciales de la base de datos:
 
 ```
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
-DB_DATABASE=nombre de la base de datos(revistapp)
-DB_USERNAME=nombre de usuario de la base de datos(root)
-DB_PASSWORD=contraseña del usuario(root)
+DB_DATABASE=
+DB_USERNAME=
+DB_PASSWORD=
 ```
 Todas estas variables de configuración serán referenciadas desde el archivo de configuración `database.php`.
 
-#### Creación de la base de datos
-Este paso solo será necesario si no le hemos indicado a Homestead en su archivo de configuración `Homestead.yaml` que cree una base de datos. Accede al cliente de MySQL como root:
+#### (Opcional) Creación de la base de datos
+Este paso solo será necesario si estamos utilizando Laravel Homestead y no le hemos indicado a Homestead en su archivo de configuración `Homestead.yaml` que cree una base de datos. Para crear la base de datos accede al cliente de MySQL como root:
 
 ```
 mysql -u root
@@ -450,7 +465,6 @@ mysql> FLUSH PRIVILEGES;
 Query OK, 0 rows affected (0.00 sec)
 
 ```
-
 
 ## Paso 6 - Crear la Migración (Migration)
 Las Migraciones (Migrations) se utilizan para construir el esquema de la base de datos. Ejecuta el siguiente comando de Artisan para crear una nueva Migración para una tabla que llamaremos "articulos". 
@@ -538,7 +552,7 @@ FLUSH PRIVILEGES;
 
 No olvides actualizar los datos de acceso a base de datos en el fichero de configuración `.env`.
 
-## Paso 8 - Crear un Modelo
+## Paso 7 - Crear un Modelo
 Laravel incluye por defecto Eloquent ORM, el cual hace de la **interacción con la base de datos** una tarea fácil. Tal y como dice la documentación oficial:
 
 >Each database table has a corresponding "Model" which is used to interact with that table. Models allow you to query for data in your tables, as well as insert new records into the table.
