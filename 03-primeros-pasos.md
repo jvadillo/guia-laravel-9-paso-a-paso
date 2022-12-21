@@ -2,7 +2,7 @@
 Ahora que ya tenemos nuestro entorno de desarrollo preparado, crearemos una aplicación web con Laravel paso por paso. Al finalizar los 8 pasos que encontrarás en este capítulo, obtendremos como resultado una revista online a la que hemos llamado RevistApp. Esta aplicación mostrará los artículos de una revista almacenados en una base de datos. ¿Comenzamos ya?
 
 ## Paso 1 - Crea tu primer proyecto
-Este paso no es necesario realizarlo si has optado por utilizar Laravel Sail, ya que Sail creará automáticamente una nueva aplicación junto con el entorno.
+Este paso **no es necesario realizarlo si has optado por utilizar Laravel Sail**, ya que Sail creará automáticamente una nueva aplicación junto con el entorno.
 
 Si has decidido utilizar Laravel Homestead o Vagrant como tu entorno de desarrollo, entonces deberás realizar las siguientes acciones:
 
@@ -101,7 +101,7 @@ sail artisan route:list
 
 Si quieres que Laravel no muestre las rutas creadas por paquetes de terceros (vendor) puedes añadir el flag `except-vendor` al final:
 ```
-artisan route:list --except-vendor
+php artisan route:list --except-vendor
 ```
 
 #### Devolver un JSON
@@ -467,7 +467,7 @@ Query OK, 0 rows affected (0.00 sec)
 ```
 
 ## Paso 6 - Crear la Migración (Migration)
-Las Migraciones (Migrations) se utilizan para construir el esquema de la base de datos. Ejecuta el siguiente comando de Artisan para crear una nueva Migración para una tabla que llamaremos "articulos". 
+Las Migraciones (Migrations) se utilizan para construir el esquema de la base de datos, es decir, crear y modificar las tablas que utilizará nuestra aplicación. Ejecuta el siguiente comando de Artisan para crear una nueva Migración para una tabla que llamaremos "articulos". 
 
 ```
 php artisan make:migration create_articulos_table --create=articulos
@@ -523,7 +523,7 @@ Tal y como puedes deducir del código anterior, una migración contiene 2 métod
 - `up()`: se utiliza para crear nuevas tablas, columnas o índices a la base de datos.
 - `down()`: se utiliza para revertir operaciones realizadas por el método `up()`.
 
-Existen una gran variedad de tipos de columnas disponibles para definir las tablas. Puedes encontrarlas en la [documentación oficial](https://laravel.com/docs/8.x/migrations#creating-columns).
+Existen una gran variedad de tipos de columnas disponibles para definir las tablas. Puedes encontrarlas en la [documentación oficial](https://laravel.com/docs/9.x/migrations#creating-columns).
 
 Una vez tenemos definida una migración, solo quedará ejecutarla para que así se ejecute en nuestra base de datos. Para ejecutar las migraciones simplemente lanza el comando `migrate` de Artisan:
 
@@ -583,24 +583,25 @@ class Articulo extends Model
 }
 ```
 
-Por defecto un modelo de Eloquent almacena los registros en una tabla con el mismo nombre pero en plural. En este caso, `Articulo` interactuará con la tabla llamada 'articulos'.
+Por defecto un modelo de Eloquent almacena los registros en una tabla con el mismo nombre pero en plural. En este caso, `Articulo` interactuará con la tabla llamada `articulos`.
 
 #### Recuperando datos de la base de datos
-Los modelos de Eloquent se utilizan para recuperar información de las tablas relacionadas con el modelo. Proporcionan métodos como los siguientes:
+Los modelos de Eloquent se pueden utilizar para recuperar información de las tablas relacionadas con el modelo. Proporcionan métodos como los siguientes:
 
 ```php
+use App\Models\Articulo;
 
 // Recupera todos los modelos
-$articulos = App\Articulo::all();
+$articulos = Articulo::all();
 
 // Recupera un modelo a partir de su clave
-$articulo = App\Articulo::find(1);
+$articulo = Articulo::find(1);
 
 // Recupera el primer modelo que cumpla con los criterios indicados
-$articulos = App\Articulo::where('active', 1)->first();
+$articulos = Articulo::where('active', 1)->first();
 
 // Recupera los modelos que cumplan con los criterios indicados y de la forma indicada:
-$articulos = App\Articulo::where('active', 1)
+$articulos = Articulo::where('active', 1)
                ->orderBy('titulo', 'desc')
                ->take(10)
                ->get();
