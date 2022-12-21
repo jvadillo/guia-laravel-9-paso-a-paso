@@ -248,7 +248,7 @@ Route::get('/', function () {
 });
 ```
 
-También es posible iterar por los datos de una colección o array. El siguiente ejemplo muestra cómo iterar por un array de strings de forma rápida:
+Blade permite iterar por los datos de una colección o array. El siguiente ejemplo muestra cómo iterar por un array de strings de forma rápida:
 
 ```html
 <!-- Vista almacenada en resources/views/articulos.blade.php -->
@@ -313,11 +313,11 @@ El motor de plantillas Blade permite el uso de todo tipo de estructuras:
 @endunless
 ```
 
-Puedes encontrar toda la información acerca de Blade en la [documentación oficial](https://laravel.com/docs/8.x/blade).
+Puedes encontrar toda la información acerca de Blade en la [documentación oficial](https://laravel.com/docs/9.x/blade).
 
 
 ## Paso 4 - Crear un Controlador
-Los controladores **contienen la lógica** para atender las peticiones recibidas. En otras palabras, un Controlador es una clase que agrupa el comportamiento de todas las peticiones **relacionadas con una misma entidad**. Por ejemplo, el controlador `ArticuloController` será el encargado de definir el comportamiento de acciones como: creación de un artículo, modificación de un artóculo, búsqueda de artículos, etc.
+Los controladores **contienen la lógica** para atender las peticiones recibidas. En otras palabras, un Controlador es una clase que agrupa el comportamiento de todas las peticiones **relacionadas con una misma entidad**. Por ejemplo, el controlador `ArticuloController` será el encargado de definir el comportamiento de acciones como: creación de un artículo, modificación de un artículo, búsqueda de artículos, etc.
 
 #### Creando un Controller
 Existen dos formas de crear un controlador:
@@ -329,6 +329,7 @@ En este caso escogeremos la segunda opción y ejecutaremos el siguiente comando:
 
 ```
 php artisan make:controller ArticuloController
+# recuerda que si estás utilizado Sail el comando será: sail artisan ...
 ```
 
 De este modo Laravel creará automáticamente el controlador, que vendrá a ser una subclase de la clase `Controller`:.
