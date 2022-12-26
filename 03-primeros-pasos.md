@@ -829,17 +829,12 @@ class ArticuloController extends Controller
             'titulo' => 'required|string|max:255',
             'contenido' =>'required|string'
         ]);
-        // Si la validación falla se redirigirá al usuario a la página previa. Si pasa la validación, el controlador continuará ejecutándose.
-
-        // Opción tradicional de versiones anteriores:
-        /*
-        $articulo = new Articulo;
-        $articulo->titulo = request('titulo');
-        $articulo->contenido = request('contenido');
-        $articulo->save();
+        /* Si la validación falla se redirigirá al usuario 
+        a la página previa. Si pasa la validación, el controlador 
+        continuará ejecutándose.
         */
 
-        // Recomendación actual:
+        // Insertar el artículo en la BBDD tras su validación.
         Articulo::create($validated);
 
         return redirect(route('articulos.index'));
