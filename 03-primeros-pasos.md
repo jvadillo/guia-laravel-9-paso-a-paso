@@ -1,5 +1,5 @@
 # Tu primera aplicación en 7 pasos
-Ahora que ya tenemos nuestro entorno de desarrollo preparado, crearemos una aplicación web con Laravel paso por paso. Al finalizar los 8 pasos que encontrarás en este capítulo, obtendremos como resultado una revista online a la que hemos llamado RevistApp. Esta aplicación mostrará los artículos de una revista almacenados en una base de datos. ¿Comenzamos ya?
+Ahora que ya tenemos nuestro entorno de desarrollo preparado, crearemos una aplicación web con Laravel paso por paso. Al finalizar los 7 pasos que encontrarás en este capítulo, obtendremos como resultado una revista online a la que hemos llamado RevistApp. Esta aplicación mostrará los artículos de una revista almacenados en una base de datos. ¿Comenzamos?
 
 ## Paso 1 - Crea tu primer proyecto
 Este paso **no es necesario realizarlo si has optado por utilizar Laravel Sail**, ya que Sail creará automáticamente una nueva aplicación junto con el entorno.
@@ -115,11 +115,11 @@ Route::get('/articulos', function () {
     $articulos = [
         [
             "id" => 1,
-            "texto" => "Primer artículo..."
+            "titulo" => "Primer artículo..."
         ],
         [
             "id" => 1,
-            "texto" => "Segundo artículo..."
+            "titulo" => "Segundo artículo..."
         ]
     ];
     return $articulos;
@@ -154,7 +154,7 @@ Route::get('articulos/{id?}', function ($id = 0) {
 
 
 #### Acceder a la información de la petición
-También es posible acceder a la información enviada en la petición. Por ejemplo, el siguiente código devolverá el valor enviado para el parámetro 'fecha' de la URL `/articulos?fecha=hoy`:
+También es posible acceder a la información enviada en la petición mediante el método `request()`. Por ejemplo, el siguiente código devolverá el valor enviado para el parámetro 'fecha' de la URL `/articulos?fecha=hoy`:
 
 ```php
 Route::get('/articulos', function () {
@@ -164,9 +164,9 @@ Route::get('/articulos', function () {
 ```
 
 #### Rutas con nombre
-Es posible asignar nombres a las rutas que sirvan para referirnos a ellas. De esta forma, en caso de que la URL de una ruta cambie, únicamente tendremos que cambiarlo en el mismo router y no en todos los ficheros HTML donde estemos enlazando a dicha ruta.
+Es posible asignar nombres a las rutas que sirvan para referirnos a ellas. De esta forma, en caso de que la URL de una ruta cambie, únicamente tendremos que cambiarlo en el router y no en todos los ficheros HTML donde estemos enlazando a dicha ruta.
 
-Para especificar el nombre a una ruta, simplemente debemos utilizar la función `name()`, la cual deberá recibir como parámetro el nombre que se desea asignar a la ruta:
+Para especificar el nombre a una ruta debemos utilizar la función `name()`, la cual deberá recibir como parámetro el nombre que se desea asignar a la ruta:
 
 ```php
 Route::get('/articulos', function () {
@@ -196,9 +196,9 @@ Añade a tu aplicación `revistapp` dos nuevas rutas.
 ```php
 Route::get('/articulos', function () {
     $articulos = [
-        ["id" => 1, "texto" => "Primer artículo..."],
-        ["id" => 2, "texto" => "Segundo artículo..."],
-        ["id" => 3, "texto" => "Tercer artículo..."],
+        ["id" => 1, "titulo" => "Primer artículo..."],
+        ["id" => 2, "titulo" => "Segundo artículo..."],
+        ["id" => 3, "titulo" => "Tercer artículo..."],
     ];
     return $articulos;
 })->name('articulos.index');
@@ -212,10 +212,10 @@ Route::get('/articulos/{id}', function ($id) {
 ## Paso 3 - Crear una vista
 
 #### Definiendo una vista sencilla
-Las vistas son plantillas que contienen el HTML que enviará nuestra aplicación a los usuarios. Se almacenan en el directorio `resources/views` de nuestro proyecto.
+Las vistas son plantillas que contienen el HTML que enviará nuestra aplicación a los usuarios. Se almacenan en el directorio `/resources/views` de nuestro proyecto.
 
 ```html
-<!-- vista almacenada en resources/views/articulos.blade.php -->
+<!-- vista almacenada en /resources/views/articulos.blade.php -->
 <html>
     <body>
         <h1>¡Vamos a leer unos artículos!</h1>
@@ -223,7 +223,7 @@ Las vistas son plantillas que contienen el HTML que enviará nuestra aplicación
 </html>
 ```
 
-Tendrán la extensión `.blade.php` ya que Laravel utiliza el motor de plantillas Blade, como veremos más adelante.
+Tendrán la extensión `.blade.php` ya que Laravel utiliza el motor de plantillas [Blade](https://laravel.com/docs/9.x/blade), como veremos más adelante.
 
 #### Devolver una vista
 Cargar y devolver una vista al usuario es tan sencillo como utilizar la función global (helper) `view()`:
@@ -233,7 +233,7 @@ Route::get('/articulos', function () {
     return view('articulos');
 })->name('articulos');
 ```
-No es necesario indicar la ruta completa de la vista ni la extensión `.blade.php`. Laravel asume que las vistas estarán en la carpeta `/resources/views` y tendrán la extensión `.blade.php`.
+Al indicarle el nombre de la vista como parámetro no es necesario indicar la ruta completa de la vista ni la extensión `.blade.php`. Laravel asume que las vistas estarán en la carpeta `/resources/views` y que tendrán la extensión `.blade.php`.
 
 #### Acceder a datos desde la vista
 
@@ -298,7 +298,7 @@ Blade permite iterar por los datos de una colección o array. El siguiente ejemp
 </html>
 ```
 
-Para que la vista pueda acceder a los datos, es necesario proporcionárselos en la llamada al método `view()`:
+En el caso anterior, la vista muestra el valor de la variable `nombre` e itera por el array `articulos`, por lo que será necesario proporcionarle dichos datos en la llamada al método `view()`:
 
 ```php
 Route::get('/articulos', function () {
@@ -309,9 +309,6 @@ Route::get('/articulos', function () {
     ]);
 })->name('articulos');
 ```
-
-Los datos se le pasarán como un array de tipo clave-valor.
-
 El motor de plantillas Blade permite el uso de todo tipo de estructuras:
 
 ```php
@@ -350,7 +347,7 @@ Puedes encontrar toda la información acerca de Blade en la [documentación ofic
 
 ### Hands on! (3/7)
 Actualiza las rutas de tu aplicación para que comiencen a devolver vistas al usuario: 
-- `/articulos`: Devolverá una vista que muestre los artículos en una tabla. La primera columna tendrá un enlace a la ruta del artículo, utilizando su `id`. La segunda columna contendrá el texto del artículo.
+- `/articulos`: Devolverá una vista que muestre los artículos en una tabla. La primera columna tendrá un enlace a la ruta del artículo, utilizando su `id`. La segunda columna contendrá el título del artículo.
 - `/articulos/{id}`: Devolverá una vista que contenga un párrafo con la siguiente frase: **"Gracias por leer el artículo con id {id}"**. También tendrá un enlace para voler a cargar ruta que muestra todos los arículos. 
 
 #### Solución
@@ -364,11 +361,11 @@ Actualiza las rutas de tu aplicación para que comiencen a devolver vistas al us
 	<h1>Revistapp</h1>
     <h2>Listado artículos:</h2>
     <table>
-        <tr><th>Enlace</th><th>Texto</th></tr>
+        <tr><th>Enlace</th><th>Título</th></tr>
         @foreach ($articulos as $articulo)
         <tr>
             <td><a href="{{ route('articulos.show', $articulo['id']) }}">Ver</a></td>
-            <td>{{ ($articulo['texto']) }}</td>
+            <td>{{ ($articulo['titulo']) }}</td>
         </tr>
         @endforeach
     </ul>
@@ -393,9 +390,9 @@ Actualiza las rutas de tu aplicación para que comiencen a devolver vistas al us
 ```php
 Route::get('/articulos', function () {
     $articulos = [
-        ["id" => 1, "texto" => "Primer artículo..."],
-        ["id" => 2, "texto" => "Segundo artículo..."],
-        ["id" => 3, "texto" => "Tercer artículo..."],
+        ["id" => 1, "titulo" => "Primer artículo..."],
+        ["id" => 2, "titulo" => "Segundo artículo..."],
+        ["id" => 3, "titulo" => "Tercer artículo..."],
     ];
     return view('articulos.index', [
         'articulos' => $articulos
@@ -470,7 +467,7 @@ class ArticuloController extends Controller
 }
 ```
 
-Es posible añadir más opciones al comando `make:controller`, aunque el único obligatorio es el nombre del controlador. Añadiendo `--resource` al comando anterior, Artisan añadirá al controlador creado los siete métodos REST más comunes: `index()`, `create()`, `store()`, `show()`, `edit()`, `update()`, `destroy()`:
+Es posible añadir más opciones al comando `make:controller`, aunque el único obligatorio es el nombre del controlador.  por ejemplo el flag  `--resource` al comando anterior, Artisan incluirá en el controlador creado los siete métodos REST más comunes: `index()`, `create()`, `store()`, `show()`, `edit()`, `update()`, `destroy()`:
 
 ```
 php artisan make:controller ArticuloController --resource
@@ -497,7 +494,7 @@ use App\Http\Controllers\ArticuloController;
 
 Route::get('articulos/', [ArticuloController::class, 'index'])->name('articulos.index');
 Route::get('articulos/{id}', [ArticuloController::class, 'show'])->name('articulos.show');
-Route::get('articulos/{id}/create', [ArticuloController::class, 'create'])->name('articulos.create');
+Route::get('articulos/create', [ArticuloController::class, 'create'])->name('articulos.create');
 Route::post('articulos/', [ArticuloController::class, 'store'])->name('articulos.store');
 ```
 De esta forma direccionaremos las peticiones a los métodos de los controladores. Recuerda que el router no debe incluir ninguna lógica de la aplicación, únicamente redireccionar las peticiones a los controladores.
@@ -519,7 +516,7 @@ Route::resource('articulos', ArticuloController::class)->only([
 ```
 
 ### Hands on! (4/7)
-Crea un controlador llamado `ArticuloController` y mueve la lógica de las dos rutas del router (`/articulos` y `/articulos/{id}`) router al nuevo controlador.
+Crea un controlador llamado `ArticuloController` y mueve la lógica de las dos rutas del router `/articulos` y `/articulos/{id}` al nuevo controlador.
 
 #### Solución
 
@@ -536,9 +533,9 @@ class ArticuloController extends Controller
     public function index()
     {
         $articulos = [
-            ["id" => 1, "texto" => "Primer artículo..."],
-            ["id" => 2, "texto" => "Segundo artículo..."],
-            ["id" => 3, "texto" => "Tercer artículo..."],
+            ["id" => 1, "titulo" => "Primer artículo..."],
+            ["id" => 2, "titulo" => "Segundo artículo..."],
+            ["id" => 3, "titulo" => "Tercer artículo..."],
         ];
         return view('articulos.index', [
             'articulos' => $articulos
@@ -671,10 +668,10 @@ public function up()
 {
     Schema::create('articulos', function (Blueprint $table) {
         // Completar con los campos que queremos que contenta la tabla 'articulos':
-        $table->increments('id');
-        $table->string('titulo'); 
-        $table->text('contenido');
-        $table->timestamps();
+        $table->increments('id'); # Columna de tipo integer autoincremental (equivalente a UNSIGNED INTEGER)
+        $table->string('titulo'); # Columna de tipo string (equivalente a VARCHAR)
+        $table->text('contenido'); # Columna de tipo text (equivalente a TEXT)
+        $table->timestamps(); # Crea las columnas created_at y updated_at de tipo TIMESTAMP.
     });
 }
 
@@ -690,9 +687,9 @@ public function down()
 
 ```
 
-Existen una gran variedad de tipos de columnas disponibles para definir las tablas. Puedes encontrarlas en la [documentación oficial](https://laravel.com/docs/9.x/migrations#creating-columns).
+Aparte de `increments()`, `string()` o `integer()`, existen una gran variedad de tipos de columnas disponibles para definir las tablas. Puedes encontrarlas en la [documentación oficial](https://laravel.com/docs/9.x/migrations#creating-columns).
 
-Una vez tenemos definida una migración, solo quedará ejecutarla para que así se ejecute en nuestra base de datos. Para ejecutar las migraciones simplemente lanza el comando `migrate` de Artisan:
+Una vez tenemos definida una migración, solo quedará ejecutarla para que así se ejecute en nuestra base de datos y aplique los cambios indicados. Para ejecutar las migraciones simplemente lanza el comando `migrate` de Artisan:
 
 ```
 php artisan migrate
@@ -711,7 +708,7 @@ En otras palabras, cada tabla de la base de datos corresponde a un Modelo, el cu
 
 El nombre del modelo será la forma singular del nombre asignado a la tabla de la base de datos. Por ejemplo: `User` será el modelo correspondiente a la tabla `users`.
 
-#### Creando un Modelo
+### Creando un Modelo
 Vamos a crear un Modelo:
 
 ```
@@ -723,7 +720,7 @@ El comando anterior ha creado una clase llamada Articulo en el directorio `app/M
 ```php
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -733,9 +730,9 @@ class Articulo extends Model
 }
 ```
 
-Por defecto un modelo de Eloquent almacena los registros en una tabla con el mismo nombre pero en plural. En este caso, `Articulo` interactuará con la tabla llamada `articulos`.
+Por defecto un modelo de Eloquent almacena los registros en una tabla con el mismo nombre pero en plural. En este caso, `Articulo` interactuará con la tabla de la base de datos llamada `articulos`.
 
-Laravel protege por defecto los modelos de forma que no se puedan generar registros de forma "masiva", es decir, en una única petición. Para que Laravel permita crear un artículo desde un formulario (con una única petición) debemos indicarle los campos que podrán ser completados. Para ello incluimos los nombres de los campos en una propiedad llamada `fillable`.
+Laravel protege por defecto los modelos de forma que no se puedan generar registros de forma "masiva", es decir, en una única petición. Para que Laravel permita crear un artículo desde un formulario común, debemos indicarle los campos que podrán ser completados y procesados. Para ello incluimos los nombres de los campos en una propiedad llamada `fillable`.
 
 ```php
 <?php
@@ -753,7 +750,7 @@ class Articulo extends Model
 }
 ```
 
-#### Recuperando datos de la base de datos
+### Consultando datos de la base de datos
 Los modelos de Eloquent se pueden utilizar para recuperar información de las tablas relacionadas con ese modelo. Proporcionan métodos como los siguientes:
 
 ```php
@@ -776,7 +773,7 @@ $articulos = Articulo::where('active', 1)
 
 ```
 
-Es posible iterar por la colección que devuelven los métodos `all`, `get` o `where` de la siguiente forma:
+Es posible iterar por la colección que devuelven los métodos `all()`, `get()` o `first()` de la siguiente forma:
 
 ```php
 foreach ($articulos as $articulo) {
@@ -784,10 +781,10 @@ foreach ($articulos as $articulo) {
 }
 ```
 
-Es importante mencionar que los métodos como `all` o `get` no devuelven arrays típicos de PHP si no que devuelven una instancia de la clase `Collection` de Laravel. La diferencia es que estas colecciones tienen métodos adicionales que pueden ayudarnos en distintas situaciones, como por ejemplo: `last`, `count`, `sort`, `merge`, `filter`, ...
+Es importante mencionar que los métodos como `all()` o `get` no devuelven arrays típicos de PHP si no que devuelven una instancia de la clase `Collection` de Laravel. La diferencia es que estas colecciones tienen métodos adicionales que pueden ayudarnos en distintas situaciones, como por ejemplo: `last()`, `count()`, `sort()`, `merge()`, `filter()`, ...
 Puedes encontrar la lista de estos métodos de ayuda aquí: [https://laravel.com/docs/9.x/collections#available-methods](https://laravel.com/docs/9.x/collections#available-methods)
 
-#### Insertar información en la base de datos
+### Insertar información en la base de datos
 El flujo de interacción que seguirá un usuario para insertar nuevos registros (artículos en nuestro caso) será el siguiente:
 1. Acceder a la página con el formulario para enviar los datos. La ruta a la que deberá acceder será la siguiente: `/articulos/create`
 2. Enviar los datos del formulario. La ruta que recibirá los datos será la siguiente: `/articulos` (POST).
@@ -876,7 +873,7 @@ Por último, quedaría crear la vista que muestre el formulario:
 
 ```
 
-#### Valores por defecto de un modelo
+### Valores por defecto de un modelo
 Al crear una instancia nueva de un modelo, los atributos de la instancia no tendrán ningún valor establecido. Si queremos definir valores por defecto, es posible hacerlo de la siguiente forma:
 
 ```php
@@ -902,12 +899,12 @@ class Articulo extends Model
 El ejemplo anterior muestra cómo establecer el atributo `publicado` como `false` cada vez que creemos un nuevo objeto de la clase `Articulo`.
 
 
-#### Alternativas a Eloquent ORM
+### Alternativas a Eloquent ORM
 Laravel también permite interactuar con la base de datos mediante otras técnicas distintas a Eloquent ORM. Las alternativas disponibles son:
 - Raw SQL: se trata de ejecutar sentencias SQL directamente contra la base de datos. Tienes toda la información disponible [aquí](https://laravel.com/docs/9.x/database).
 - Query Builder: es una interfaz de comunicación con la base de datos que permite lanzar prácticamente cualquier consulta. A diferencia de la anterior, no es tan eficiente en cuanto a rendimiento pero aporta otras ventajas como la seguridad y abstracción de base de datos. Tienes toda la información disponible [aquí](https://laravel.com/docs/9.x/queries).
 
-#### Tinker: un potente REPL para Laravel
+### Tinker: un potente REPL para Laravel
 Tinker es un potente [REPL](https://es.wikipedia.org/wiki/REPL) o **consola interactiva** que viene por defecto en Laravel. Resulta muy útil durante el desarrollo ya que permite interactuar con nuestra aplicación Laravel y probar cantidad de cosas: eventos, acceso a datos, etc.
 Para iniciar Tinker hay que ejecutar el siguiente comando:
 
@@ -1013,7 +1010,7 @@ Actualiza la vista `index.blade.php` para que utilice los datos correctamente y 
     <h2>Listado artículos:</h2>
     <a href="{{ route('articulos.create') }}">Crear nuevo</a>
     <table>
-        <tr><th>Enlace</th><th>Texto</th></tr>
+        <tr><th>Enlace</th><th>Título</th></tr>
         @foreach ($articulos as $articulo)
         <tr>
             <td><a href="{{ route('articulos.show', $articulo->id) }}">Ver</a></td>
@@ -1054,94 +1051,3 @@ php artisan make:model Articulo -mcr
 
 ## Siguientes pasos
 Ahora que ya tienes creada una aplicación de Laravel capaz de mostrar y almacenar datos desde la base de datos, puedes seguir avanzando con funcionalidades algo más avanzadas.
-
-
-
-
-
-
-
-
-
-#### Insertar, actualizar y borrar modelos
-
-El siguiente controlador contiene toda la lógica para insertar, actualizar y borrar modelos:
-
-```php
-<?php
-   
-namespace App\Http\Controllers;
-   
-use App\Articulo;
-use Illuminate\Http\Request;
-use Redirect;
-   
-class ArticuloController extends Controller
-{
-
-    /**
-     * Create a new articulo instance.
-     *
-     * @param  Request  $request
-     * @return Response
-     */
-    public function store(Request $request)
-    {
-        //Validar la petición:
-        $validated = $request->validate([
-            'titulo' => 'required|string|max:255',
-        ]);
-
-        // Opción tradicional de versiones anteriores:
-        /*
-        $articulo = new Articulo;
-        $articulo->titulo = request('titulo');
-        $articulo->save();
-        */
-
-        // Recomendación actual:
-        Articulo::create($validated);
-    }
-   
-    /**
-     * Update the specified resource in storage.
-     *
-     */
-    public function update(Request $request, $id)
-    {         
-        $articulo = App\Articulo::find(1);
-
-        $articulo->titulo = request('titulo');
-        $articulo->contenido = request('contenido');
-
-        $articulo->save();
-    }
-   
-    /**
-     * Remove the specified resource from storage.
-     *
-     */
-    public function destroy($id)
-    {
-        // Encuentra el artículo por ID y lo elimina
-        $articulo = App\Articulo::find($id);
-        $articulo->delete();
-        
-        // Alternativa
-        App\Articulo::destroy($id);
-        
-        //Borrar modelos por consulta (borra todos los que encuentre en la consulta)
-        Articulo::where('id',$id)->delete();        
-    }
-     
-}
-```
-
-Laravel proporciona alternativas para realizar operaciones más complejas, como creaciones en "masa" o crear un modelo solo si no existe:
-
-```php
-// Retrieve flight by name, or create it if it doesn't exist...
-$articulo = App\Articulo::firstOrCreate(['name' => 'Laptop']);
-```
-
-Puedes encontrar todas las posibilidades en la [documentación oficial](https://laravel.com/docs/9.x/eloquent).
