@@ -47,6 +47,9 @@ php artisan key:generate
 #### Establecer los permisos de directorio
 Homestead realiza este paso por nosotros, por lo que si estás utilizando Homestead los permisos deberían estar correctamente establecidos. Si no estás utilizando Homestead o quieres desplegar tu aplicación en un servidor, no olvides establecer permisos de escritura para el servidor web en los directorios `storage` y  `bootstrap/cache`.
 
+### Hands on! (1/X)
+Si no lo has hecho ya, crea una aplicación llamada `revistapp`. Esta será la aplicación que iremos creando paso a paso.
+
 ## Paso 2 - Crear un Router
 Las rutas son los puntos de entrada a nuestra aplicación. Cada vez que un usuario hace una petición a una de las rutas de la aplicación, Laravel trata la petición mediante un Router definido en el directorio `routes`, el cual será el encargado de direccionar la petición a un Controlador. Las rutas accesibles para navegadores estarán definidas en el archivo `routes/web.php` y aquellas accesibles para servicios web (webservices) estarán definidas en el archivo `routes/api.php`. A continuación se muestra un ejemplo:
 
@@ -109,10 +112,17 @@ También es posible devolver un JSON. Laravel convertirá automáticamente cualq
 
 ```php
 Route::get('/articulos', function () {
-    return [
-        "articulo 1" => "Primer artículo...",
-        "articulo 2" => "Segundo artículo..."
+    $articulos = [
+        [
+            "id" => 1,
+            "texto" => "Primer artículo..."
+        ],
+        [
+            "id" => 1,
+            "texto" => "Segundo artículo..."
+        ]
     ];
+    return $articulos;
 });
 
 ```
@@ -160,8 +170,8 @@ Para especificar el nombre a una ruta, simplemente debemos utilizar la función 
 
 ```php
 Route::get('/articulos', function () {
-    return "Ruba con nombre!";
-})->name('articulos');
+    return "Ruta con nombre!";
+})->name('articulos.index');
 ```
 
 En un futuro veremos cómo generar las URLs a partir de su nombre. Por ejemplo, en lugar de utilizar:
@@ -173,7 +183,30 @@ En un futuro veremos cómo generar las URLs a partir de su nombre. Por ejemplo, 
 utilizaremos:
 
 ```html
-<a href="{{ route('articulos') }}">Ver artículos</a>
+<a href="{{ route('articulos.index') }}">Ver artículos</a>
+```
+
+### Hands on! (2/X)
+Añade a tu aplicación `revistapp` dos nuevas rutas. 
+- `/articulos`: Devolverá un array de artículos en formato JSON. Asigna el nombre `articulos.index` a la ruta utilizando la función `name()`.
+- `/articulos/{id}`: Devolverá la siguiente frase: **"Gracias por leer el artículo con id: {id}"**. Asigna el nombre `articulos.show` a la ruta utilizando la función `name()`. 
+
+#### Solución
+
+```php
+Route::get('/articulos', function () {
+    $articulos = [
+        ["id" => 1, "texto" => "Primer artículo..."],
+        ["id" => 2, "texto" => "Segundo artículo..."],
+        ["id" => 3, "texto" => "Tercer artículo..."],
+    ];
+    return $articulos;
+})->name('articulos.index');
+
+Route::get('/articulos/{id}', function ($id) {
+    $frase = "Gracias por leer el artículo con id: " . $id;
+    return $frase;
+})->name('articulos.show');
 ```
 
 ## Paso 3 - Crear una vista
@@ -315,6 +348,66 @@ El motor de plantillas Blade permite el uso de todo tipo de estructuras:
 
 Puedes encontrar toda la información acerca de Blade en la [documentación oficial](https://laravel.com/docs/9.x/blade).
 
+### Hands on! (3/X)
+Actualiza las rutas de tu aplicación para que comiencen a devolver vistas al usuario: 
+- `/articulos`: Devolverá una vista que muestre los artículos en una tabla. La primera columna tendrá un enlace a la ruta del artículo, utilizando su `id`. La segunda columna contendrá el texto del artículo.
+- `/articulos/{id}`: Devolverá una vista que contenga un párrafo con la siguiente frase: **"Gracias por leer el artículo con id {id}"**. También tendrá un enlace para voler a cargar ruta que muestra todos los arículos. 
+
+#### Solucióm (4/X)
+`/resources/views/articulos/index.blade.php`:
+```html
+<html>
+<head>
+    <title>RevistApp</title>
+</head>
+<body>
+	<h1>Revistapp</h1>
+    <h2>Listado artículos:</h2>
+    <table>
+        <tr><th>Enlace</th><th>Texto</th></tr>
+        @foreach ($articulos as $articulo)
+        <tr>
+            <td><a href="{{ route('articulos.show', $articulo['id']) }}">Ver</a></td>
+            <td>{{ ($articulo['texto']) }}</td>
+        </tr>
+        @endforeach
+    </ul>
+</body>
+</html>
+```
+`/resources/views/articulos/show.blade.php`:
+```html
+<html>
+<head>
+    <title>RevistApp</title>
+</head>
+<body>
+	<h1>Revistapp</h1>
+    <h2>Detalle del artículo:</h2>
+    <p>Gracias por leer el artículo con id: {{ $id }}</p>
+    <a href="{{ route('articulos.index') }}">Volver</a>
+</body>
+</html>
+```
+`routes/web.php`:
+```php
+Route::get('/articulos', function () {
+    $articulos = [
+        ["id" => 1, "texto" => "Primer artículo..."],
+        ["id" => 2, "texto" => "Segundo artículo..."],
+        ["id" => 3, "texto" => "Tercer artículo..."],
+    ];
+    return view('articulos.index', [
+        'articulos' => $articulos
+    ]);
+})->name('articulos.index');
+
+Route::get('/articulos/{id}', function ($id) {
+    return view('articulos.show', [
+        'id' => $id
+    ]);
+})->name('articulos.show');
+```
 
 ## Paso 4 - Crear un Controlador
 Los controladores **contienen la lógica** para atender las peticiones recibidas. En otras palabras, un Controlador es una clase que agrupa el comportamiento de todas las peticiones **relacionadas con una misma entidad**. Por ejemplo, el controlador `ArticuloController` será el encargado de definir el comportamiento de acciones como: creación de un artículo, modificación de un artículo, búsqueda de artículos, etc.
@@ -347,7 +440,9 @@ class ArticuloController extends Controller
 }
 ```
 
-Como hemos comentado antes los controladores son los responsables de procesar las peticiones entrantes y devolver al cliente la respuesta. En el siguiente ejemplo se muestra cómo añadirle métodos que devuelvan vistas (como se puede ver en el caso de la función de nombre `show()`), es decir, mover la lógica de la aplicación del router al controlador.
+Como hemos comentado antes los **controladores son los responsables de procesar las peticiones entrantes y devolver al cliente la respuesta**. Es decir, el router únicamente tendrá que invocar al controlador correspondiente para que atienda la petición entrante.
+
+En el siguiente ejemplo se muestra cómo añadirle métodos que devuelvan vistas (como se puede ver en el caso de la función de nombre `show()`). Tal y como se puede apreciar, moveremos la lógica de la aplicación del router al controlador.
 
 
 ```php
@@ -368,7 +463,9 @@ class ArticuloController extends Controller
      */
     public function show($id)
     {
-        return view('articulos', ['articulo' => 'Mi primer artículo de Laravel');
+        return view('articulos.show', [
+            'id' => $id
+        ]);
     }
 }
 ```
@@ -393,15 +490,15 @@ Cada método tiene su función:
 
 
 #### Enrutar el Controlador
-El siguiente paso es incluir en el Router las llamadas a los métodos del Controlador. En este caso crearemos las siguientes
+El siguiente paso es incluir en el Router las llamadas a los métodos del Controlador. En este caso crearemos las siguientes como ejemplo:
 
 ```php
 use App\Http\Controllers\ArticuloController;
 
-Route::get('articulos/', [ArticuloController::class, 'index']);
-Route::get('articulos/{id}', [ArticuloController::class, 'show']);
-Route::get('articulos/{id}/create', [ArticuloController::class, 'create']);
-Route::post('articulos/', [ArticuloController::class, 'store']);
+Route::get('articulos/', [ArticuloController::class, 'index'])->name('articulos.index');
+Route::get('articulos/{id}', [ArticuloController::class, 'show'])->name('articulos.show');
+Route::get('articulos/{id}/create', [ArticuloController::class, 'create'])->name('articulos.create');
+Route::post('articulos/', [ArticuloController::class, 'store'])->name('articulos.store');
 ```
 De esta forma direccionaremos las peticiones a los métodos de los controladores. Recuerda que el router no debe incluir ninguna lógica de la aplicación, únicamente redireccionar las peticiones a los controladores.
 
@@ -413,7 +510,7 @@ Route::resource('articulos', ArticuloController::class);
 
 Si ejecutamos el comando `php artisan route:list` podemos comprobar cómo ya disponemos de todas las rutas a nuestro recurso y que cada una apunta al método correspondiente en el controlador.
 
-Esta opción también ofrece la posibilidad de generar únicamente las rutas que le indiquemos. El siguiente ejemplo muestra como generar únicamene las rutas index y create:
+Esta opción de `Route::resource` también ofrece la posibilidad de generar únicamente las rutas que le indiquemos. El siguiente ejemplo muestra como generar únicamene las rutas index y create utilizando el método `only()`:
 
 ```php
 Route::resource('articulos', ArticuloController::class)->only([
@@ -421,6 +518,51 @@ Route::resource('articulos', ArticuloController::class)->only([
 ]);
 ```
 
+### Hands on! (4/X)
+Crea un controlador llamado `ArticuloController` y mueve la lógica de las dos rutas del router (`/articulos` y `/articulos/{id}`) router al nuevo controlador.
+
+#### Solucióm (4/X)
+
+`/App/Http/Controllers/ArticuloController.php`:
+```php
+<?php
+
+namespace App\Http\Controllers;
+use Illuminate\Http\Request;
+
+class ArticuloController extends Controller
+{
+    
+    public function index()
+    {
+        $articulos = [
+            ["id" => 1, "texto" => "Primer artículo..."],
+            ["id" => 2, "texto" => "Segundo artículo..."],
+            ["id" => 3, "texto" => "Tercer artículo..."],
+        ];
+        return view('articulos.index', [
+            'articulos' => $articulos
+        ]);
+    }
+
+    public function show($id)
+    {
+        return view('articulos.show', [
+            'id' => $id
+        ]);
+    }
+}
+```
+
+`routes/web.php`:
+```php
+
+use App\Http\Controllers\ArticuloController;
+
+Route::get('/articulos', [ArticuloController::class, 'index'])->name('articulos.index');
+Route::get('/articulos/{id}', [ArticuloController::class, 'show'])->name('articulos.show');
+
+```
 
 ## Paso 5 - Configurar la base de datos
 Es muy difícil de imaginar una aplicación web que no haga uso de una base de datos para almacenar la información. A continuación veremos como preparar la base de datos para nuestra aplicación.
@@ -439,7 +581,7 @@ DB_PASSWORD=
 Todas estas variables de configuración serán referenciadas desde el archivo de configuración `database.php`.
 
 #### (Opcional) Creación de la base de datos
-Este paso solo será necesario si estamos utilizando Laravel Homestead y no le hemos indicado a Homestead en su archivo de configuración `Homestead.yaml` que cree una base de datos. Para crear la base de datos accede al cliente de MySQL como root:
+Este paso **solo será necesario si estamos utilizando Laravel Homestead** y no le hemos indicado a Homestead en su archivo de configuración `Homestead.yaml` que cree una base de datos. Para crear la base de datos accede al cliente de MySQL como root:
 
 ```
 mysql -u root
@@ -451,87 +593,7 @@ Crea la base de datos si no está creada:
 CREATE DATABASE revistapp;
 ```
 
-#### Creación del usuario para la base de datos
-Es recomendable crear un usuario de base de datos para nuestra aplicación diferente a `root`. Para ello ejecuta los siguientes comandos:
-
-```
-mysql> CREATE USER 'dev'@'localhost' IDENTIFIED BY '12345Abcde';
-Query OK, 0 rows affected (0.01 sec)
-
-mysql> GRANT ALL PRIVILEGES ON * . * TO 'dev'@'localhost';
-Query OK, 0 rows affected (0.00 sec)
-
-mysql> FLUSH PRIVILEGES;
-Query OK, 0 rows affected (0.00 sec)
-
-```
-
-## Paso 6 - Crear la Migración (Migration)
-Las Migraciones (Migrations) se utilizan para construir el esquema de la base de datos, es decir, crear y modificar las tablas que utilizará nuestra aplicación. Ejecuta el siguiente comando de Artisan para crear una nueva Migración para una tabla que llamaremos "articulos". 
-
-```
-php artisan make:migration create_articulos_table --create=articulos
-```
-
-Laravel creará una nueva migración automáticamente en el directorio `database/migrations`. El nombre del archivo creado será el indicado en el comando anterior, en este caso `create_articulos_table`, precedido por un timestamp, por ejemplo: `2020_12_15_192620_create_articulos_table.php`.
-
-El contenido de la clase creada será el siguiente:
-
-
-```php
-<?php
-
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Migrations\Migration;
-  
-class CreateArticulosTable extends Migration
-
-{
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
-    {
-        Schema::create('articulos', function (Blueprint $table) {
-            // Completar con los campos que queremos que contenta la tabla 'articulos':
-            $table->increments('id');
-            $table->string('titulo'); 
-            $table->text('contenido');
-            $table->timestamps();
-        });
-    }
-
-  
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::dropIfExists('articulos');
-    }
-}
-```
-
-Tal y como puedes deducir del código anterior, una migración contiene 2 métodos:
-
-- `up()`: se utiliza para crear nuevas tablas, columnas o índices a la base de datos.
-- `down()`: se utiliza para revertir operaciones realizadas por el método `up()`.
-
-Existen una gran variedad de tipos de columnas disponibles para definir las tablas. Puedes encontrarlas en la [documentación oficial](https://laravel.com/docs/9.x/migrations#creating-columns).
-
-Una vez tenemos definida una migración, solo quedará ejecutarla para que así se ejecute en nuestra base de datos. Para ejecutar las migraciones simplemente lanza el comando `migrate` de Artisan:
-
-```
-php artisan migrate
-```
-
-#### Crear usuario de base de datos
+#### Crear un usuario de base de datos
 Es recomendable utilizar un usuario de base de datos diferente a `root`. Para ello, desde MySQL ejecuta lo siguiente:
 
 ```sql
@@ -551,6 +613,94 @@ FLUSH PRIVILEGES;
 ```
 
 No olvides actualizar los datos de acceso a base de datos en el fichero de configuración `.env`.
+
+## Paso 6 - Crear la Migración (Migration)
+Las Migraciones (Migrations) se utilizan para construir el esquema de la base de datos, es decir, crear y modificar las tablas que utilizará nuestra aplicación. Ejecuta el siguiente comando de Artisan para crear una nueva Migración para una tabla que llamaremos "articulos". 
+
+```
+php artisan make:migration create_articulos_table --create=articulos
+```
+
+Laravel creará una nueva migración automáticamente en el directorio `database/migrations`. El nombre del archivo creado será el indicado en el comando anterior, en este caso `create_articulos_table`, precedido por un timestamp, por ejemplo: `2022_12_21_162755_create_articulos_table.php`.
+
+El contenido de la clase creada será el siguiente:
+
+```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('articulos', function (Blueprint $table) {
+            $table->id();
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('articulos');
+    }
+};
+```
+
+Tal y como puedes deducir del código anterior, una migración contiene 2 métodos:
+
+- `up()`: se utiliza para crear nuevas tablas, columnas o índices a la base de datos.
+- `down()`: se utiliza para revertir operaciones realizadas por el método `up()`.
+
+El siguiente paso es implementar el método `up()` para que cree las columnas tal y como queremos:
+
+```php
+public function up()
+{
+    Schema::create('articulos', function (Blueprint $table) {
+        // Completar con los campos que queremos que contenta la tabla 'articulos':
+        $table->increments('id');
+        $table->string('titulo'); 
+        $table->text('contenido');
+        $table->timestamps();
+    });
+}
+
+/**
+ * Reverse the migrations.
+ *
+ * @return void
+ */
+public function down()
+{
+    Schema::dropIfExists('articulos');
+}
+
+```
+
+Existen una gran variedad de tipos de columnas disponibles para definir las tablas. Puedes encontrarlas en la [documentación oficial](https://laravel.com/docs/9.x/migrations#creating-columns).
+
+Una vez tenemos definida una migración, solo quedará ejecutarla para que así se ejecute en nuestra base de datos. Para ejecutar las migraciones simplemente lanza el comando `migrate` de Artisan:
+
+```
+php artisan migrate
+```
+
+### Hands on! (5/X)
+Crea una migración para una tabla llamada `articulos` siguiendo los pasos anteriormente descritos. Completa la función `up()` para definir la tabla y lanza la migración.
+
 
 ## Paso 7 - Crear un Modelo
 Laravel incluye por defecto Eloquent ORM, el cual hace de la **interacción con la base de datos** una tarea fácil. Tal y como dice la documentación oficial:
@@ -585,8 +735,26 @@ class Articulo extends Model
 
 Por defecto un modelo de Eloquent almacena los registros en una tabla con el mismo nombre pero en plural. En este caso, `Articulo` interactuará con la tabla llamada `articulos`.
 
+Laravel protege por defecto los modelos de forma que no se puedan generar registros de forma "masiva", es decir, en una única petición. Para que Laravel permita crear un artículo desde un formulario (con una única petición) debemos indicarle los campos que podrán ser completados. Para ello incluimos los nombres de los campos en una propiedad llamada `fillable`.
+
+```php
+<?php
+
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+class Articulo extends Model
+{
+    use HasFactory;
+    protected $fillable = [
+        'titulo',
+        'contenido',
+    ];
+}
+```
+
 #### Recuperando datos de la base de datos
-Los modelos de Eloquent se pueden utilizar para recuperar información de las tablas relacionadas con el modelo. Proporcionan métodos como los siguientes:
+Los modelos de Eloquent se pueden utilizar para recuperar información de las tablas relacionadas con ese modelo. Proporcionan métodos como los siguientes:
 
 ```php
 use App\Models\Articulo;
@@ -606,93 +774,138 @@ $articulos = Articulo::where('active', 1)
                ->take(10)
                ->get();
 
-// Iterar sobre los resultados:
+```
+
+Es posible iterar por la colección que devuelven los métodos `all`, `get` o `where` de la siguiente forma:
+
+```php
 foreach ($articulos as $articulo) {
     echo $articulo->titulo;
 }
-
 ```
 
-#### Insertar, actualizar y borrar modelos
+Es importante mencionar que los métodos como `all` o `get` no devuelven arrays típicos de PHP si no que devuelven una instancia de la clase `Collection` de Laravel. La diferencia es que estas colecciones tienen métodos adicionales que pueden ayudarnos en distintas situaciones, como por ejemplo: `last`, `count`, `sort`, `merge`, `filter`, ...
+Puedes encontrar la lista de estos métodos de ayuda aquí: [https://laravel.com/docs/9.x/collections#available-methods](https://laravel.com/docs/9.x/collections#available-methods)
 
-El siguiente controlador contiene toda la lógica para insertar, actualizar y borrar modelos:
+#### Insertar información en la base de datos
+El flujo de interacción que seguirá un usuario para insertar nuevos registros (artículos en nuestro caso) será el siguiente:
+1. Acceder a la página con el formulario para enviar los datos. La ruta a la que deberá acceder será la siguiente: `/articulos/create`
+2. Enviar los datos del formulario. La ruta que recibirá los datos será la siguiente: `/articulos` (POST).
+3. Una vez enviados los datos, si todo ha ido bien nuestra aplicación le mostrará una nueva página.
+
+Por lo tanto, será necesario crear dos nuevas rutas que invoquen a los métodos `create()` y `store()` del controlador.
+
+El fichero `/routes/web.php` quedará así:
+```php
+use App\Http\Controllers\ArticuloController;
+
+Route::get('/articulos', [ArticuloController::class, 'index'])->name('articulos.index');
+Route::get('articulos/create', [ArticuloController::class, 'create'])->name('articulos.create');
+Route::get('/articulos/{id}', [ArticuloController::class, 'show'])->name('articulos.show');
+Route::post('articulos/', [ArticuloController::class, 'store'])->name('articulos.store');
+```
+
+La ruta empleada para mostrar el formulario será de tipo `GET` y la encargada de almacenar los datos será de tipo `POST`.
+
+A continuación será necesario implementar los métodos del controlador:
 
 ```php
 <?php
    
 namespace App\Http\Controllers;
    
-use App\Articulo;
+use App\Models\Articulo;
 use Illuminate\Http\Request;
-use Redirect;
    
 class ArticuloController extends Controller
 {
 
-    /**
-     * Create a new articulo instance.
-     *
-     * @param  Request  $request
-     * @return Response
-     */
+    public function create()
+    {
+        return view('articulos.create');
+    }
+
     public function store(Request $request)
     {
-        // Validar la petición...
+        //Validar la petición:
+        $validated = $request->validate([
+            'titulo' => 'required|string|max:255',
+            'contenido' =>'required|string'
+        ]);
+        // Si la validación falla se redirigirá al usuario a la página previa. Si pasa la validación, el controlador continuará ejecutándose.
 
+        // Opción tradicional de versiones anteriores:
+        /*
         $articulo = new Articulo;
-
-        $articulo->titulo = request('titulo');
-
-        $articulo->save();
-    }
-   
-    /**
-     * Update the specified resource in storage.
-     *
-     */
-    public function update(Request $request, $id)
-    {         
-        $articulo = App\Articulo::find(1);
-
         $articulo->titulo = request('titulo');
         $articulo->contenido = request('contenido');
-
         $articulo->save();
+        */
+
+        // Recomendación actual:
+        Articulo::create($validated);
+
+        return redirect(route('articulos.index'));
     }
-   
-    /**
-     * Remove the specified resource from storage.
-     *
-     */
-    public function destroy($id)
-    {
-        // Encuentra el artículo por ID y lo elimina
-        $articulo = App\Articulo::find($id);
-        $articulo->delete();
-        
-        // Alternativa
-        App\Articulo::destroy($id);
-        
-        //Borrar modelos por consulta (borra todos los que encuentre en la consulta)
-        Articulo::where('id',$id)->delete();        
-    }
-     
 }
 ```
 
-Laravel proporciona alternativas para realizar operaciones más complejas, como creaciones en "masa" o crear un modelo solo si no existe:
+En el método `store()` se ha incluido una validación de los datos. Para conocer más acerca de las validaciones automáticas que Laravel puede hacer por nosotros, puedes visitar [este enlace](https://laravel.com/docs/9.x/validation).
 
-```php
-// Retrieve flight by name, or create it if it doesn't exist...
-$articulo = App\Articulo::firstOrCreate(['name' => 'Laptop']);
+Por último, quedaría crear la vista que muestre el formulario:
+
+`/resources/views/articulos/create.blade.php`:
+```html
+<html>
+<head>
+    <title>RevistApp</title>
+</head>
+<body>
+	<h1>Revistapp</h1>
+    <h2>Crear un artículo:</h2>
+    
+    <form method="POST" action="{{ route('articulos.store') }}">
+        @csrf
+        <p><label>Titulo: </label><input type="text" name="titulo"></p>
+        <p><label>Contenido: </label><input type="text" name="contenido"></p>
+        <button type="submit">Crear</button>
+    </form>
+    <a href="{{ route('articulos.index') }}">Volver</a>
+</body>
+</html>
+
 ```
 
-Puedes encontrar todas las posibilidades en la [documentación oficial](https://laravel.com/docs/8.x/eloquent).
+#### Valores por defecto de un modelo
+Al crear una instancia nueva de un modelo, los atributos de la instancia no tendrán ningún valor establecido. Si queremos definir valores por defecto, es posible hacerlo de la siguiente forma:
+
+```php
+<?php
+ 
+namespace App\Models;
+ 
+use Illuminate\Database\Eloquent\Model;
+ 
+class Articulo extends Model
+{
+    /**
+     * The model's default values for attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'publicado' => false,
+    ];
+}
+
+```
+El ejemplo anterior muestra cómo establecer el atributo `publicado` como `false` cada vez que creemos un nuevo objeto de la clase `Articulo`.
+
 
 #### Alternativas a Eloquent ORM
 Laravel también permite interactuar con la base de datos mediante otras técnicas distintas a Eloquent ORM. Las alternativas disponibles son:
-- Raw SQL: se trata de ejecutar sentencias SQL directamente contra la base de datos. Tienes toda la información disponible [aquí](https://laravel.com/docs/8.x/database).
-- Query Builder: es una interfaz de comunicación con la base de datos que permite lanzar prácticamente cualquier consulta. A diferencia de la anterior, no es tan eficiente en cuanto a rendimiento pero aporta otras ventajas como la seguridad y abstracción de base de datos. Tienes toda la información disponible [aquí](https://laravel.com/docs/8.x/queries).
+- Raw SQL: se trata de ejecutar sentencias SQL directamente contra la base de datos. Tienes toda la información disponible [aquí](https://laravel.com/docs/9.x/database).
+- Query Builder: es una interfaz de comunicación con la base de datos que permite lanzar prácticamente cualquier consulta. A diferencia de la anterior, no es tan eficiente en cuanto a rendimiento pero aporta otras ventajas como la seguridad y abstracción de base de datos. Tienes toda la información disponible [aquí](https://laravel.com/docs/9.x/queries).
 
 #### Tinker: un potente REPL para Laravel
 Tinker es un potente [REPL](https://es.wikipedia.org/wiki/REPL) o **consola interactiva** que viene por defecto en Laravel. Resulta muy útil durante el desarrollo ya que permite interactuar con nuestra aplicación Laravel y probar cantidad de cosas: eventos, acceso a datos, etc.
@@ -743,8 +956,93 @@ A partir de ese momento se puede comenzar a interactuar con nuestra aplicación,
 
 Para salir se ejecuta el comando `exit`.
 
+### Hands on! (6/X)
+Crea una vista para crear nuevos artículos y los métodos `create()` y `store()` en los controladores. De esta forma tu aplicación ya podrá crear artículos sin problemas. Tienes las soluciones en los códigos proporcionados junto con la explicación.
+
+
+### Hands on! (7/7)
+- Actualiza el método `index()` para que utilice los datos almacenados en la base de datos. Puedes utilizar el método `all()` para recoger todos los artículos de la base de datos.
+- Actualiza el método `show()` para que muestre el título y el contenido del artículo seleccionado.
+- Añade también en la página incial un enlace a la página de creación de artículos.
+
+#### Solucióm (7/7)
+`/App/Http/Controllers/ArticuloController.php`:
+```php
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\Articulo;
+
+class ArticuloController extends Controller
+{
+    
+    public function index()
+    {
+        $articulos = Articulo::all();
+        return view('articulos.index', [
+            'articulos' => $articulos
+        ]);
+    }
+
+    public function show($id)
+    {
+        $articulo = Articulo::find($id);
+        return view('articulos.show', [
+            'articulo' => $articulo
+        ]);
+    }
+
+    ...
+
+}
+
+```
+
+Actualiza la vista `index.blade.php` para que utilice los datos correctamente y muestre el nuevo enlace:
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>RevistApp</title>
+</head>
+<body>
+	<h1>Revistapp</h1>
+    <h2>Listado artículos:</h2>
+    <a href="{{ route('articulos.create') }}">Crear nuevo</a>
+    <table>
+        <tr><th>Enlace</th><th>Texto</th></tr>
+        @foreach ($articulos as $articulo)
+        <tr>
+            <td><a href="{{ route('articulos.show', $articulo->id) }}">Ver</a></td>
+            <td>{{ ($articulo->titulo) }}</td>
+        </tr>
+        @endforeach
+    </ul>
+</body>
+</html>
+```
+Actualiza la vista `show.blade.php` para que utilice los datos reales del artículo seleccionado:
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>RevistApp</title>
+</head>
+<body>
+	<h1>Revistapp</h1>
+    <h2>Detalle del artículo:</h2>
+    <p>Titulo: {{ $articulo->titulo }}</p>
+    <p>Contenido: {{ $articulo->contenido }}</p>
+    <a href="{{ route('articulos.index') }}">Volver</a>
+</body>
+</html>
+```
+
 ## Bonus - Opciones (flags) de Artisan
-Existen opciones muy útiles para generar archivos relacionados con los modelos. El siguiente ejemplo crea un modelo junto con su controlador y migración utilizando un único comando:
+Existen opciones muy útiles para generar archivos relacionados con los modelos. El siguiente ejemplo **crea un modelo junto con su controlador y migración utilizando un único comando**:
 
 ```
 php artisan make:model Articulo -mcr
@@ -754,8 +1052,96 @@ php artisan make:model Articulo -mcr
 - -c indica la creación de un controlador
 - -r indica que el controlador creado será "resourceful" (incializado con los métodos).
 
-## Práctica 1
-Crea una aplicación Laravel que muestre un listado de artículos de la base de datos.
+## Siguientes pasos
+Ahora que ya tienes creada una aplicación de Laravel capaz de mostrar y almacenar datos desde la base de datos, puedes seguir avanzando con funcionalidades algo más avanzadas.
 
-## Práctica 2
-Añade a la aplicación anterior una nueva vista que muestre el detalle de un artículo. Se accederá desde la vista del listado de artículos.
+
+
+
+
+
+
+
+
+#### Insertar, actualizar y borrar modelos
+
+El siguiente controlador contiene toda la lógica para insertar, actualizar y borrar modelos:
+
+```php
+<?php
+   
+namespace App\Http\Controllers;
+   
+use App\Articulo;
+use Illuminate\Http\Request;
+use Redirect;
+   
+class ArticuloController extends Controller
+{
+
+    /**
+     * Create a new articulo instance.
+     *
+     * @param  Request  $request
+     * @return Response
+     */
+    public function store(Request $request)
+    {
+        //Validar la petición:
+        $validated = $request->validate([
+            'titulo' => 'required|string|max:255',
+        ]);
+
+        // Opción tradicional de versiones anteriores:
+        /*
+        $articulo = new Articulo;
+        $articulo->titulo = request('titulo');
+        $articulo->save();
+        */
+
+        // Recomendación actual:
+        Articulo::create($validated);
+    }
+   
+    /**
+     * Update the specified resource in storage.
+     *
+     */
+    public function update(Request $request, $id)
+    {         
+        $articulo = App\Articulo::find(1);
+
+        $articulo->titulo = request('titulo');
+        $articulo->contenido = request('contenido');
+
+        $articulo->save();
+    }
+   
+    /**
+     * Remove the specified resource from storage.
+     *
+     */
+    public function destroy($id)
+    {
+        // Encuentra el artículo por ID y lo elimina
+        $articulo = App\Articulo::find($id);
+        $articulo->delete();
+        
+        // Alternativa
+        App\Articulo::destroy($id);
+        
+        //Borrar modelos por consulta (borra todos los que encuentre en la consulta)
+        Articulo::where('id',$id)->delete();        
+    }
+     
+}
+```
+
+Laravel proporciona alternativas para realizar operaciones más complejas, como creaciones en "masa" o crear un modelo solo si no existe:
+
+```php
+// Retrieve flight by name, or create it if it doesn't exist...
+$articulo = App\Articulo::firstOrCreate(['name' => 'Laptop']);
+```
+
+Puedes encontrar todas las posibilidades en la [documentación oficial](https://laravel.com/docs/9.x/eloquent).
