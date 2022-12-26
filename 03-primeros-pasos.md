@@ -1,4 +1,4 @@
-# Tu primera aplicación en 8 pasos
+# Tu primera aplicación en 7 pasos
 Ahora que ya tenemos nuestro entorno de desarrollo preparado, crearemos una aplicación web con Laravel paso por paso. Al finalizar los 8 pasos que encontrarás en este capítulo, obtendremos como resultado una revista online a la que hemos llamado RevistApp. Esta aplicación mostrará los artículos de una revista almacenados en una base de datos. ¿Comenzamos ya?
 
 ## Paso 1 - Crea tu primer proyecto
