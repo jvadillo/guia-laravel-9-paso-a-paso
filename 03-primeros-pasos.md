@@ -849,6 +849,29 @@ class ArticuloController extends Controller
 
 En el método `store()` se ha incluido una validación de los datos. Para conocer más acerca de las validaciones automáticas que Laravel puede hacer por nosotros, puedes visitar [este enlace](https://laravel.com/docs/9.x/validation).
 
+Si no se quiere validar los datos (no recomendado) se podría haber creado el nuevo artículo de la siguiente forma:
+
+```php
+    ...
+    public function store(Request $request)
+    {
+        
+        $articulo = new Articulo;
+        $articulo->titulo = request('titulo');
+        $articulo->contenido = request('contenido');
+        $articulo->save();
+        
+        // Otra alternativa para la inserción:
+        $articulo = Articulo::create([
+            'titulo' => request('titulo'),
+            'contenido' => request('contenido')
+         ]);
+
+        return redirect(route('articulos.index'));
+    }
+}
+```
+
 Por último, quedaría crear la vista que muestre el formulario:
 
 `/resources/views/articulos/create.blade.php`:
