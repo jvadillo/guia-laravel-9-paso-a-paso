@@ -47,7 +47,7 @@ php artisan key:generate
 #### Establecer los permisos de directorio
 Homestead realiza este paso por nosotros, por lo que si estás utilizando Homestead los permisos deberían estar correctamente establecidos. Si no estás utilizando Homestead o quieres desplegar tu aplicación en un servidor, no olvides establecer permisos de escritura para el servidor web en los directorios `storage` y  `bootstrap/cache`.
 
-### Hands on! (1/X)
+### Hands on! (1/7)
 Si no lo has hecho ya, crea una aplicación llamada `revistapp`. Esta será la aplicación que iremos creando paso a paso.
 
 ## Paso 2 - Crear un Router
@@ -186,7 +186,7 @@ utilizaremos:
 <a href="{{ route('articulos.index') }}">Ver artículos</a>
 ```
 
-### Hands on! (2/X)
+### Hands on! (2/7)
 Añade a tu aplicación `revistapp` dos nuevas rutas. 
 - `/articulos`: Devolverá un array de artículos en formato JSON. Asigna el nombre `articulos.index` a la ruta utilizando la función `name()`.
 - `/articulos/{id}`: Devolverá la siguiente frase: **"Gracias por leer el artículo con id: {id}"**. Asigna el nombre `articulos.show` a la ruta utilizando la función `name()`. 
@@ -348,12 +348,12 @@ El motor de plantillas Blade permite el uso de todo tipo de estructuras:
 
 Puedes encontrar toda la información acerca de Blade en la [documentación oficial](https://laravel.com/docs/9.x/blade).
 
-### Hands on! (3/X)
+### Hands on! (3/7)
 Actualiza las rutas de tu aplicación para que comiencen a devolver vistas al usuario: 
 - `/articulos`: Devolverá una vista que muestre los artículos en una tabla. La primera columna tendrá un enlace a la ruta del artículo, utilizando su `id`. La segunda columna contendrá el texto del artículo.
 - `/articulos/{id}`: Devolverá una vista que contenga un párrafo con la siguiente frase: **"Gracias por leer el artículo con id {id}"**. También tendrá un enlace para voler a cargar ruta que muestra todos los arículos. 
 
-#### Solucióm (4/X)
+#### Solución
 `/resources/views/articulos/index.blade.php`:
 ```html
 <html>
@@ -518,10 +518,10 @@ Route::resource('articulos', ArticuloController::class)->only([
 ]);
 ```
 
-### Hands on! (4/X)
+### Hands on! (4/7)
 Crea un controlador llamado `ArticuloController` y mueve la lógica de las dos rutas del router (`/articulos` y `/articulos/{id}`) router al nuevo controlador.
 
-#### Solucióm (4/X)
+#### Solución
 
 `/App/Http/Controllers/ArticuloController.php`:
 ```php
@@ -698,7 +698,7 @@ Una vez tenemos definida una migración, solo quedará ejecutarla para que así 
 php artisan migrate
 ```
 
-### Hands on! (5/X)
+### Hands on! (5/7)
 Crea una migración para una tabla llamada `articulos` siguiendo los pasos anteriormente descritos. Completa la función `up()` para definir la tabla y lanza la migración.
 
 
@@ -956,7 +956,7 @@ A partir de ese momento se puede comenzar a interactuar con nuestra aplicación,
 
 Para salir se ejecuta el comando `exit`.
 
-### Hands on! (6/X)
+### Hands on! (6/7)
 Crea una vista para crear nuevos artículos y los métodos `create()` y `store()` en los controladores. De esta forma tu aplicación ya podrá crear artículos sin problemas. Tienes las soluciones en los códigos proporcionados junto con la explicación.
 
 
@@ -965,7 +965,7 @@ Crea una vista para crear nuevos artículos y los métodos `create()` y `store()
 - Actualiza el método `show()` para que muestre el título y el contenido del artículo seleccionado.
 - Añade también en la página incial un enlace a la página de creación de artículos.
 
-#### Solucióm (7/7)
+#### Solución
 `/App/Http/Controllers/ArticuloController.php`:
 ```php
 <?php
