@@ -29,7 +29,7 @@ public function show(Articulo $articulo)
 }
 ```
 
-### Hands on! (1/X)
+### Hands on!
 Actualiza la ruta y el controlador ArticuloController de tu aplicación para que utilice el `Route Model Binding` cuando el usuario solicite los detalles de un artículo (show).
 
 ## Borrado de registros
@@ -63,7 +63,7 @@ public function destroy(Articulo $articulo)
 ```
 El borrado de un modelo se puede hacer de forma sencilla invocando al método `delete()` del modelo.
 
-### Hands on! (2/X)
+### Hands on!
 Añade la opción de eliminar cualquier artículo de la aplicación.
 
 ## Actualizar un modelo
