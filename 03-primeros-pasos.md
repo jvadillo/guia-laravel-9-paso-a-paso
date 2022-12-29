@@ -516,7 +516,7 @@ Route::resource('articulos', ArticuloController::class)->only([
 ```
 
 ### Hands on! (4/7)
-Crea un controlador llamado `ArticuloController` y mueve la lógica de las dos rutas del router `/articulos` y `/articulos/{id}` al nuevo controlador.
+Crea un controlador llamado `ArticuloController.php` y mueve la lógica de las dos rutas del router `/articulos` y `/articulos/{id}` al nuevo controlador.
 
 #### Solución
 
@@ -551,7 +551,7 @@ class ArticuloController extends Controller
 }
 ```
 
-`routes/web.php`:
+El router pasará a indicar el controlador y el método que se encargará de cada petición:
 ```php
 
 use App\Http\Controllers\ArticuloController;
@@ -732,7 +732,7 @@ class Articulo extends Model
 
 Por defecto un modelo de Eloquent almacena los registros en una tabla con el mismo nombre pero en plural. En este caso, `Articulo` interactuará con la tabla de la base de datos llamada `articulos`.
 
-Laravel protege por defecto los modelos de forma que no se puedan generar registros de forma "masiva", es decir, en una única petición. Para que Laravel permita crear un artículo desde un formulario común, debemos indicarle los campos que podrán ser completados y procesados. Para ello incluimos los nombres de los campos en una propiedad llamada `fillable`.
+Laravel protege por defecto los modelos de forma que no se puedan generar registros de forma "masiva", es decir, en una única petición. De esta forma nos protegemos por ejemplo de que un usuario al editar su perfil pueda cambiar el valor de una propiedad llamada `is_admin`. Para que Laravel permita crear un artículo desde un formulario común, debemos indicarle los campos que podrán ser completados y procesados. Para ello incluimos los nombres de los campos en una propiedad llamada `fillable`.
 
 ```php
 <?php
@@ -866,6 +866,7 @@ Si no se quiere validar los datos (no recomendado) se podría haber creado el nu
     }
 }
 ```
+En el ejemplo anterior se puede apreciar que el método `request()` permite acceder a los datos enviados en la petición.
 
 Por último, quedaría crear la vista que muestre el formulario:
 
@@ -890,6 +891,7 @@ Por último, quedaría crear la vista que muestre el formulario:
 </html>
 
 ```
+La directiva @csrf agrega un campo oculto con el Token de usuario para que Laravel nos proteja automáticamente de ataques XSS o de suplantación de identidad. Es necesario agregar siempre esta directiva.
 
 ### Valores por defecto de un modelo
 Al crear una instancia nueva de un modelo, los atributos de la instancia no tendrán ningún valor establecido. Si queremos definir valores por defecto, es posible hacerlo de la siguiente forma:
