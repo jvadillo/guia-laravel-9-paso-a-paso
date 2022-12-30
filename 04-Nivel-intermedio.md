@@ -170,6 +170,11 @@ Ahora crearemos la vista concreta que especificará el contenido a introducir en
 ### Hands on!
 Crea un layout que englobe la parte común que contienen todas las vistas de la aplicación RevistApp. Actualiza las vistas para que extiendan el layout creado.
 
+## Laravel Vite: cómo trabajar con código JS y CSS
+Hoy en día en el desarrollo de frontend moderno se utilizan herramientas que compilan y opmitizan el código Javascript y CSS. En la actualidad predominan [Webpack](https://webpack.js.org/) y [Vite](https://vitejs.dev/), siendo este último el que Laravel incluye por defecto a partir de su versión `9.19`.
+
+Nota: sección en construcción.
+
 ## Utilizar Bootstrap en tu proyecto
 A diferencia de versiones anteriores, a partir de su versión 6, Laravel no incluye por defecto las dependencias necesarias para [Bootstrap](https://getbootstrap.com/). Por lo tanto, tendremos 3 opciones para utilizar Bootstrap:
 
@@ -179,6 +184,8 @@ a) Referenciar las dependecias JS y CSS utilizando BootstrapCDN (enlaces disponi
 ```
 
 b) Descargar las dependecias ([enlace](https://getbootstrap.com/docs/4.4/getting-started/download/)) e incluirlas manualmente en las carpetas `/public/css` y `/public/js`.
+
+Utilizar 
 
 c) Utilizar [Laravel Mix](https://laravel-mix.com/) para compilar nuestros archivos JS y CSS. Nota: Laravel ha sustituido Laravel Mix por Vite a partir de la versión `9.19`.
 
@@ -700,3 +707,82 @@ Añade las siguientes funcionalidades a la aplicación:
 - Guardar en sesión los artículos favoritos de un usuario: el usuario podrá hacer click en un enlace/botón que guarde en sesión ese artículo como favorito.
 
 Los artículos marcados como favoritos se podrán distinguir visualmente (mediante un icono, texto en negrita o similar). Igualmente, los artículos leídos se mostrarán también de forma especial.
+
+## Validación de formularios
+
+### Realizar la validación de los campos del formulario
+
+Laravel permite validar cualquier campo enviado por un formulario mediante el método `validate`. Tal y como ya habíamos hecho anteriormente:
+
+```php
+public function store(Request $request)
+{
+    //Validar la petición:
+    $validated = $request->validate([
+        'titulo' => 'required|string|max:255',
+        'contenido' =>'required|string'
+    ]);
+    
+    Articulo::create($validated);
+
+    return redirect(route('articulos.index'));
+}
+```
+Si la validación pasa correctamente el código seguirá ejecutándose de forma normal y corriente. Pero si la validación falla, se redirigirá al usuario a la página desde la que se ha realizado el envío del formulario. 
+
+Puedes ver todas las reglas de validación disponibles [aquí](https://laravel.com/docs/9.x/validation#available-validation-rules).
+
+### Mostrar los errores en la vista
+
+Todas las vistas de Laravel tienen disponible la variable llamada `$errors`. En el siguiente ejemplo puede verse cómo mostrar al usuario todos los errores detectados en la validación:
+
+```php
+ 
+<h1>Crear artículo</h1>
+ 
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
+```
+
+### Directiva `@error`
+La directiva `@error` permite comprobar si un campo concreto ha tenido algún error, y en caso afirmativo mostrar el mensaje de error de dicho campo. Se utilizará de la siguiente manera:
+
+
+```php
+<p>
+    <label>Titulo: </label>
+    <input type="text" name="titulo">
+    @error('titulo')
+    <small style="color:red;">{{ $message }}</small>
+    @enderror
+</p>
+<p>
+    <label>Titulo: </label>
+    <input type="text" name="contenido">
+    @error('contenido')
+    <small style="color:red;">{{ $message }}</small>
+    @enderror
+</p>
+```
+En caso de error se mostrará el contenido indicado entre las etiquetas `@error` y `@enderror`. Además la variable `$message` estará disponible entre dichas etiquetas e incluirá el mensaje de error.
+
+### Mantener el valor de los campos correctos
+En caso de que el formulario tenga varios campos correctos, puede ser interesante mantener los valores enviados previamente en lugar de resetear el formulario entero. El valor de los campos que habían sido completados correctamente puede recuperarse mediante la función `old` de Laravel:
+
+
+```php
+<input type="text" name="titulo" value="{{old('titulo')}}">
+```
+
+### Traducción de los mensajes de error
+Los mensajes de error pueden verse en el fichero `lang/en/validation.php`. En caso de quere traducirlos a otro idioma, bastaría con crear un fichero con la misma estructura bajo el directorio del nuevo idioma. Por ejemplo: `lang/es/validation.php`
+
+En caso de querer profundizar más en la detección y visualización de errores, puedes encontrar más información en la [página oficial](https://laravel.com/docs/9.x/validation).
