@@ -171,9 +171,65 @@ Ahora crearemos la vista concreta que especificará el contenido a introducir en
 Crea un layout que englobe la parte común que contienen todas las vistas de la aplicación RevistApp. Actualiza las vistas para que extiendan el layout creado.
 
 ## Laravel Vite: cómo trabajar con código JS y CSS
+
+### Introducción
 Hoy en día en el desarrollo de frontend moderno se utilizan herramientas que compilan y opmitizan el código Javascript y CSS. En la actualidad predominan [Webpack](https://webpack.js.org/) y [Vite](https://vitejs.dev/), siendo este último el que Laravel incluye por defecto a partir de su versión `9.19`.
 
-Nota: sección en construcción.
+### Desarrollo de frontend con Laravel
+Por seguridad la única carpeta accesible desde el navegador es `/public`. Nuestro servidor apunta siempre a la carpeta `/public`, en la que se encuentra el archivo `index.php` encargado de cargar el framework y redireccionar la petición a la ruta correspondiente.
+
+Sería posible incluir nuestros archivos `.css` o `.js` directamente dentro de nuestra carpeta `/public`, pero lo habitual en desarrollo web es realizar algún tipo de compilación: por ejemplo utilizar archivos `.sass` o algún framework de JavaScript. Es por esto que es necesaria una herramienta como Vite o Webpack. 
+
+Configuraremos Vite para que compile los archivos `.css` y `.js` que modifiquemos dentro de la carpeta `/resources` y deje el resultado de la compilación en la carpeta `/public`.
+
+### Configuración de Vite
+Al crear un nuevo proyecto Laravel crea un archivo `vite.config.js` como este:
+
+```js
+import { defineConfig } from 'vite';
+import laravel from 'laravel-vite-plugin';
+
+export default defineConfig({
+    plugins: [
+        laravel({
+            input: ['resources/css/app.css', 'resources/js/app.js'],
+            refresh: true,
+        }),
+    ],
+});
+```
+La configuración por defecto ya indica a Vite dónde se ubican los archivos `.css` y `.js`.
+
+### Instalar las dependencias e iniciar el servidor de Vite
+Para utilizar Vite es necesario tener Node instalado, ya que utilizaremos NPM para instalar las dependencias. Compruébalo mediante el siguiente comando:
+
+```bash
+node -v
+```
+En caso de no tener Node instalado, puedes hacerlo descargándolo desde la [página web oficial](https://nodejs.org/es/).
+
+A continuación tienes que instalar las dependecias de tu proyecto definidas en el archivo `package.json` ejecutando el comando `npm install`. Las dependencias se instalaran en la carpeta `node_modules`, incluidas Vite y el plugin de Vite para Laravel.
+
+El siguiente paso será iniciar el servidor de Vite:
+```bash
+npm run dev
+```
+El servidor de Vite no tiene nada que ver con el servidor web, se trata de un servidor independiente de Vite encargado de realizar las tareas relacionadas con nuestro frontend.
+
+### Referenciar los archivos JS y CSS en las plantillas de Blade
+Para incluir nuestros recursos (assets) en cualquier plantilla de Blade utilizaremos la siguiente directiva:
+
+```php
+@vite(['resources/css/app.css', 'resources/js/app.js'])
+```
+
+### Publicar los cambios realizados
+Una vez terminemos nuestro desarrollo, ya no será necesario nuestro servidor Vite. Lo único que tendremos que hacer será publicar en la carpeta `/public` los archivos compilados y optimizados. Para ello es necesario ejecutar la siguiente sentencia:
+
+```bash
+npm run build
+```
+La consola nos mostrará la dirección de los archivos publicados (`/public/build/assets/`). Este paso será necesario antes de desplegar nuestra aplicación en producción.
 
 ## Utilizar Bootstrap en tu proyecto
 A diferencia de versiones anteriores, a partir de su versión 6, Laravel no incluye por defecto las dependencias necesarias para [Bootstrap](https://getbootstrap.com/). Por lo tanto, tendremos 3 opciones para utilizar Bootstrap:
@@ -191,7 +247,7 @@ c) Utilizar [Laravel Mix](https://laravel-mix.com/) para compilar nuestros archi
 
 d) Utilizar Vite como herramienta de compilación. Actualmente es la opción por defecto de Laravel.
 
-### Laravel Mix
+### Bootstrap en Laravel Mix
 Laravel Mix es una herramienta basada en Webpack que sirve para compilar los recursos JS y CSS de la parte frontend. En este caso los recursos estarán inicialmente ubicados en la carpeta `/resources` y Laravel Mix dejará dentro de la carpeta `/public` los archivos resultantes ya minimizados.
 
 #### 1. Instalar el paquete Laravel/UI mediante composer.
@@ -258,6 +314,9 @@ En caso de tener algún problema con el reconocimiento de la herramienta Laravel
 ```
 
 El método `asset()` generará una URL a nuestros recursos en la carpeta `public/`. Si cambiamos la ubicación de nuestros recursos lo tendremos que especificar en la variable `ASSET_URL` del fichero `.env`.
+
+### Bootstrap con Vite
+Sección en construcción.
 
 ### Hands on! (opcional)
 Añade estilo a la aplicación mediante el framework Bootstrap 5.
