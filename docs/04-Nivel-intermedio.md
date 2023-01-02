@@ -1,10 +1,10 @@
-# Level up: Laravel nivel intermedio
+# Laravel nivel intermedio
 
 ## Route Model Binding
 Normalmente cuando se incluye el ID de un registro en la URL, como por ejemplo en una ruta como `/articulos/{id}` de tipo `GET`, lo más común es que el controlador de turno tenga que recuperar de la base de datos el registro con el ID indicado. Es por esto que Laravel permite inyectar directamente el modelo entero en lugar del `id`.
 
 A continuación se muestra un ejemplo en el router:
-```php
+``` php
 use App\Models\Articulo;
  
 Route::get('/articulos/{articulo}', function (Articulo $articulo) {
@@ -183,7 +183,7 @@ Sería posible incluir nuestros archivos `.css` o `.js` directamente dentro de n
 Configuraremos Vite para que compile los archivos `.css` y `.js` que modifiquemos dentro de la carpeta `/resources` y deje el resultado de la compilación en la carpeta `/public`.
 
 ### Configuración de Vite
-Al crear un nuevo proyecto Laravel crea un archivo `vite.config.js` como este:
+Al crear un nuevo proyecto, Laravel crea automáticamente un archivo `vite.config.js` como este:
 
 ```js
 import { defineConfig } from 'vite';

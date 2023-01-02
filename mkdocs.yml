@@ -1,0 +1,47 @@
+site_name: Aprende Laravel 9 paso a paso
+nav:
+    - Principal: index.md
+    - Introducción: 01-introduccion.md
+    - Preparación del entorno: 02-entorno.md
+    - Primeros pasos: 03-primeros-pasos.md
+    - Nivel intermedio: 04-Nivel-intermedio.md
+extra:
+  social:
+    - icon: fontawesome/brands/twitter
+      link: https://twitter.com/jonvadillo
+      name: Jon Vadillo on Twitter
+    - icon: fontawesome/brands/github
+      link: https://github.com/jvadillo
+      name: Jon Vadillo on Github
+theme:
+  name: material
+  language: es
+  favicon: "images/favicon.svg"
+  logo: "images/logo1.svg"
+  features:
+    - content.code.copy
+    - navigation.expand
+    #- toc.integrate # Integrate right column
+    - navigation.top # A back-to-top button is shown when the user, after scrolling down, starts to scroll up again
+  palette:
+          
+    # Palette toggle for automatic mode
+    - media: "(prefers-color-scheme)"
+      toggle:
+        icon: material/brightness-auto
+        name: Switch to light mode
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to system preference
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default 
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+
+
+copyright: 2023 Jon Vadillo - Licencia CC BY-NC-SA

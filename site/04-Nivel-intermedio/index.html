@@ -1,0 +1,1370 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.0b4">
+    
+    
+      
+        <title>Level up: Laravel nivel intermedio - Prueba de Mkdocs</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.91872f81.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.2505c338.min.css">
+        
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="None" data-md-color-accent="None">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#level-up-laravel-nivel-intermedio" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Prueba de Mkdocs" class="md-header__button md-logo" aria-label="Prueba de Mkdocs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Prueba de Mkdocs
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Level up: Laravel nivel intermedio
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Prueba de Mkdocs" class="md-nav__button md-logo" aria-label="Prueba de Mkdocs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Prueba de Mkdocs
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        Principal
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-introduccion/" class="md-nav__link">
+        Introducción
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#route-model-binding" class="md-nav__link">
+    Route Model Binding
+  </a>
+  
+    <nav class="md-nav" aria-label="Route Model Binding">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hands-on" class="md-nav__link">
+    Hands on!
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#borrado-de-registros" class="md-nav__link">
+    Borrado de registros
+  </a>
+  
+    <nav class="md-nav" aria-label="Borrado de registros">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hands-on_1" class="md-nav__link">
+    Hands on!
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#actualizar-un-modelo" class="md-nav__link">
+    Actualizar un modelo
+  </a>
+  
+    <nav class="md-nav" aria-label="Actualizar un modelo">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#solucion" class="md-nav__link">
+    Solución
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#construir-layouts" class="md-nav__link">
+    Construir layouts
+  </a>
+  
+    <nav class="md-nav" aria-label="Construir layouts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hands-on_2" class="md-nav__link">
+    Hands on!
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#laravel-vite-como-trabajar-con-codigo-js-y-css" class="md-nav__link">
+    Laravel Vite: cómo trabajar con código JS y CSS
+  </a>
+  
+    <nav class="md-nav" aria-label="Laravel Vite: cómo trabajar con código JS y CSS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#introduccion" class="md-nav__link">
+    Introducción
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#desarrollo-de-frontend-con-laravel" class="md-nav__link">
+    Desarrollo de frontend con Laravel
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuracion-de-vite" class="md-nav__link">
+    Configuración de Vite
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#instalar-las-dependencias-e-iniciar-el-servidor-de-vite" class="md-nav__link">
+    Instalar las dependencias e iniciar el servidor de Vite
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#referenciar-los-archivos-js-y-css-en-las-plantillas-de-blade" class="md-nav__link">
+    Referenciar los archivos JS y CSS en las plantillas de Blade
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#publicar-los-cambios-realizados" class="md-nav__link">
+    Publicar los cambios realizados
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#utilizar-bootstrap-en-tu-proyecto" class="md-nav__link">
+    Utilizar Bootstrap en tu proyecto
+  </a>
+  
+    <nav class="md-nav" aria-label="Utilizar Bootstrap en tu proyecto">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bootstrap-en-laravel-mix" class="md-nav__link">
+    Bootstrap en Laravel Mix
+  </a>
+  
+    <nav class="md-nav" aria-label="Bootstrap en Laravel Mix">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-instalar-el-paquete-laravelui-mediante-composer" class="md-nav__link">
+    1. Instalar el paquete Laravel/UI mediante composer.
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-anadir-bootstrap-a-nuestro-proyecto" class="md-nav__link">
+    2. Añadir bootstrap a nuestro proyecto
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-instalar-las-dependencias" class="md-nav__link">
+    3. Instalar las dependencias
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-compilar-el-codigo-js-y-css-mediante-webpack" class="md-nav__link">
+    4. Compilar el código JS y CSS mediante Webpack:
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-incluir-los-ficheros-generados-publicjsappjs-y-publiccssappcss-en-nuestras-vistas-utilizando-el-metodo-helper-asset" class="md-nav__link">
+    5. Incluir los ficheros generados (public/js/app.js y public/css/app.css) en nuestras vistas, utilizando el método helper asset():
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bootstrap-con-vite" class="md-nav__link">
+    Bootstrap con Vite
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hands-on-opcional" class="md-nav__link">
+    Hands on! (opcional)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#relaciones-one-to-many" class="md-nav__link">
+    Relaciones One-to-Many
+  </a>
+  
+    <nav class="md-nav" aria-label="Relaciones One-to-Many">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#definir-una-relacion" class="md-nav__link">
+    Definir una relación
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#acceder-a-los-modelos-de-una-relacion" class="md-nav__link">
+    Acceder a los modelos de una relación
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#crear-la-restriccion-de-las-claves-foraneas-en-la-base-de-datos" class="md-nav__link">
+    Crear la restricción de las claves foráneas en la Base de Datos
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#consejo-como-anadir-columnas-a-modelo-existente" class="md-nav__link">
+    Consejo: cómo añadir columnas a modelo existente
+  </a>
+  
+    <nav class="md-nav" aria-label="Consejo: cómo añadir columnas a modelo existente">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hands-on_3" class="md-nav__link">
+    Hands on!
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#generar-datos-de-prueba" class="md-nav__link">
+    Generar datos de prueba
+  </a>
+  
+    <nav class="md-nav" aria-label="Generar datos de prueba">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#generar-seeders-especificos" class="md-nav__link">
+    Generar Seeders específicos
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uso-de-factories" class="md-nav__link">
+    Uso de factories
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#autenticacion" class="md-nav__link">
+    Autenticación
+  </a>
+  
+    <nav class="md-nav" aria-label="Autenticación">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#autenticacion-con-laravel-ui" class="md-nav__link">
+    Autenticación con Laravel UI
+  </a>
+  
+    <nav class="md-nav" aria-label="Autenticación con Laravel UI">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#paso-1-crear-la-estructura-necesaria" class="md-nav__link">
+    Paso 1: Crear la estructura necesaria
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-2-configuracion-basica" class="md-nav__link">
+    Paso 2: Configuración básica
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-3-securizar-rutas" class="md-nav__link">
+    Paso 3: Securizar rutas
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-4-conseguir-el-usuario-autenticado" class="md-nav__link">
+    Paso 4: Conseguir el usuario autenticado
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#autenticacion-con-laravel-breeze" class="md-nav__link">
+    Autenticación con Laravel Breeze
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hands-on_4" class="md-nav__link">
+    Hands on!
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#manejo-de-sesiones" class="md-nav__link">
+    Manejo de sesiones
+  </a>
+  
+    <nav class="md-nav" aria-label="Manejo de sesiones">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configuracion" class="md-nav__link">
+    Configuración
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uso-de-las-sesiones" class="md-nav__link">
+    Uso de las sesiones
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hands-on_5" class="md-nav__link">
+    Hands on!
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#validacion-de-formularios" class="md-nav__link">
+    Validación de formularios
+  </a>
+  
+    <nav class="md-nav" aria-label="Validación de formularios">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#realizar-la-validacion-de-los-campos-del-formulario" class="md-nav__link">
+    Realizar la validación de los campos del formulario
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mostrar-los-errores-en-la-vista" class="md-nav__link">
+    Mostrar los errores en la vista
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#directiva-error" class="md-nav__link">
+    Directiva @error
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mantener-el-valor-de-los-campos-correctos" class="md-nav__link">
+    Mantener el valor de los campos correctos
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#traduccion-de-los-mensajes-de-error" class="md-nav__link">
+    Traducción de los mensajes de error
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="level-up-laravel-nivel-intermedio">Level up: Laravel nivel intermedio</h1>
+<h2 id="route-model-binding">Route Model Binding</h2>
+<p>Normalmente cuando se incluye el ID de un registro en la URL, como por ejemplo en una ruta como <code>/articulos/{id}</code> de tipo <code>GET</code>, lo más común es que el controlador de turno tenga que recuperar de la base de datos el registro con el ID indicado. Es por esto que Laravel permite inyectar directamente el modelo entero en lugar del <code>id</code>.</p>
+<p>A continuación se muestra un ejemplo en el router:</p>
+<pre><code class="language-php">use App\Models\Articulo;
+
+Route::get('/articulos/{articulo}', function (Articulo $articulo) {
+    return $articulo-&gt;titulo;
+});
+</code></pre>
+<p>Como puede verse, la función en lugar de recibir el ID como parámetro recibe directamente el modelo. Esto ha sido gracias a que el parámetro ha sido declarado del tipo <code>Articulo</code> y el nombre del parámentro (<code>$articulo</code>) coincide con el parametro de la ruta (<code>{articulo}</code>).</p>
+<p>Igualmente se puede hacer en el controlador:</p>
+<pre><code class="language-php">use App\Http\Controllers\ArticuloController;
+use App\Models\Articulo;
+
+// Definición de la ruta:
+Route::get('/articulos/{articulo}', [UserController::class, 'show']);
+
+// Definición del método en el Controlador:
+public function show(Articulo $articulo)
+{
+    return view('articulos.index', ['articulo' =&gt; $articulo]);
+}
+</code></pre>
+<h3 id="hands-on">Hands on!</h3>
+<p>Actualiza la ruta y el controlador ArticuloController de tu aplicación para que utilice el <code>Route Model Binding</code> cuando el usuario solicite los detalles de un artículo (show).</p>
+<h2 id="borrado-de-registros">Borrado de registros</h2>
+<p>El borrado de registros es un tema que suele traer complicaciones, debido a que desde una página HTML solo es posible enviar peticiones <code>GET</code> y <code>POST</code> (desde formularios). Por lo tanto, las alternativas son las siguientes:</p>
+<ul>
+<li>Crear una ruta de tipo <code>GET</code> específica para el borrado. Por ejemplo: <code>/articulos/destroy/{id}</code></li>
+<li>Hacer la petición de tipo DELETE utilizando AJAX y especificando en la llamada el tipo de método: <code>'type': 'DELETE'</code></li>
+<li>Emular la llamada <code>DELETE</code> mediante el campo oculto <code>_method</code>. Para ello podemos utilizar los helpers o directivas de Laravel en un formulario para notificar que se trata de una petición de tipo <code>DELETE</code>:</li>
+</ul>
+<pre><code class="language-php">&lt;form method=&quot;POST&quot;&gt;
+     @csrf
+     @method(&quot;DELETE&quot;)
+
+     &lt;button type=&quot;submit&quot;&gt;Eliminar&lt;/button&gt;
+&lt;/form&gt;
+</code></pre>
+<p>Siguiendo con la última de las opciones, quedaría añadir la ruta de borrado al router e implementar el método <code>destroy()</code> del controlador:</p>
+<pre><code class="language-php">// Nueva ruta en /router/web.php:
+Route::delete('/articulos/{articulo}', [ArticuloController::class, 'destroy'])-&gt;name('articulos.destroy');
+
+// Método destroy() en ArticuloContoller:
+public function destroy(Articulo $articulo)
+{
+    $articulo-&gt;delete();
+    return redirect(route('articulos.index'));
+}
+</code></pre>
+<p>El borrado de un modelo se puede hacer de forma sencilla invocando al método <code>delete()</code> del modelo.</p>
+<h3 id="hands-on_1">Hands on!</h3>
+<p>Añade la opción de eliminar cualquier artículo de la aplicación.</p>
+<h2 id="actualizar-un-modelo">Actualizar un modelo</h2>
+<p>Al igual que ocurre con la creación de un nuevo modelo, para actualizar un modelo los pasos a seguir son los siguientes:</p>
+<ol>
+<li>Crear una vista que contenga el formulario de actualización. La ruta en este caso será <code>/articulos/{articulo}/edit</code>.</li>
+<li>Crear dos rutas que llamen a los métodos <code>edit()</code> y <code>update()</code> del controlador: el método <code>edit()</code> será el encargado de cargar la vista de actualización (creada en el punto anterior) y el método <code>update()</code> recibirá los datos del formulario enviados por el usuario y actualizará el modelo en la base de datos.</li>
+</ol>
+<h3 id="solucion">Solución</h3>
+<p>Nueva vista <code>/resources/views/articulos/edit.blade.php</code>:</p>
+<pre><code class="language-html">&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;RevistApp&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Revistapp&lt;/h1&gt;
+    &lt;h2&gt;Crear un artículo:&lt;/h2&gt;
+
+    &lt;form method=&quot;POST&quot; action=&quot;{{ route('articulos.update', $articulo) }}&quot;&gt;
+        @csrf
+        @method('PUT')
+        &lt;p&gt;&lt;label&gt;Titulo: &lt;/label&gt;&lt;input type=&quot;text&quot; name=&quot;titulo&quot; value=&quot;{{ $articulo-&gt;titulo }}&quot;&gt;&lt;/p&gt;
+        &lt;p&gt;&lt;label&gt;Contenido: &lt;/label&gt;&lt;input type=&quot;text&quot; name=&quot;contenido&quot; value=&quot;{{ $articulo-&gt;contenido }}&quot;&gt;&lt;/p&gt;
+        &lt;button type=&quot;submit&quot;&gt;Crear&lt;/button&gt;
+    &lt;/form&gt;
+    &lt;a href=&quot;{{ route('articulos.index') }}&quot;&gt;Volver&lt;/a&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>En el código anterior puede verse cómo se han asignado los valores actuales a los atributos <code>value</code> de cada campo. Se ha utilizado la directiva <code>@method('PUT')</code> de Laravel para indicar que el método de envío será de tipo <code>PUT</code>.</p>
+<p>Nuevas rutas añadidas a <code>/routes/web.php</code>:</p>
+<pre><code class="language-php">Route::get('/articulos/{articulo}/edit', [ArticuloController::class, 'edit'])-&gt;name('articulos.edit');
+Route::put('/articulos/{articulo}', [ArticuloController::class, 'update'])-&gt;name('articulos.update');
+</code></pre>
+<p>En cuanto a los métodos de <code>ArticuloController.php</code>, se utilizará el método <code>update()</code> para actualizar el modelo:</p>
+<pre><code class="language-php">public function edit(Articulo $articulo)
+{
+    return view('articulos.edit', [
+        'articulo' =&gt; $articulo
+    ]);
+}
+
+public function update(Request $request, Articulo $articulo)
+{
+    $validated = $request-&gt;validate([
+        'titulo' =&gt; 'required|string|max:255',
+        'contenido' =&gt;'required|string'
+    ]);
+    $articulo-&gt;update($validated);
+    return redirect(route('articulos.show', $articulo));
+}
+</code></pre>
+<h2 id="construir-layouts">Construir layouts</h2>
+<p>Las aplicaciones siempre contienen varias parte de la interfaz que son comunes en todas las páginas (la cabecera, menú de navegación, footer, etc.). Una de las características de <a href="https://laravel.com/docs/9.x/blade">Blade</a> es el uso de Layouts, los cuales permiten de forma muy sencilla compartir entre distintas vistas las partes que tienen en común y así evitar repetir lo mismo múltiples veces. La idea consiste en <strong>separar en un archivo distinto la parte común de nuestras vistas</strong> y especificar en ella las zonas que albergarán los contenidos específicos de cada vista (lo que no es común).</p>
+<p>Empecemos por definir un layout básico:</p>
+<pre><code class="language-html">&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;App Name - @yield('titulo')&lt;/title&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;div class=&quot;container&quot;&gt;
+            @yield('content')
+        &lt;/div&gt;
+        &lt;div class=&quot;big-footer&quot;&gt;
+            @yield('footer')
+        &lt;/div&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>La directiva <code>@yield</code> se utiliza para especificar el lugar donde se mostrarán los contenidos de cada sección.</p>
+<p>Ahora crearemos la vista concreta que especificará el contenido a introducir en el layout. Es por esto que decimos que la vista extiende (<code>extends</code>) del layout, es decir, la vista heredará toda la estructura definida en el layout y sobreescribirá las partes concretas que defina (las secciones).</p>
+<pre><code class="language-html">@extends('layouts.master')
+
+@section('titulo', 'Page Title')
+
+@section('content')
+    &lt;h1&gt;Hello World!&lt;/h1&gt;
+    &lt;p&gt;This is my body content.&lt;/p&gt;
+@endsection
+
+@section('footer')
+    &lt;p&gt;Built by @JonVadillo.&lt;/p&gt;
+@endsection
+
+</code></pre>
+<p><code>@section</code> indica la sección del padre donde será introducido el contenido especificado entre las etiquetas <code>@section</code> y <code>@endsection</code>.</p>
+<h3 id="hands-on_2">Hands on!</h3>
+<p>Crea un layout que englobe la parte común que contienen todas las vistas de la aplicación RevistApp. Actualiza las vistas para que extiendan el layout creado.</p>
+<h2 id="laravel-vite-como-trabajar-con-codigo-js-y-css">Laravel Vite: cómo trabajar con código JS y CSS</h2>
+<h3 id="introduccion">Introducción</h3>
+<p>Hoy en día en el desarrollo de frontend moderno se utilizan herramientas que compilan y opmitizan el código Javascript y CSS. En la actualidad predominan <a href="https://webpack.js.org/">Webpack</a> y <a href="https://vitejs.dev/">Vite</a>, siendo este último el que Laravel incluye por defecto a partir de su versión <code>9.19</code>.</p>
+<h3 id="desarrollo-de-frontend-con-laravel">Desarrollo de frontend con Laravel</h3>
+<p>Por seguridad la única carpeta accesible desde el navegador es <code>/public</code>. Nuestro servidor apunta siempre a la carpeta <code>/public</code>, en la que se encuentra el archivo <code>index.php</code> encargado de cargar el framework y redireccionar la petición a la ruta correspondiente.</p>
+<p>Sería posible incluir nuestros archivos <code>.css</code> o <code>.js</code> directamente dentro de nuestra carpeta <code>/public</code>, pero lo habitual en desarrollo web es realizar algún tipo de compilación: por ejemplo utilizar archivos <code>.sass</code> o algún framework de JavaScript. Es por esto que es necesaria una herramienta como Vite o Webpack. </p>
+<p>Configuraremos Vite para que compile los archivos <code>.css</code> y <code>.js</code> que modifiquemos dentro de la carpeta <code>/resources</code> y deje el resultado de la compilación en la carpeta <code>/public</code>.</p>
+<h3 id="configuracion-de-vite">Configuración de Vite</h3>
+<p>Al crear un nuevo proyecto Laravel crea un archivo <code>vite.config.js</code> como este:</p>
+<pre><code class="language-js">import { defineConfig } from 'vite';
+import laravel from 'laravel-vite-plugin';
+
+export default defineConfig({
+    plugins: [
+        laravel({
+            input: ['resources/css/app.css', 'resources/js/app.js'],
+            refresh: true,
+        }),
+    ],
+});
+</code></pre>
+<p>La configuración por defecto ya indica a Vite dónde se ubican los archivos <code>.css</code> y <code>.js</code>.</p>
+<h3 id="instalar-las-dependencias-e-iniciar-el-servidor-de-vite">Instalar las dependencias e iniciar el servidor de Vite</h3>
+<p>Para utilizar Vite es necesario tener Node instalado, ya que utilizaremos NPM para instalar las dependencias. Compruébalo mediante el siguiente comando:</p>
+<pre><code class="language-bash">node -v
+</code></pre>
+<p>En caso de no tener Node instalado, puedes hacerlo descargándolo desde la <a href="https://nodejs.org/es/">página web oficial</a>.</p>
+<p>A continuación tienes que instalar las dependecias de tu proyecto definidas en el archivo <code>package.json</code> ejecutando el comando <code>npm install</code>. Las dependencias se instalaran en la carpeta <code>node_modules</code>, incluidas Vite y el plugin de Vite para Laravel.</p>
+<p>El siguiente paso será iniciar el servidor de Vite:</p>
+<pre><code class="language-bash">npm run dev
+</code></pre>
+<p>El servidor de Vite no tiene nada que ver con el servidor web, se trata de un servidor independiente de Vite encargado de realizar las tareas relacionadas con nuestro frontend.</p>
+<h3 id="referenciar-los-archivos-js-y-css-en-las-plantillas-de-blade">Referenciar los archivos JS y CSS en las plantillas de Blade</h3>
+<p>Para incluir nuestros recursos (assets) en cualquier plantilla de Blade utilizaremos la siguiente directiva:</p>
+<pre><code class="language-php">@vite(['resources/css/app.css', 'resources/js/app.js'])
+</code></pre>
+<h3 id="publicar-los-cambios-realizados">Publicar los cambios realizados</h3>
+<p>Una vez terminemos nuestro desarrollo, ya no será necesario nuestro servidor Vite. Lo único que tendremos que hacer será publicar en la carpeta <code>/public</code> los archivos compilados y optimizados. Para ello es necesario ejecutar la siguiente sentencia:</p>
+<pre><code class="language-bash">npm run build
+</code></pre>
+<p>La consola nos mostrará la dirección de los archivos publicados (<code>/public/build/assets/</code>). Este paso será necesario antes de desplegar nuestra aplicación en producción.</p>
+<h2 id="utilizar-bootstrap-en-tu-proyecto">Utilizar Bootstrap en tu proyecto</h2>
+<p>A diferencia de versiones anteriores, a partir de su versión 6, Laravel no incluye por defecto las dependencias necesarias para <a href="https://getbootstrap.com/">Bootstrap</a>. Por lo tanto, tendremos 3 opciones para utilizar Bootstrap:</p>
+<p>a) Referenciar las dependecias JS y CSS utilizando BootstrapCDN (enlaces disponibles en la <a href="https://getbootstrap.com/docs/5.0/getting-started/introduction/">documentación oficial</a>). Tal y como indica la web oficial, bastaría con lo siguiente:</p>
+<pre><code class="language-html">&lt;script src=&quot;https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js&quot; integrity=&quot;sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM&quot; crossorigin=&quot;anonymous&quot;&gt;&lt;/script&gt;
+</code></pre>
+<p>b) Descargar las dependecias (<a href="https://getbootstrap.com/docs/4.4/getting-started/download/">enlace</a>) e incluirlas manualmente en las carpetas <code>/public/css</code> y <code>/public/js</code>.</p>
+<p>Utilizar </p>
+<p>c) Utilizar <a href="https://laravel-mix.com/">Laravel Mix</a> para compilar nuestros archivos JS y CSS. Nota: Laravel ha sustituido Laravel Mix por Vite a partir de la versión <code>9.19</code>.</p>
+<p>d) Utilizar Vite como herramienta de compilación. Actualmente es la opción por defecto de Laravel.</p>
+<h3 id="bootstrap-en-laravel-mix">Bootstrap en Laravel Mix</h3>
+<p>Laravel Mix es una herramienta basada en Webpack que sirve para compilar los recursos JS y CSS de la parte frontend. En este caso los recursos estarán inicialmente ubicados en la carpeta <code>/resources</code> y Laravel Mix dejará dentro de la carpeta <code>/public</code> los archivos resultantes ya minimizados.</p>
+<h4 id="1-instalar-el-paquete-laravelui-mediante-composer">1. Instalar el paquete Laravel/UI mediante composer.</h4>
+<pre><code class="language-bash">composer require laravel/ui
+</code></pre>
+<h4 id="2-anadir-bootstrap-a-nuestro-proyecto">2. Añadir bootstrap a nuestro proyecto</h4>
+<pre><code class="language-bash">php artisan ui bootstrap
+</code></pre>
+<h4 id="3-instalar-las-dependencias">3. Instalar las dependencias</h4>
+<p>El siguiente comando instalará las dependencias necesarias:</p>
+<pre><code class="language-bash">npm install
+</code></pre>
+<p>En ocasiones, al utilizar Vagrant puede haber problemas si la máquina virtual se ejecuta en un host con Windows 10, por lo que en ese caso lanzar:</p>
+<pre><code class="language-bash">npm install --no-bin-links
+</code></pre>
+<p>Este problema viene porque al realizar la acción <code>npm install</code> dentro de nuestra máquina virtual (Linux) se intentan crear enlaces simbólicos, pero al estar ésta sincronizada con Windows (sistema operativo del host) salta el error ya que esto no es posible en un sistema NTFS.</p>
+<p>En caso de que el error persista, puede que sea necesario hacer antes un borrado (<code>rm -rf node_modules</code>) y luego ejecutar <code>npm install --no-bin-links</code>.</p>
+<h4 id="4-compilar-el-codigo-js-y-css-mediante-webpack">4. Compilar el código JS y CSS mediante Webpack:</h4>
+<p>El siguiente paso es compilar los recursos ubicados en <code>/resources</code>:</p>
+<pre><code class="language-bash">/* para el entorno de desarrollo  */
+npm run dev
+
+/* para el entorno de producción */
+npm run production
+</code></pre>
+<p>El comando anterior también dejará los archivos compilados en la carpeta <code>/public</code>.</p>
+<p>Es posible que ejecutar el comando desde la máquina virtual dé error. Si es así, ejecutarlo desde el la máquina host.</p>
+<p>En caso de tener algún problema con el reconocimiento de la herramienta Laravel Mix, volver a instalarla mediante el comando <code>npm install laravel-mix@latest</code> y una vez terminada su instalación lanzar el comando <code>npm run dev</code>.</p>
+<h4 id="5-incluir-los-ficheros-generados-publicjsappjs-y-publiccssappcss-en-nuestras-vistas-utilizando-el-metodo-helper-asset">5. Incluir los ficheros generados (<code>public/js/app.js</code> y <code>public/css/app.css</code>) en nuestras vistas, utilizando el método helper <code>asset()</code>:</h4>
+<pre><code class="language-html">&lt;html&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;utf-8&quot;&gt;
+    &lt;title&gt;Mi aplicación&lt;/title&gt;
+    &lt;link href=&quot;{{ asset('css/app.css') }}&quot; rel=&quot;stylesheet&quot; type=&quot;text/css&quot; /&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Bienvenido a mi app&lt;/h1&gt;
+    &lt;div class=&quot;content&quot;&gt;
+        @yield('content')
+    &lt;/div&gt;
+    &lt;script src=&quot;{{ asset('js/app.js') }}&quot; type=&quot;text/js&quot;&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>El método <code>asset()</code> generará una URL a nuestros recursos en la carpeta <code>public/</code>. Si cambiamos la ubicación de nuestros recursos lo tendremos que especificar en la variable <code>ASSET_URL</code> del fichero <code>.env</code>.</p>
+<h3 id="bootstrap-con-vite">Bootstrap con Vite</h3>
+<p>Sección en construcción.</p>
+<h3 id="hands-on-opcional">Hands on! (opcional)</h3>
+<p>Añade estilo a la aplicación mediante el framework Bootstrap 5.</p>
+<h2 id="relaciones-one-to-many">Relaciones One-to-Many</h2>
+<h3 id="definir-una-relacion">Definir una relación</h3>
+<p>Las relaciones en Eloquent ORM se definen como métodos. Supongamos que tenemos dos entidades, <code>User</code> y <code>Articulo</code>. Podríamos decir que un <code>User</code> tiene (<em>has</em>) varios <code>Articulo</code> o que un <code>Articulo</code> pertenece a (<em>belongs to</em>) un <code>User</code>. Por lo tanto, podemos definir la relación en cualquiera de los dos modelos, incluso en los dos.</p>
+<pre><code class="language-php">class User extends Model
+{
+    /**
+     * Get the articulos records associated with the user.
+     */
+    public function articulos()
+    {
+        return $this-&gt;hasMany(Articulo::class);
+    }
+}
+</code></pre>
+<pre><code class="language-php">class Articulo extends Model
+{
+    /**
+     * Get the user record associated with the articulo.
+     */
+    public function user()
+    {
+        return $this-&gt;belongsTo(User::class);
+    }
+}
+</code></pre>
+<p>Tienes toda la información sobre cómo definir relaciones entre modelos en la <a href="https://laravel.com/docs/9.x/eloquent-relationships">documentación oficial</a>.</p>
+<h3 id="acceder-a-los-modelos-de-una-relacion">Acceder a los modelos de una relación</h3>
+<p>El acceso se podrá hacer como propiedades del propio modelo, es decir, mediante <code>$user-&gt;articulos</code> o <code>$articulo-&gt;user</code>. Esto es gracias a que Eloquent utiliza lo que conocemos como 'dynamic properties' y acceder a los métodos de las relaciones como si fuesen propiedades:</p>
+<pre><code class="language-php">$user = App\Models\User::find(1); // Ejecuta la sentencia: select * from users where id = 1
+
+$user_articulos = $user-&gt;articulos; // Ejecutara la sentencia: select * from articulos where user_id = 1
+
+foreach ($user_articulos as $articulo) {
+    //
+}
+</code></pre>
+<p>En el ejemplo anterior, la variable <code>$user_articulos</code> contiene una colección de objetos de la clase <code>Articulo</code>. </p>
+<h3 id="crear-la-restriccion-de-las-claves-foraneas-en-la-base-de-datos">Crear la restricción de las claves foráneas en la Base de Datos</h3>
+<p>Como es lógico, para que el modelo pueda acceder a otro modelo con el que mantiene una relación one-to-many, es necesario especificar la <code>foreign key</code> correspondiente a nivel de base de datos. Recordemos que las foreign key permiten mantener la <a href="https://es.wikipedia.org/wiki/Integridad_referencial">integridad referencial</a> en nuestra base de datos.</p>
+<p>Por defecto, si no indicamos lo contrario, el modelo de Eloquent utilizará como foreign key el nombre del modelo que contiene la colección añadiendo el sufijo <code>'_id'</code>. Es decir, en el caso anterior la tabla de <code>Articulo</code> deberá contener una columna llamada <code>'user_id'</code>, ya que el nombre del otro modelo es <code>User</code>. Por lo tanto nuestra migración debería quedar de la siguiente forma:</p>
+<pre><code class="language-php">    public function up()
+    {
+        Schema::create('articulos', function (Blueprint $table) {
+            $table-&gt;bigIncrements('id');
+            $table-&gt;foreignId('user_id')-&gt;constrained()-&gt;cascadeOnDelete();
+
+            $table-&gt;string('titulo');
+            $table-&gt;text('contenido');
+            $table-&gt;timestamps();
+        });
+    }
+}
+</code></pre>
+<p>Expliquemos la siguiente sentencia:</p>
+<pre><code class="language-php">$table-&gt;foreignId('user_id')-&gt;constrained()-&gt;cascadeOnDelete();
+</code></pre>
+<ul>
+<li><code>foreignId</code> crea una columna del tipo <code>UNSIGNED BIGINT</code> con el nombre especificado.</li>
+<li><code>constrained</code> utilizará las convenciones de Laravel para determinar la tabla y columna a la que se refiere. Nota: si no siguiésemos las convenciones, podríamos indicarle el nombre de la tabla pasándoselo como argumento: <code>constrainded('users')</code>.</li>
+<li><code>cascadeOnDelete</code> indica las acciones a realizar cuando se vaya a borrar el registro. El borrado en cascada determina que si el usuario que contiene los artículos es borrado, se borrarán también todos sus artículos. Otras opciones serían <code>restrictedOnDelete</code> (restringe el borrado mientras tenga artículos referenciados) o <code>nullOnDelete</code> (establece el valor <code>NULL</code> a la foreign key de los artículos relacionados).</li>
+</ul>
+<h2 id="consejo-como-anadir-columnas-a-modelo-existente">Consejo: cómo añadir columnas a modelo existente</h2>
+<p>Existen dos escenarios posibles en los cuales queremos realizar cambios sobre modelos existentes:
+- Estamos desarrollando una nueva aplicación y no nos importa borrar los datos existentes.
+- Tenemos una aplicación en uso y queremos añadir columnas sin perder ningún registro.</p>
+<p>En el primer caso, es suficiente con modificar la migración de la tabla correspondiente y ejecutar el comando:</p>
+<pre><code class="language-bash">php artisan migrate:fresh
+</code></pre>
+<p>Este comando eliminará todas las tablas de la base de datos y volverá a crearlas desde cero.</p>
+<p>Para el segundo caso (modificar una tabla sin perder datos), lo recomendable es crear una nueva migración y ejecutar el comando <code>php artisan migrate</code> para lanzar los cambios. Normalmente se incluyen los cambios en el propio nombre de la migración, por ejemplo:</p>
+<pre><code class="language-bash">php artisan migrate:make add_category_to_articulos --table=&quot;articulos&quot;
+</code></pre>
+<pre><code class="language-php">public function up()
+{
+    Schema::table('articulos', function($table)
+    {
+        $table-&gt;string('category');
+    });
+    }
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::table('articulos', function ($table) {
+        $table-&gt;dropColumn('category');
+        });
+    }
+}
+</code></pre>
+<h3 id="hands-on_3">Hands on!</h3>
+<p>La vista de detalle de artículo mostrará los comentarios del artículo e incluirá la posibilidad de añadir nuevos comentarios.</p>
+<h2 id="generar-datos-de-prueba">Generar datos de prueba</h2>
+<p>Laravel incluye un mecanismo llamado Seeder que sirve para rellenar la base de datos con datos de prueba. Por defecto nos incluye la clase DatabaseSeeder en la que podemos incluir el código que genere los datos de prueba:</p>
+<pre><code class="language-php">class DatabaseSeeder extends Seeder
+{
+    /**
+     * Seed the application's database.
+     *
+     * @return void
+     */
+    public function run()
+    {
+        $faker = \Faker\Factory::create();
+
+        for($i=0;$i&lt;10;$i++){
+            DB::table('articulos')-&gt;insert([
+                'titulo' =&gt; $faker-&gt;text(50),
+                'contenido' =&gt; $faker-&gt;text(400)
+            ]);
+        }
+    }
+}
+</code></pre>
+<p>Una vez creado nuestro Seeder es probable que necesites regenerar el fichero autoload.php:</p>
+<pre><code>composer dump-autoload
+</code></pre>
+<p>Por último, sólo nos quedaría lanzar el proceso de 'seeding':</p>
+<pre><code>php artisan db:seed
+</code></pre>
+<p>Si lo que quieres es lanzar el proceso de creación de base de datos y el de seeding a la vez, puedes utilizar el siguiente comando:</p>
+<pre><code class="language-bash">php artisan migrate:fresh --seed
+</code></pre>
+<h3 id="generar-seeders-especificos">Generar Seeders específicos</h3>
+<p>Es recomendable crear un seeder específico por cada entidad. Para ello, puedes utilizar el siguiente comando:</p>
+<pre><code class="language-bash">php artisan make:seeder UsersTableSeeder
+</code></pre>
+<p>Por último, tendrás que modificar la clase DatabaseSeeder para que lance nuestros Seeders:</p>
+<pre><code class="language-php">
+public function run()
+{
+    $this-&gt;call([
+        UsersTableSeeder::class,
+        PostsTableSeeder::class,
+        CommentsTableSeeder::class,
+    ]);
+}
+</code></pre>
+<h3 id="uso-de-factories">Uso de factories</h3>
+<p>A la hora de generar datos para testing también es recomendable utilizar Factories para crear los objetos de BBDD. Una Factory simplemente es una clase que define los atributos que tendrá un objeto en su creación. En el siguiente ejemplo se muestra una posible factory para la clase Articulo:</p>
+<pre><code class="language-php">&lt;?php
+
+namespace Database\Factories;
+
+use Illuminate\Database\Eloquent\Factories\Factory;
+
+class ArticuloFactory extends Factory
+{
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        return [
+            'titulo' =&gt; $this-&gt;faker-&gt;text($maxNbChars = 50),
+            'contenido' =&gt; $this-&gt;faker-&gt;text($maxNbChars = 400)
+        ];
+    }
+}
+
+</code></pre>
+<p>Es suficiente con implementar el método <code>definition</code> y especificar en él las propiedades del objeto que se creará. 
+Una vez tenemos creadas las factories, solo nos quedaría utilizarlas desde el Seeder correspondiente:</p>
+<pre><code class="language-php">class DatabaseSeeder extends Seeder
+{
+    /**
+     * Seed the application's database.
+     *
+     * @return void
+     */
+    public function run()
+    {
+        \App\Models\Articulo::factory(20)-&gt;create();
+    }
+}
+</code></pre>
+<p>La creación de factories se puede realizar mediante el comando <code>php artisan make:factory</code>. Por ejemplo:</p>
+<pre><code>php artisan make:factory ArticuloFactory
+</code></pre>
+<h2 id="autenticacion">Autenticación</h2>
+<p>La autenticación es una funcionalidad presente en la gran mayoría de aplicaciones. Básicamente se trata de asegurar que un usuario es quién dice ser mediante un control de acceso a la aplicación.</p>
+<p>Las opciones principales que provee Laravel para implementarl la autenticación son:
+- Laravel UI
+- Laravel Breeze (opción recomendada a partir de Laravel 8)</p>
+<h3 id="autenticacion-con-laravel-ui">Autenticación con Laravel UI</h3>
+<p>A partir de la versión 6 de Laravel es posible utilizar el paquete <code>laravel/ui</code> para implementar funcionalidades de autenticación. Laravel UI nos trae de serie algunos elementos necesarios para implementar la autenticación en nuestras aplicaciones y no tener que preocuparnos de hacer todas las tareas por nosotros mismos (login, registro, recuperación de contraseña, validación de usuario, etc.).</p>
+<p>En concreto necesitaremos lo siguiente:
+- Generar las vistas (login, registro, etc.), rutas y sus respectivas implementaciones.
+- Especificar las partes de nuestra web (rutas) que queramos proteger.</p>
+<h4 id="paso-1-crear-la-estructura-necesaria">Paso 1: Crear la estructura necesaria</h4>
+<p>El primer paso es instalar el paquete de laravel/ui mediante Composer:</p>
+<pre><code>composer require laravel/ui
+</code></pre>
+<p>Este paquete nos permitirá generar de forma automática todo lo relacionado con la interfaz de usuario: vistas, rutas y un nuevo controlador llamado <code>HomeController</code>. Tail y como dice la documentación oficial, en función de nuestras necesidades, podremos elegir entre uno de los siguientes comandos:</p>
+<pre><code>// Generate basic scaffolding...
+php artisan ui bootstrap
+php artisan ui vue
+php artisan ui react
+
+// Generate login / registration scaffolding...
+php artisan ui bootstrap --auth
+php artisan ui vue --auth
+php artisan ui react --auth
+
+</code></pre>
+<p>En el caso de esta guía ejecutaremos el comando que genera las funciones de login y registro utilizando el framework Bootstrap:</p>
+<pre><code>php artisan ui bootstrap --auth
+</code></pre>
+<p>Si te fijas bien, el router <code>web.php</code> incluye dos nuevas líneas:</p>
+<pre><code class="language-php">Auth::routes();
+
+Route::get('/home', 'HomeController@index')-&gt;name('home');
+</code></pre>
+<p>La primera genera de forma automática las rutas necesarias para el proceso de autenticación (prueba a acceder a <code>/login</code> o <code>/register</code> para comprobarlo). Las vistas que se cargan son las autogeneradas en <code>resources/views/auth</code> (también se ha creado un layout).</p>
+<p>La segunda es simplemente un nuevo controlador autogenerado como ejemplo. Si intentas acceder a la ruta creada <code>/home</code> verás como la aplicación nos lleva a la página de login. Esto es porque el controlador <code>HomeController</code> está definido como 'seguro' y solo usuarios autenticados podrán acceder.</p>
+<p>¡Felicidades! Ya tienes la estructura básica de la aplicación creada. Puedes probar a registrar nuevos usuarios y realizar las acciones de login o logout con ellos.</p>
+<h4 id="paso-2-configuracion-basica">Paso 2: Configuración básica</h4>
+<p>Una de las cosas que tendrás que configurar es la ruta a la que se envía al usuario tras autenticarse. Esto puede especificarse  mediante la variable <code>HOME</code> del archivo <code>RouteServiceProvider</code>:</p>
+<pre><code class="language-php"> public const HOME = '/home';
+ ```
+
+ Laravel utiliza por defecto el campo `email` para identificar a los usuarios. Puedes cambiar esto creando un método `username()` en el controlador `LoginController`.
+
+ ```php
+ public function username()
+{
+    return 'username';
+}
+</code></pre>
+<p>Otro aspecto que podremos configurar es la ruta a la que enviaremos al usuario cuando intente acceder a una ruta protegida sin autenticarse. Por defecto Laravel le enviará a <code>/login</code>, pero podemos cambiar esto modificando el método <code>redirectTo()</code> del archivo <code>app/Http/Middleware/Authenticate.php</code>:</p>
+<p><code>php
+protected function redirectTo($request)
+{
+    return route('login');
+}</code></p>
+<h4 id="paso-3-securizar-rutas">Paso 3: Securizar rutas</h4>
+<p>Indicaremos las rutas que queramos proteger directamente en nuestro ruter <code>web.php</code>:</p>
+<pre><code class="language-php">Route::get('profile', function () {
+    // Solo podrán acceder usuarios autenticados.
+})-&gt;middleware('auth');
+ ```
+
+También podremos indicarlo directamente en el constructor de un controlador de la siguiente forma:
+
+```php
+public function __construct()
+{
+    $this-&gt;middleware('auth');
+}
+</code></pre>
+<h4 id="paso-4-conseguir-el-usuario-autenticado">Paso 4: Conseguir el usuario autenticado</h4>
+<p>Existen distintas formas de acceder al objeto del usuario autenticado. Desde cualquier punto de la aplicación podremos acceder utilizado la facade <code>Auth</code>:</p>
+<p>```php
+use Illuminate\Support\Facades\Auth;</p>
+<p>// Conseguir el usuario autenticado:
+$user = Auth::user();</p>
+<p>// Conseguir el ID del usuario autenticado:
+$id = Auth::id();
+ ```</p>
+<p>También podremos conseguirlo desde cualquier petición:</p>
+<p><code>php
+public function update(Request $request)
+{
+    $request-&gt;user(); //  devuelve una instancia del usuario autenticado.
+}</code></p>
+<p>Para comprobar si un usuario está autenticado, podemos emplear el método <code>check()</code>:</p>
+<p>```php
+use Illuminate\Support\Facades\Auth;</p>
+<p>if (Auth::check()) {
+    // El usuario está autenticado.
+}
+ ```</p>
+<h3 id="autenticacion-con-laravel-breeze">Autenticación con Laravel Breeze</h3>
+<p>A partir de la versión 8 de Laravel se recomienda utilizar Laravel Breeze, el cual utiliza Tailwind CSS en lugar de Bootstrap. Este aspecto es importante ya que afecta a las vistas creadas. Laravel Breeze es una implementación sencilla de las funciones más habituales de autenticación como: login, registro, recuperación de contraseña, verificación de correo electrónico o confirmación de contraseña por correo. Para ello creará todas las vistas, rutas y controladores necesarios y además los dejará disponibles en el código de nuestro proyecto para que podamos modificar todo aquello que necesitemos.</p>
+<p>Para instalar Laravel Breeze es necesario lanzar el siguiente comando para instalar el paquete utilizando Composer:</p>
+<pre><code>composer require laravel/breeze --dev
+</code></pre>
+<p>A continuación el siguiente comando generará todo el código necesario en tu proyecto:</p>
+<pre><code>php artisan breeze:install
+</code></pre>
+<p>El comando anterior habra hecho varios cambios en el proyecto, como por ejemplo:
+- Crear los controladores necesarios para el login, registro, recuperación de contraseña, etc.
+- Crear las vistas empleadas por los controladores (utilizando Tailwind CSS).
+- Crear una vista llamada Dashboard que utilizaremos cuando un usuario se autentica correctamente.
+- Crear los ficheros CSS y JS necesarios, que luego habrá que compilar.
+- Crear las rutas relacionadas con la autenticación en el archivo <code>auth.php</code>.</p>
+<p>Al igual que se hace con el resto de archivos estáticos que queremos compilar y publicar en la carpeta <code>/public</code>, tendremos que lanzar los comandos <code>npm install</code> y <code>npm run dev</code>.</p>
+<p>Por último, no olvides lanzar las migraciones necesarias mediante el comando <code>php artisan migrate</code>.</p>
+<h3 id="hands-on_4">Hands on!</h3>
+<ul>
+<li>Añade las funciones de login, registro y logout a la aplicación.</li>
+<li>Protege la ruta empleada para escribir un nuevo artículo (solo usuarios autenticados podrán acceder).</li>
+<li>La opción de borrar un artículo únicamente estará visible para usuarios autenticados.</li>
+<li>Muestra los comentarios de los artículos únicamente a usuarios autenticados. A los usuarios no identificados muéstrales un mensaje con un enlace a la página de login.</li>
+</ul>
+<h2 id="manejo-de-sesiones">Manejo de sesiones</h2>
+<p>HTTP es un protocolo sin estado (stateless), es decir, no guarda ninguna información sobre conexiones anteriores. Esto quiere decir que nuestra aplicación no tiene "memoria", y cada petición realizada por un usuario es nueva para la aplicación. Las sesiones permiten afrontar este problema, ya que son un mecanismo para almacenar información entre las peticiones que realiza un usuario al navegar por nuestra aplicación. Laravel implementa las sesiones de forma que su uso es muy sencillo para los desarrolladores.</p>
+<h4 id="configuracion">Configuración</h4>
+<p>Laravel soporta el manejo de sesiones con distintos backends (bases de datos, ficheros, etc.). Esta configuración se indica en el fichero <code>config/session.php</code>, en le que podemos indicar el driver a utilizar ("file", "cookie", "database", "apc", "memcached", "redis", "dynamodb" o "array"). La opción utilizada por defecto es "cookie", la cual es suficiente para la mayoría de aplicaciones.</p>
+<p>Más información sobre la configuración en la <a href="https://laravel.com/docs/8.x/session">documentación oficial</a>.</p>
+<h4 id="uso-de-las-sesiones">Uso de las sesiones</h4>
+<p>Existen dos formas principales de acceder a la información de la sesión de usuario:
+-  El helper global <code>session</code>
+ ```php
+    // Obtener un valor de la sesión
+    $value = session('key');</p>
+<pre><code>// Podemos indicar un valor por defecto
+$value = session('key', 'default');
+
+// Para almacenar un valor, le pasamos un Array:
+session(['key' =&gt; 'value']);
+</code></pre>
+<p><code>``
+-  Mediante la instancia</code>Request` (inyectada en los métodos de nuestros controladores)</p>
+<p>```php
+    public function show(Request $request, $id)
+    {
+        $value = $request-&gt;session()-&gt;get('key');</p>
+<pre><code>    // También es posible indicar un valor por defecto si no existe ninguno:
+$value = $request-&gt;session()-&gt;get('key', 'default');
+
+// Almacenar un valor
+$request-&gt;session()-&gt;put('key', 'value');
+
+// Recuperar un valor y eliminarlo de la sesión
+$value = $request-&gt;session()-&gt;pull('key', 'default');
+}
+</code></pre>
+<p>```</p>
+<p>También es posible acceder a valores de la sesión desde las vistas de Blade utilizardo la función <code>get()</code>:</p>
+<p><code>Session::get('key')</code></p>
+<h3 id="hands-on_5">Hands on!</h3>
+<p>Añade las siguientes funcionalidades a la aplicación:
+- Guardar en sesión los artículos leídos: cuando un usuario entre a ver un artículo, se almacenará en sesión que ya lo ha leído.
+- Guardar en sesión los artículos favoritos de un usuario: el usuario podrá hacer click en un enlace/botón que guarde en sesión ese artículo como favorito.</p>
+<p>Los artículos marcados como favoritos se podrán distinguir visualmente (mediante un icono, texto en negrita o similar). Igualmente, los artículos leídos se mostrarán también de forma especial.</p>
+<h2 id="validacion-de-formularios">Validación de formularios</h2>
+<h3 id="realizar-la-validacion-de-los-campos-del-formulario">Realizar la validación de los campos del formulario</h3>
+<p>Laravel permite validar cualquier campo enviado por un formulario mediante el método <code>validate</code>. Tal y como ya habíamos hecho anteriormente:</p>
+<pre><code class="language-php">public function store(Request $request)
+{
+    //Validar la petición:
+    $validated = $request-&gt;validate([
+        'titulo' =&gt; 'required|string|max:255',
+        'contenido' =&gt;'required|string'
+    ]);
+
+    Articulo::create($validated);
+
+    return redirect(route('articulos.index'));
+}
+</code></pre>
+<p>Si la validación pasa correctamente el código seguirá ejecutándose de forma normal y corriente. Pero si la validación falla, se redirigirá al usuario a la página desde la que se ha realizado el envío del formulario. </p>
+<p>Puedes ver todas las reglas de validación disponibles <a href="https://laravel.com/docs/9.x/validation#available-validation-rules">aquí</a>.</p>
+<h3 id="mostrar-los-errores-en-la-vista">Mostrar los errores en la vista</h3>
+<p>Todas las vistas de Laravel tienen disponible la variable llamada <code>$errors</code>. En el siguiente ejemplo puede verse cómo mostrar al usuario todos los errores detectados en la validación:</p>
+<pre><code class="language-php">
+&lt;h1&gt;Crear artículo&lt;/h1&gt;
+
+@if ($errors-&gt;any())
+    &lt;div class=&quot;alert alert-danger&quot;&gt;
+        &lt;ul&gt;
+            @foreach ($errors-&gt;all() as $error)
+                &lt;li&gt;{{ $error }}&lt;/li&gt;
+            @endforeach
+        &lt;/ul&gt;
+    &lt;/div&gt;
+@endif
+
+</code></pre>
+<h3 id="directiva-error">Directiva <code>@error</code></h3>
+<p>La directiva <code>@error</code> permite comprobar si un campo concreto ha tenido algún error, y en caso afirmativo mostrar el mensaje de error de dicho campo. Se utilizará de la siguiente manera:</p>
+<pre><code class="language-php">&lt;p&gt;
+    &lt;label&gt;Titulo: &lt;/label&gt;
+    &lt;input type=&quot;text&quot; name=&quot;titulo&quot;&gt;
+    @error('titulo')
+    &lt;small style=&quot;color:red;&quot;&gt;{{ $message }}&lt;/small&gt;
+    @enderror
+&lt;/p&gt;
+&lt;p&gt;
+    &lt;label&gt;Titulo: &lt;/label&gt;
+    &lt;input type=&quot;text&quot; name=&quot;contenido&quot;&gt;
+    @error('contenido')
+    &lt;small style=&quot;color:red;&quot;&gt;{{ $message }}&lt;/small&gt;
+    @enderror
+&lt;/p&gt;
+</code></pre>
+<p>En caso de error se mostrará el contenido indicado entre las etiquetas <code>@error</code> y <code>@enderror</code>. Además la variable <code>$message</code> estará disponible entre dichas etiquetas e incluirá el mensaje de error.</p>
+<h3 id="mantener-el-valor-de-los-campos-correctos">Mantener el valor de los campos correctos</h3>
+<p>En caso de que el formulario tenga varios campos correctos, puede ser interesante mantener los valores enviados previamente en lugar de resetear el formulario entero. El valor de los campos que habían sido completados correctamente puede recuperarse mediante la función <code>old</code> de Laravel:</p>
+<pre><code class="language-php">&lt;input type=&quot;text&quot; name=&quot;titulo&quot; value=&quot;{{old('titulo')}}&quot;&gt;
+</code></pre>
+<h3 id="traduccion-de-los-mensajes-de-error">Traducción de los mensajes de error</h3>
+<p>Los mensajes de error pueden verse en el fichero <code>lang/en/validation.php</code>. En caso de quere traducirlos a otro idioma, bastaría con crear un fichero con la misma estructura bajo el directorio del nuevo idioma. Por ejemplo: <code>lang/es/validation.php</code></p>
+<p>En caso de querer profundizar más en la detección y visualización de errores, puedes encontrar más información en la <a href="https://laravel.com/docs/9.x/validation">página oficial</a>.</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.3de43c86.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.ce0331ff.min.js"></script>
+      
+    
+    
+  </body>
+</html>

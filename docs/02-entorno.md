@@ -1,5 +1,6 @@
 # Preparar el entorno de desarrollo
 Puedes lanzar una aplicación desarrollada con Laravel en cualquier máquina o servidor con [Apache](https://httpd.apache.org/)/Nginx, [PHP](https://www.php.net/) y [Composer](https://getcomposer.org/). Para facilitar la creación del entorno de desarrollo existen dos opciones principales:
+
 - [Laravel Homestead](https://github.com/laravel/homestead). Homestead es una Vagrant box que provee de un entorno de desarrollo con todo el software necesario: PHP, servidor web, base de datos, gestor de dependencias, etc.
 - [Laravel Sail](https://laravel.com/docs/9.x/sail). Laravel Sail es una interfaz de línea de comandos (CLI)  para interactuar con la configuración de Docker predeterminada de Laravel. Proporciona una interfaz fácil de usar para ejecutar tareas comunes como levantar entornos de desarrollo local, ejecutar pruebas o desplegar aplicaciones.
 
@@ -258,4 +259,4 @@ También puede ser necesario desinstalar el Extension Pack anterior e instalar l
 #### Bonus: Extensiones de VS Code para desarrollar en Laravel
 Puedes instalar algunas extensiones de VS Code para facilitar el desarrollo con Laravel. En el siguiente enlace tienes una recopilación de las más recomendadas:
 
-https://devdojo.com/bobbyiliev/8-awesome-vs-code-extensions-for-laravel-developers
+[https://devdojo.com/bobbyiliev/8-awesome-vs-code-extensions-for-laravel-developers](https://devdojo.com/bobbyiliev/8-awesome-vs-code-extensions-for-laravel-developers)

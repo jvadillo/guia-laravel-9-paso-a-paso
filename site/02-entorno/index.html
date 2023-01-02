@@ -1,0 +1,675 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.0b4">
+    
+    
+      
+        <title>Preparar el entorno de desarrollo - Prueba de Mkdocs</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.91872f81.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.2505c338.min.css">
+        
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="None" data-md-color-accent="None">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#preparar-el-entorno-de-desarrollo" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Prueba de Mkdocs" class="md-header__button md-logo" aria-label="Prueba de Mkdocs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Prueba de Mkdocs
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Preparar el entorno de desarrollo
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Prueba de Mkdocs" class="md-nav__button md-logo" aria-label="Prueba de Mkdocs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Prueba de Mkdocs
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        Principal
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-introduccion/" class="md-nav__link">
+        Introducción
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#laravel-sail" class="md-nav__link">
+    Laravel Sail
+  </a>
+  
+    <nav class="md-nav" aria-label="Laravel Sail">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pasos" class="md-nav__link">
+    Pasos
+  </a>
+  
+    <nav class="md-nav" aria-label="Pasos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-crea-un-nuevo-proyecto-de-laravel-utilizando-el-servicio-laravelbuild" class="md-nav__link">
+    1. Crea un nuevo proyecto de Laravel utilizando el servicio laravel.build
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-inicia-el-entorno-de-desarrollo" class="md-nav__link">
+    2. Inicia el entorno de desarrollo
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opcional-3-crea-un-alias-para-sail" class="md-nav__link">
+    (Opcional) 3. Crea un alias para sail
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-ejecutar-comandos-en-sail" class="md-nav__link">
+    4. Ejecutar comandos en Sail
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-configuracion-inicial" class="md-nav__link">
+    5. Configuración inicial
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-base-de-datos" class="md-nav__link">
+    6. Base de datos
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-configuracion-adicional" class="md-nav__link">
+    7. Configuración adicional
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-posibles-errores" class="md-nav__link">
+    8. Posibles errores
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#laravel-homestead" class="md-nav__link">
+    Laravel Homestead
+  </a>
+  
+    <nav class="md-nav" aria-label="Laravel Homestead">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pasos_1" class="md-nav__link">
+    Pasos
+  </a>
+  
+    <nav class="md-nav" aria-label="Pasos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-instalar-virtualbox-6x" class="md-nav__link">
+    1. Instalar VirtualBox 6.x
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-instalar-vagrant" class="md-nav__link">
+    2. Instalar Vagrant.
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-anadir-laravelhomestead-box-a-tu-instalacion-de-vagrant" class="md-nav__link">
+    3. Añadir laravel/homestead box a tu instalación de Vagrant
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-instalar-homestead" class="md-nav__link">
+    4. Instalar Homestead
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-crea-el-archivo-de-configuracion-homesteadyaml" class="md-nav__link">
+    5. Crea el archivo de configuración Homestead.yaml
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-genera-las-claves-ssh" class="md-nav__link">
+    6. Genera las claves ssh
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-configurar-homestead" class="md-nav__link">
+    7. Configurar Homestead
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-configurar-el-archivo-local-hosts" class="md-nav__link">
+    8. Configurar el archivo local hosts
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#9-arrancar-y-prueba-el-entorno-creado" class="md-nav__link">
+    9. Arrancar y prueba el entorno creado
+  </a>
+  
+    <nav class="md-nav" aria-label="9. Arrancar y prueba el entorno creado">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#error-input-file-not-specified" class="md-nav__link">
+    Error 'input file not specified'
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#error-de-vboxmanage" class="md-nav__link">
+    Error de VBoxManage
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bonus-extensiones-de-vs-code-para-desarrollar-en-laravel" class="md-nav__link">
+    Bonus: Extensiones de VS Code para desarrollar en Laravel
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="preparar-el-entorno-de-desarrollo">Preparar el entorno de desarrollo</h1>
+<p>Puedes lanzar una aplicación desarrollada con Laravel en cualquier máquina o servidor con <a href="https://httpd.apache.org/">Apache</a>/Nginx, <a href="https://www.php.net/">PHP</a> y <a href="https://getcomposer.org/">Composer</a>. Para facilitar la creación del entorno de desarrollo existen dos opciones principales:
+- <a href="https://github.com/laravel/homestead">Laravel Homestead</a>. Homestead es una Vagrant box que provee de un entorno de desarrollo con todo el software necesario: PHP, servidor web, base de datos, gestor de dependencias, etc.
+- <a href="https://laravel.com/docs/9.x/sail">Laravel Sail</a>. Laravel Sail es una interfaz de línea de comandos (CLI)  para interactuar con la configuración de Docker predeterminada de Laravel. Proporciona una interfaz fácil de usar para ejecutar tareas comunes como levantar entornos de desarrollo local, ejecutar pruebas o desplegar aplicaciones.</p>
+<p>No obstante, si te sientes más cómodo utilizando tu propio servidor o entorno de desarrollo, puedes hacerlo perfectamente siempre que cumplas con los requerimientos citados.</p>
+<h2 id="laravel-sail">Laravel Sail</h2>
+<p>Con Laravel Sail puedes configurar fácilmente un entorno de desarrollo local para tu aplicación Laravel ejecutando un solo comando. Este entorno incluye un servidor de desarrollo PHP, una base de datos MySQL y todas las demás herramientas que se necesitan para empezar a trabajar en una aplicación.
+Laravel Sail está disponible para macOS, Linux y Windows (vía WSL2).</p>
+<h3 id="pasos">Pasos</h3>
+<p>Para crear una aplicación de Laravel con Laravel Sail, necesitarás tener instalado <a href="https://www.docker.com/products/docker-desktop">Docker Desktop</a>. En el caso de Windows, asegúrate también que <a href="https://docs.microsoft.com/en-us/windows/wsl/install-win10">Windows Subsystem for Linux 2 (WSL2)</a> está instalado y habilitado.</p>
+<h4 id="1-crea-un-nuevo-proyecto-de-laravel-utilizando-el-servicio-laravelbuild">1. Crea un nuevo proyecto de Laravel utilizando el servicio laravel.build</h4>
+<p>Abre una terminal (en el caso de Windows, ábrela iniciando una sesión en WSL2) y ejecuta el siguiente comando dentro del directorio en el que deseas crear tu aplicación:</p>
+<pre><code>curl -s &quot;https://laravel.build/example-app&quot; | bash
+</code></pre>
+<p>Sustituye "example-app" por el nombre que quieres dar a tu aplicación. 
+Otro aspecto importante es que el comando anterior instalará por defecto mysql, redis, meilisearch, mailhog, y selenium. Puedes evitar esto y elegir los servicios que quieres instalar indicándolos como parámetro al final de la URL:</p>
+<pre><code>curl -s &quot;https://laravel.build/example-app?with=mysql,redis&quot; | bash
+</code></pre>
+<h4 id="2-inicia-el-entorno-de-desarrollo">2. Inicia el entorno de desarrollo</h4>
+<p>Espera a que Laravel Sail instale todas las dependencias necesarias para tu aplicación. Este proceso puede llevar varios minutos ya que debe preparar todos los contenedores para el desarrollo desde tu máquina local.</p>
+<p>Una vez que la instalación haya finalizado, entra en la carpeta creada para tu aplicación <code>cd example-app</code> y ejecuta el comando <code>./vendor/bin/sail up</code> para levantar el entorno de desarrollo local (utiliza <code>./vendor/bin/sail up -d</code> para arrancarlo en el background).</p>
+<p>Abre tu navegador y visita la dirección http://localhost:8000 para ver tu aplicación de Laravel en funcionamiento.</p>
+<p>Ya puedes empezar a trabajar en tu aplicación de Laravel.</p>
+<p>Puedes utilizar el comando <code>sail stop</code> para parar el entorno.</p>
+<h4 id="opcional-3-crea-un-alias-para-sail">(Opcional) 3. Crea un alias para sail</h4>
+<p>Para evitar tener que escribir <code>./vendor/bin/sail</code> continuamente, puedes crear un alias y así ejecutar simplemente <code>sail</code> directamente.</p>
+<p>Edita tu archivo añadiendo esto al final del fichero <code>~/.zshrc</code> o <code>~/.bashrc</code>:</p>
+<pre><code>alias sail='[ -f sail ] &amp;&amp; sh sail || sh vendor/bin/sail'
+</code></pre>
+<p>Una forma sencilla de editar/crear el fichero puede ser mediante el editor de texto nano:</p>
+<pre><code>nano ~/.zshrc
+</code></pre>
+<p>Vuelve a abrir el terminal y a partir de ahora ya podrás ejecutar comandos como <code>sail up</code> o <code>sail stop</code> directamente.</p>
+<h4 id="4-ejecutar-comandos-en-sail">4. Ejecutar comandos en Sail</h4>
+<p>En Laravel es muy común ejecutar comandos de utilizades como Composer, Artisan o Node.
+Para ejecutar esos comandos sin tener que conectarte al contenedor <code>laravel.test</code> puedes hacerlo de la siguiente forma:</p>
+<pre><code># Ejemplos de comandos desde dentro del contenedor:
+php --version
+php script.php
+php artisan queue:work
+composer require laravel/sanctum
+node --version
+
+# Ejemplos de comandos utilizando Laravel Sail:
+sail php --version
+sail php script.php
+sail artisan queue:work
+sail composer require laravel/sanctum
+sail node --version
+</code></pre>
+<p>De todas formas, siempre tienes la opción de conectarte al contenedor con el siguiente comando:</p>
+<pre><code>docker exec -it &lt;id_contenedor&gt; bash
+</code></pre>
+<p>Además del anterior comando, Laravel Sail también ofrece la posibilidad de acceder al contenedor mediante el siguiente comando:</p>
+<pre><code>sail shell
+</code></pre>
+<h4 id="5-configuracion-inicial">5. Configuración inicial</h4>
+<p>Todos los archivos de configuración sobre la aplicación se almacenan en el directorio de configuración <code>config</code>. Laravel trae una configuración establecida por defecto, por lo que no es necesario configurar nada adicional para comenzar a desarrollar. No obstante, puedes entrar a ver el archivo <code>config/app.php</code> para hacerte a la idea de distintos parámetros a configurar.</p>
+<p>La configuración relativa al entorno se almacena en el fichero <code>.env</code>. El tipo de configuración almacenada en este entorno es especialmente aquella que variará en función de si se trata de un entorno de desarrollo local, producción, etc. Nunca deberías subir este fichero a tu repositorio de código (por ejemplo Github).</p>
+<h4 id="6-base-de-datos">6. Base de datos</h4>
+<p>Por defecto Laravel Sail crea dos bases de datos automáticamente.
+La primera con el mismo nombre de la aplicación. Puedes encontrar los datos relativos a la base de datos en el fichero <code>.env</code>.</p>
+<pre><code>DB_CONNECTION=mysql
+DB_HOST=mysql
+DB_PORT=3306
+DB_DATABASE=example_app
+DB_USERNAME=sail
+DB_PASSWORD=password
+</code></pre>
+<p>Si deseas conectarte a la base de datos (mediante <a href="https://tableplus.com/">TablePlus</a> o <a href="https://www.mysql.com/products/workbench/">MySQL Workbench</a> por ejemplo) deberás utilizar los datos de conexión de este fichero.</p>
+<p>La segunda es una base de datos llamada <code>test</code> que se utilizará para testing (en caso de necesitarlo).</p>
+<h4 id="7-configuracion-adicional">7. Configuración adicional</h4>
+<p>Si quieres saber más detalles sobre la configuración de Sail, como por ejemplo cambiar la versión de PHP por defecto o configurar opciones de testing, puedes visitar el siguiente enlace: <a href="https://laravel.com/docs/9.x/sail">https://laravel.com/docs/9.x/sail</a></p>
+<h4 id="8-posibles-errores">8. Posibles errores</h4>
+<p>¿Errores durante la configuración del entorno? <a href="https://gist.github.com/DanielTamargo/9424cdb9afcf1a7fc7fdfbc25614ae10">En este gist encontrarás algunos errores comunes y su posible solución.</a></p>
+<h2 id="laravel-homestead">Laravel Homestead</h2>
+<h3 id="pasos_1">Pasos</h3>
+<h4 id="1-instalar-virtualbox-6x">1. Instalar VirtualBox 6.x</h4>
+<p>Descarga VirtualBox desde la página web oficial <a href="https://www.virtualbox.org/">www.virtualbox.org</a> e instálalo en tu ordenador. También puedes utilizar VMWare, Parallels o Hyper-V en lugar de Virtual Box.</p>
+<h4 id="2-instalar-vagrant">2. Instalar <a href="https://www.vagrantup.com/downloads.html">Vagrant</a>.</h4>
+<p>Descarga e instala Vagrant tal y como lo indica la documentación de la página web oficial <a href="(https://www.vagrantup.com/downloads.html)">https://www.vagrantup.com</a>.</p>
+<h4 id="3-anadir-laravelhomestead-box-a-tu-instalacion-de-vagrant">3. Añadir laravel/homestead box a tu instalación de Vagrant</h4>
+<p>Una Vagrant box es una imagen base utilizada para clonar de forma rápida y sencilla una máquina virtual. Ejecuta el siguiente comando para descargar e instalar la Vagrant box the Larabel y así poder utilizarla para crear tantos entornos como quieras.</p>
+<pre><code>vagrant box add laravel/homestead
+</code></pre>
+<p>Puedes comprobar que se ha añadido correctamente utilizando el comando <code>vagrant box list</code>.</p>
+<h4 id="4-instalar-homestead">4. Instalar Homestead</h4>
+<p>Clona el repositorio oficial de Homestead en un directorio. Como recomendación, puedes clonarlo en una carpeta llamada Homestead en la raíz de tu sistema, y utilizar esta máquina virtual para todos tus proyectos de Laravel.</p>
+<pre><code>git clone https://github.com/laravel/homestead.git ~/Homestead
+</code></pre>
+<h4 id="5-crea-el-archivo-de-configuracion-homesteadyaml">5. Crea el archivo de configuración Homestead.yaml</h4>
+<p>Ejecuta el comando init.sh en un terminal dentro del directorio donde clonaste Homestead. Este comando creará el archivo de configuración Homestead.yaml.</p>
+<pre><code>// Mac / Linux...
+bash init.sh
+
+// Windows...
+init.bat
+</code></pre>
+<p>El archivo Homestead.yaml creado tendrá el siguiente aspecto:</p>
+<pre><code>ip: &quot;192.168.10.10&quot;
+memory: 2048
+cpus: 2
+provider: virtualbox
+
+authorize: ~/.ssh/id_rsa.pub
+
+keys:
+    - ~/.ssh/id_rsa
+
+folders:
+    - map: ~/code
+      to: /home/vagrant/code
+
+sites:
+    - map: homestead.test
+      to: /home/vagrant/code/public
+
+databases:
+    - homestead
+</code></pre>
+<h4 id="6-genera-las-claves-ssh">6. Genera las claves ssh</h4>
+<p>Si no dispones de unas clasves ssh en el sistema necesitarás generarlas desde un terminal. Para saber si ya dispones de ellas, intanta encontrar el directorio <code>.ssh</code> en tu sistema operativo (normalmente suele encontrarse en C:\Users\USER_NAME en Windows y el el directorio raíz ~ en Linux/Mac ) y busca dos archivos llamados <code>id_rsa</code> y <code>id_rsa.pub</code>. Si los has encontrado, puedes saltarte este paso. En caso contrario, lanza el siguiente comando desde la consola:</p>
+<pre><code>ssh-keygen -t rsa -C &quot;your_email@example.com&quot;
+</code></pre>
+<p>El script te realizará algunas preguntas, simplemente pulsa ENTER y te creará los archivos <code>id_rsa</code> y <code>id_rsa.pub</code> en un directorio con nombre <code>.ssh</code>.</p>
+<h4 id="7-configurar-homestead">7. Configurar Homestead</h4>
+<p>En esta instalación no tendrás que tocar el archivo <code>Vagrantfile</code> (probablemente estés familiarizado con él ya que es típicamente el utilizado para configurar el entorno). Homestead delega la configuración en el archivo <code>Homestead.yaml</code>,  por lo que a continuación te mostraremos las opciones más importantes que tendrás que configurar:</p>
+<ul>
+<li><strong>ssh keys</strong>: el fichero de configuración Homestead.yaml tendrá la configuración realizada correctamente tanto para Mac como Linux. Si estás utilizando Windows, modifica los siguientes valores:</li>
+</ul>
+<pre><code>authorize: c:/Users/USER_NAME/.ssh/id_rsa.pub
+
+keys:
+    - c:/Users/USER_NAME/.ssh/id_rsa
+</code></pre>
+<ul>
+<li><strong>Shared folders</strong>: en este apartado se indican los directorios de tu sistema operativo que se mantendrán sincronizados con la máquina virtual creada. Modifica el valor de 'map' y escribe la carpeta donde almacenas tus proyectos (p.ej. <code>/Users/USER_NAME/dev/proyectos</code> en Linux/Mac o <code>c:/dev/proyectos</code> en Windows).  En el siguiente ejemplo puedes ver cómo se sincronizarían los ficheros de nuestra carpeta <code>~/code/projects</code> en la carpeta <code>/home/vagrant/projects</code> de nuestra máquina virtual:</li>
+</ul>
+<pre><code>folders:
+    - map: ~/code/projects
+      to: /home/vagrant/projects
+</code></pre>
+<ul>
+<li><strong>Sites</strong>: La propiedad sites permite mapear fácilmente un dominio con un directorio de nuestro entorno virtual. De este forma podremos utilizar el dominio indicado (p.ej. aplicacion1.test) para acceder a nuestra aplicación desde el navegador. Ten en cuenta que el punto de entrada a una aplicación de Laravel es el archivo <code>index.php</code> ubicado en la carpeta <code>/public</code> de nuestro proyecto Laravel, por lo que el dominio tendrá que apuntar siempre a esta carpeta. Por ejemplo:</li>
+</ul>
+<pre><code>sites:
+    - map: aplicacion1.test
+      to: /home/vagrant/projects/aplicacion1/public
+    - map: aplicacion2.test
+      to: /home/vagrant/projects/aplicacion2/public
+</code></pre>
+<h4 id="8-configurar-el-archivo-local-hosts">8. Configurar el archivo local hosts</h4>
+<p>Es probable que vayas a utilizar el entorno virtual creado para múltiples proyectos o aplicaciones, por lo que necesitarás añadir los dominios indicados en el anterior apartado de 'sites' al archivo <code>hosts</code> de tu ordenador. De esta forma puedes redirigir las peticiones a dominios concretos a aplicaciones de tu entorno virtual Homestead.</p>
+<p>Modifica el archivo <code>hosts</code> (lo encontrarás en <code>/etc/hosts</code> en Mac/Linux y en <code>C:\Windows\System32\drivers\etc\hosts</code> en Windows):</p>
+<pre><code>192.168.10.10  aplicacion1.test
+192.168.10.10  aplicacion2.test
+</code></pre>
+<p>Para evitar otro tipo de problemas, la recomendación general es utilizar dominios de tipo ".localhost", ".invalid", ".test", or ".example".</p>
+<h4 id="9-arrancar-y-prueba-el-entorno-creado">9. Arrancar y prueba el entorno creado</h4>
+<p>Una vez ya tenemos Homestead configurado y el archivo <code>hosts</code> modificado, ya podemos ir al directorio <code>Homestead</code> y ejecutar el siguiente comando para arranchar la máquina virtual (la primera vez tardará más tiempo al tener que realizar la preparación del entorno):</p>
+<pre><code>vagrant up
+</code></pre>
+<p>Puedes acceder mediante SSH a tu máquina virtual:</p>
+<pre><code>vagrant ssh
+</code></pre>
+<p>¡Enhorabuena! Ya estás preparado para comenzar a crear tu primera aplicación web con Laravel.</p>
+<p>Puedes detener la máquina virtual con el comando <code>vagrant halt</code>.</p>
+<h5 id="error-input-file-not-specified">Error 'input file not specified'</h5>
+<p>Es posible que al intentar cargar una aplicación el navegador te muestre el mensaje 'input file not specified'. Esto es algo común cuando por ejemplo cambiamos el archivo <code>host</code> y añadimos alguna URL más. En caso de que te aparezca este error, para la máquina virtual y vuélvela arrancar con el siguiente comando:</p>
+<pre><code>vagrant up --provision
+</code></pre>
+<h5 id="error-de-vboxmanage">Error de VBoxManage</h5>
+<p>Es posible que a la hora de hacer <code>vagrant up</code> no finalice correctamente y muestre el siguiente error:</p>
+<pre><code>There was an error while executing `VBoxManage`, a CLI used by Vagrant
+for controlling VirtualBox. The command and stderr is shown below.
+
+Command: [&quot;startvm&quot;, &quot;b3d4e98d-8a88-4335-8430-28a731e02f07&quot;, &quot;--type&quot;, &quot;headless&quot;]
+
+Stderr: VBoxManage.exe: error: Failed to open/create the internal network 'HostInterfaceNetworking-VirtualBox Host-Only Ethernet Adapter #2' (VERR_INTNET_FLT_IF_NOT_FOUND).
+VBoxManage.exe: error: Failed to attach the network LUN (VERR_INTNET_FLT_IF_NOT_FOUND)
+VBoxManage.exe: error: Details: code E_FAIL (0x80004005), component ConsoleWrap, interface IConsole.
+</code></pre>
+<p>El error puede ser debido a las versiones de Vagrant y VirtualBox utilizadas. Para solucionarlo debería ser suficiente con actualizar VirtualBox.
+También puede ser necesario desinstalar el Extension Pack anterior e instalar la última versión.</p>
+<h4 id="bonus-extensiones-de-vs-code-para-desarrollar-en-laravel">Bonus: Extensiones de VS Code para desarrollar en Laravel</h4>
+<p>Puedes instalar algunas extensiones de VS Code para facilitar el desarrollo con Laravel. En el siguiente enlace tienes una recopilación de las más recomendadas:</p>
+<p>https://devdojo.com/bobbyiliev/8-awesome-vs-code-extensions-for-laravel-developers</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.3de43c86.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.ce0331ff.min.js"></script>
+      
+    
+    
+  </body>
+</html>
