@@ -188,8 +188,8 @@ utilizaremos:
 
 ### Hands on! (2/7)
 Añade a tu aplicación `revistapp` dos nuevas rutas. 
-- `/articulos`: Devolverá un array de artículos en formato JSON. Asigna el nombre `articulos.index` a la ruta utilizando la función `name()`.
-- `/articulos/{id}`: Devolverá la siguiente frase: **"Gracias por leer el artículo con id: {id}"**. Asigna el nombre `articulos.show` a la ruta utilizando la función `name()`. 
+- `articulos/`: Devolverá un array de artículos en formato JSON. Asigna el nombre `articulos.index` a la ruta utilizando la función `name()`.
+- `articulos/{id}`: Devolverá la siguiente frase: **"Gracias por leer el artículo con id: {id}"**. Asigna el nombre `articulos.show` a la ruta utilizando la función `name()`. 
 
 #### Solución
 
@@ -203,7 +203,7 @@ Route::get('/articulos', function () {
     return $articulos;
 })->name('articulos.index');
 
-Route::get('/articulos/{id}', function ($id) {
+Route::get('articulos/{id}', function ($id) {
     $frase = "Gracias por leer el artículo con id: " . $id;
     return $frase;
 })->name('articulos.show');
@@ -348,7 +348,7 @@ Puedes encontrar toda la información acerca de Blade en la [documentación ofic
 ### Hands on! (3/7)
 Actualiza las rutas de tu aplicación para que comiencen a devolver vistas al usuario: 
 - `/articulos`: Devolverá una vista que muestre los artículos en una tabla. La primera columna tendrá un enlace a la ruta del artículo, utilizando su `id`. La segunda columna contendrá el título del artículo.
-- `/articulos/{id}`: Devolverá una vista que contenga un párrafo con la siguiente frase: **"Gracias por leer el artículo con id {id}"**. También tendrá un enlace para voler a cargar ruta que muestra todos los arículos. 
+- `articulos/{id}`: Devolverá una vista que contenga un párrafo con la siguiente frase: **"Gracias por leer el artículo con id {id}"**. También tendrá un enlace para voler a cargar ruta que muestra todos los arículos. 
 
 #### Solución
 `/resources/views/articulos/index.blade.php`:
@@ -399,7 +399,7 @@ Route::get('/articulos', function () {
     ]);
 })->name('articulos.index');
 
-Route::get('/articulos/{id}', function ($id) {
+Route::get('articulos/{id}', function ($id) {
     return view('articulos.show', [
         'id' => $id
     ]);
@@ -516,7 +516,7 @@ Route::resource('articulos', ArticuloController::class)->only([
 ```
 
 ### Hands on! (4/7)
-Crea un controlador llamado `ArticuloController.php` y mueve la lógica de las dos rutas del router `/articulos` y `/articulos/{id}` al nuevo controlador.
+Crea un controlador llamado `ArticuloController.php` y mueve la lógica de las dos rutas del router `articulos/` y `articulos/{id}` al nuevo controlador.
 
 #### Solución
 
@@ -556,8 +556,8 @@ El router pasará a indicar el controlador y el método que se encargará de cad
 
 use App\Http\Controllers\ArticuloController;
 
-Route::get('/articulos', [ArticuloController::class, 'index'])->name('articulos.index');
-Route::get('/articulos/{id}', [ArticuloController::class, 'show'])->name('articulos.show');
+Route::get('articulos', [ArticuloController::class, 'index'])->name('articulos.index');
+Route::get('articulos/{id}', [ArticuloController::class, 'show'])->name('articulos.show');
 
 ```
 
@@ -568,16 +568,17 @@ Es muy difícil de imaginar una aplicación web que no haga uso de una base de d
 El fichero `.env` de Laravel contiene la configuración relacionada con la aplicación y el entorno, como por ejemplo la configuración de la base de datos. Abre el fichero `.env` para visualizar las credenciales de la base de datos:
 
 ```
+# Ejemplo de configuración creada por Laravel Sail
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
-DB_DATABASE=
-DB_USERNAME=
-DB_PASSWORD=
+DB_DATABASE=revistapp
+DB_USERNAME=sail
+DB_PASSWORD=password
 ```
 Todas estas variables de configuración serán referenciadas desde el archivo de configuración `database.php`.
 
-#### (Opcional) Creación de la base de datos
+#### (Solo en Homestead) Creación de la base de datos
 Este paso **solo será necesario si estamos utilizando Laravel Homestead** y no le hemos indicado a Homestead en su archivo de configuración `Homestead.yaml` que cree una base de datos. Para crear la base de datos accede al cliente de MySQL como root:
 
 ```
@@ -591,7 +592,7 @@ CREATE DATABASE revistapp;
 ```
 
 #### Crear un usuario de base de datos
-Es recomendable utilizar un usuario de base de datos diferente a `root`. Para ello, desde MySQL ejecuta lo siguiente:
+Es recomendable utilizar un usuario de base de datos diferente a `root`. Si deseas crear un nuevo usuario con permisos de acceso únicamente para la base de datos de la aplicación, ejecuta lo siguiente desde MySQL:
 
 ```sql
 CREATE USER 'nombre_usuario'@'localhost' IDENTIFIED BY 'tu_contrasena';
@@ -786,8 +787,8 @@ Puedes encontrar la lista de estos métodos de ayuda aquí: [https://laravel.com
 
 ### Insertar información en la base de datos
 El flujo de interacción que seguirá un usuario para insertar nuevos registros (artículos en nuestro caso) será el siguiente:
-1. Acceder a la página con el formulario para enviar los datos. La ruta a la que deberá acceder será la siguiente: `/articulos/create`
-2. Enviar los datos del formulario. La ruta que recibirá los datos será la siguiente: `/articulos` (POST).
+1. Acceder a la página con el formulario para enviar los datos. La ruta a la que deberá acceder será la siguiente: `articulos/create/`
+2. Enviar los datos del formulario. La ruta que recibirá los datos será la siguiente: `articulos/` (POST).
 3. Una vez enviados los datos, si todo ha ido bien nuestra aplicación le mostrará una nueva página.
 
 Por lo tanto, será necesario crear dos nuevas rutas que invoquen a los métodos `create()` y `store()` del controlador.
@@ -796,9 +797,9 @@ El fichero `/routes/web.php` quedará así:
 ```php
 use App\Http\Controllers\ArticuloController;
 
-Route::get('/articulos', [ArticuloController::class, 'index'])->name('articulos.index');
+Route::get('articulos', [ArticuloController::class, 'index'])->name('articulos.index');
 Route::get('articulos/create', [ArticuloController::class, 'create'])->name('articulos.create');
-Route::get('/articulos/{id}', [ArticuloController::class, 'show'])->name('articulos.show');
+Route::get('articulos/{id}', [ArticuloController::class, 'show'])->name('articulos.show');
 Route::post('articulos/', [ArticuloController::class, 'store'])->name('articulos.store');
 ```
 
