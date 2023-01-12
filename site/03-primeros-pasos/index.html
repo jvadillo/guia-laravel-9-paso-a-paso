@@ -513,8 +513,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#opcional-creacion-de-la-base-de-datos" class="md-nav__link">
-    (Opcional) Creación de la base de datos
+  <a href="#solo-en-homestead-creacion-de-la-base-de-datos" class="md-nav__link">
+    (Solo en Homestead) Creación de la base de datos
   </a>
   
 </li>
@@ -922,8 +922,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#opcional-creacion-de-la-base-de-datos" class="md-nav__link">
-    (Opcional) Creación de la base de datos
+  <a href="#solo-en-homestead-creacion-de-la-base-de-datos" class="md-nav__link">
+    (Solo en Homestead) Creación de la base de datos
   </a>
   
 </li>
@@ -1195,8 +1195,8 @@ Route::post('/articulos', function () {
 </code></pre>
 <h3 id="hands-on-27">Hands on! (2/7)</h3>
 <p>Añade a tu aplicación <code>revistapp</code> dos nuevas rutas. 
-- <code>/articulos</code>: Devolverá un array de artículos en formato JSON. Asigna el nombre <code>articulos.index</code> a la ruta utilizando la función <code>name()</code>.
-- <code>/articulos/{id}</code>: Devolverá la siguiente frase: <strong>"Gracias por leer el artículo con id: {id}"</strong>. Asigna el nombre <code>articulos.show</code> a la ruta utilizando la función <code>name()</code>. </p>
+- <code>articulos/</code>: Devolverá un array de artículos en formato JSON. Asigna el nombre <code>articulos.index</code> a la ruta utilizando la función <code>name()</code>.
+- <code>articulos/{id}</code>: Devolverá la siguiente frase: <strong>"Gracias por leer el artículo con id: {id}"</strong>. Asigna el nombre <code>articulos.show</code> a la ruta utilizando la función <code>name()</code>. </p>
 <h4 id="solucion">Solución</h4>
 <pre><code class="language-php">Route::get('/articulos', function () {
     $articulos = [
@@ -1207,7 +1207,7 @@ Route::post('/articulos', function () {
     return $articulos;
 })-&gt;name('articulos.index');
 
-Route::get('/articulos/{id}', function ($id) {
+Route::get('articulos/{id}', function ($id) {
     $frase = &quot;Gracias por leer el artículo con id: &quot; . $id;
     return $frase;
 })-&gt;name('articulos.show');
@@ -1319,7 +1319,7 @@ Es una buena práctica evitar mezclar el código PHP con nuestras vistas, por lo
 <h3 id="hands-on-37">Hands on! (3/7)</h3>
 <p>Actualiza las rutas de tu aplicación para que comiencen a devolver vistas al usuario: 
 - <code>/articulos</code>: Devolverá una vista que muestre los artículos en una tabla. La primera columna tendrá un enlace a la ruta del artículo, utilizando su <code>id</code>. La segunda columna contendrá el título del artículo.
-- <code>/articulos/{id}</code>: Devolverá una vista que contenga un párrafo con la siguiente frase: <strong>"Gracias por leer el artículo con id {id}"</strong>. También tendrá un enlace para voler a cargar ruta que muestra todos los arículos. </p>
+- <code>articulos/{id}</code>: Devolverá una vista que contenga un párrafo con la siguiente frase: <strong>"Gracias por leer el artículo con id {id}"</strong>. También tendrá un enlace para voler a cargar ruta que muestra todos los arículos. </p>
 <h4 id="solucion_1">Solución</h4>
 <p><code>/resources/views/articulos/index.blade.php</code>:</p>
 <pre><code class="language-html">&lt;html&gt;
@@ -1366,7 +1366,7 @@ Es una buena práctica evitar mezclar el código PHP con nuestras vistas, por lo
     ]);
 })-&gt;name('articulos.index');
 
-Route::get('/articulos/{id}', function ($id) {
+Route::get('articulos/{id}', function ($id) {
     return view('articulos.show', [
         'id' =&gt; $id
     ]);
@@ -1499,7 +1499,7 @@ Route::post('articulos/', [ArticuloController::class, 'store'])-&gt;name('articu
 ]);
 </code></pre>
 <h3 id="hands-on-47">Hands on! (4/7)</h3>
-<p>Crea un controlador llamado <code>ArticuloController.php</code> y mueve la lógica de las dos rutas del router <code>/articulos</code> y <code>/articulos/{id}</code> al nuevo controlador.</p>
+<p>Crea un controlador llamado <code>ArticuloController.php</code> y mueve la lógica de las dos rutas del router <code>articulos/</code> y <code>articulos/{id}</code> al nuevo controlador.</p>
 <h4 id="solucion_2">Solución</h4>
 <p><code>/App/Http/Controllers/ArticuloController.php</code>:</p>
 <pre><code class="language-php">&lt;?php
@@ -1534,23 +1534,24 @@ class ArticuloController extends Controller
 <pre><code class="language-php">
 use App\Http\Controllers\ArticuloController;
 
-Route::get('/articulos', [ArticuloController::class, 'index'])-&gt;name('articulos.index');
-Route::get('/articulos/{id}', [ArticuloController::class, 'show'])-&gt;name('articulos.show');
+Route::get('articulos', [ArticuloController::class, 'index'])-&gt;name('articulos.index');
+Route::get('articulos/{id}', [ArticuloController::class, 'show'])-&gt;name('articulos.show');
 
 </code></pre>
 <h2 id="paso-5-configurar-la-base-de-datos">Paso 5 - Configurar la base de datos</h2>
 <p>Es muy difícil de imaginar una aplicación web que no haga uso de una base de datos para almacenar la información. A continuación veremos como preparar la base de datos para nuestra aplicación.</p>
 <h4 id="configuracion-de-la-base-de-datos">Configuración de la base de datos</h4>
 <p>El fichero <code>.env</code> de Laravel contiene la configuración relacionada con la aplicación y el entorno, como por ejemplo la configuración de la base de datos. Abre el fichero <code>.env</code> para visualizar las credenciales de la base de datos:</p>
-<pre><code>DB_CONNECTION=mysql
+<pre><code># Ejemplo de configuración creada por Laravel Sail
+DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
-DB_DATABASE=
-DB_USERNAME=
-DB_PASSWORD=
+DB_DATABASE=revistapp
+DB_USERNAME=sail
+DB_PASSWORD=password
 </code></pre>
 <p>Todas estas variables de configuración serán referenciadas desde el archivo de configuración <code>database.php</code>.</p>
-<h4 id="opcional-creacion-de-la-base-de-datos">(Opcional) Creación de la base de datos</h4>
+<h4 id="solo-en-homestead-creacion-de-la-base-de-datos">(Solo en Homestead) Creación de la base de datos</h4>
 <p>Este paso <strong>solo será necesario si estamos utilizando Laravel Homestead</strong> y no le hemos indicado a Homestead en su archivo de configuración <code>Homestead.yaml</code> que cree una base de datos. Para crear la base de datos accede al cliente de MySQL como root:</p>
 <pre><code>mysql -u root
 </code></pre>
@@ -1558,7 +1559,7 @@ DB_PASSWORD=
 <pre><code>CREATE DATABASE revistapp;
 </code></pre>
 <h4 id="crear-un-usuario-de-base-de-datos">Crear un usuario de base de datos</h4>
-<p>Es recomendable utilizar un usuario de base de datos diferente a <code>root</code>. Para ello, desde MySQL ejecuta lo siguiente:</p>
+<p>Es recomendable utilizar un usuario de base de datos diferente a <code>root</code>. Si deseas crear un nuevo usuario con permisos de acceso únicamente para la base de datos de la aplicación, ejecuta lo siguiente desde MySQL:</p>
 <pre><code class="language-sql">CREATE USER 'nombre_usuario'@'localhost' IDENTIFIED BY 'tu_contrasena';
 </code></pre>
 <p>El comando anterior crea el usuario con la contraseña indicada. El siguiente paso es otorgar permisos al usuario:</p>
@@ -1708,16 +1709,16 @@ $articulos = Articulo::where('active', 1)
 Puedes encontrar la lista de estos métodos de ayuda aquí: <a href="https://laravel.com/docs/9.x/collections#available-methods">https://laravel.com/docs/9.x/collections#available-methods</a></p>
 <h3 id="insertar-informacion-en-la-base-de-datos">Insertar información en la base de datos</h3>
 <p>El flujo de interacción que seguirá un usuario para insertar nuevos registros (artículos en nuestro caso) será el siguiente:
-1. Acceder a la página con el formulario para enviar los datos. La ruta a la que deberá acceder será la siguiente: <code>/articulos/create</code>
-2. Enviar los datos del formulario. La ruta que recibirá los datos será la siguiente: <code>/articulos</code> (POST).
+1. Acceder a la página con el formulario para enviar los datos. La ruta a la que deberá acceder será la siguiente: <code>articulos/create/</code>
+2. Enviar los datos del formulario. La ruta que recibirá los datos será la siguiente: <code>articulos/</code> (POST).
 3. Una vez enviados los datos, si todo ha ido bien nuestra aplicación le mostrará una nueva página.</p>
 <p>Por lo tanto, será necesario crear dos nuevas rutas que invoquen a los métodos <code>create()</code> y <code>store()</code> del controlador.</p>
 <p>El fichero <code>/routes/web.php</code> quedará así:</p>
 <pre><code class="language-php">use App\Http\Controllers\ArticuloController;
 
-Route::get('/articulos', [ArticuloController::class, 'index'])-&gt;name('articulos.index');
+Route::get('articulos', [ArticuloController::class, 'index'])-&gt;name('articulos.index');
 Route::get('articulos/create', [ArticuloController::class, 'create'])-&gt;name('articulos.create');
-Route::get('/articulos/{id}', [ArticuloController::class, 'show'])-&gt;name('articulos.show');
+Route::get('articulos/{id}', [ArticuloController::class, 'show'])-&gt;name('articulos.show');
 Route::post('articulos/', [ArticuloController::class, 'store'])-&gt;name('articulos.store');
 </code></pre>
 <p>La ruta empleada para mostrar el formulario será de tipo <code>GET</code> y la encargada de almacenar los datos será de tipo <code>POST</code>.</p>
