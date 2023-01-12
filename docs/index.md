@@ -38,6 +38,7 @@ Lanzar el servidor local para previsualizar los cambios realizados`automáticame
 docker run --rm -it -p 8000:8000 -v ${PWD}:/docs squidfunk/mkdocs-material
 ```
 
+
 Compilar el proyecto generando los archivos estáticos:
 ```bash
 docker run --rm -it -v ${PWD}:/docs squidfunk/mkdocs-material build

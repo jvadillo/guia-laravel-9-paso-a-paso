@@ -278,6 +278,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#notas" class="md-nav__link">
+    Notas
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -413,6 +420,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#notas" class="md-nav__link">
+    Notas
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -456,6 +470,18 @@
 <li>Haz <code>push</code> de los cambios a tu fork</li>
 <li>Envía una <code>Pull request</code> para que pueda revisar tus cambios</li>
 </ol>
+<h3 id="notas">Notas</h3>
+<p>La documentación está íntegramente escrita en Markdown y compilada a página estática utilizando <a href="https://squidfunk.github.io/mkdocs-material/">Material for MkDocs</a>.</p>
+<p>Si deseas desplegar la página en local te interesarán los siguientes comandos (consulta la documentación oficial <a href="https://squidfunk.github.io/mkdocs-material/getting-started/">aquí</a>):</p>
+<p>Crear un nuevo proyecto</p>
+<pre><code class="language-bash">docker run --rm -it -v ${PWD}:/docs squidfunk/mkdocs-material new .
+</code></pre>
+<p>Lanzar el servidor local para previsualizar los cambios realizados`automáticamente:</p>
+<pre><code class="language-bash">docker run --rm -it -p 8000:8000 -v ${PWD}:/docs squidfunk/mkdocs-material
+</code></pre>
+<p>Compilar el proyecto generando los archivos estáticos:</p>
+<pre><code class="language-bash">docker run --rm -it -v ${PWD}:/docs squidfunk/mkdocs-material build
+</code></pre>
 
 
 
