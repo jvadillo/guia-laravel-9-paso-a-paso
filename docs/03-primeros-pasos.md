@@ -669,7 +669,7 @@ public function up()
 {
     Schema::create('articulos', function (Blueprint $table) {
         // Completar con los campos que queremos que contenta la tabla 'articulos':
-        $table->increments('id'); # Columna de tipo integer autoincremental (equivalente a UNSIGNED INTEGER)
+        $table->id(); # Columna de tipo integer autoincremental (equivalente a UNSIGNED INTEGER)
         $table->string('titulo'); # Columna de tipo string (equivalente a VARCHAR)
         $table->text('contenido'); # Columna de tipo text (equivalente a TEXT)
         $table->timestamps(); # Crea las columnas created_at y updated_at de tipo TIMESTAMP.
@@ -688,7 +688,7 @@ public function down()
 
 ```
 
-Aparte de `increments()`, `string()` o `integer()`, existen una gran variedad de tipos de columnas disponibles para definir las tablas. Puedes encontrarlas en la [documentación oficial](https://laravel.com/docs/9.x/migrations#creating-columns).
+Aparte de `id()`, `string()` o `integer()`, existen una gran variedad de tipos de columnas disponibles para definir las tablas. Puedes encontrarlas en la [documentación oficial](https://laravel.com/docs/9.x/migrations#creating-columns).
 
 Una vez tenemos definida una migración, solo quedará ejecutarla para que así se ejecute en nuestra base de datos y aplique los cambios indicados. Para ejecutar las migraciones simplemente lanza el comando `migrate` de Artisan:
 

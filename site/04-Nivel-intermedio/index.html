@@ -1515,7 +1515,7 @@ foreach ($user_articulos as $articulo) {
 <pre><code class="language-php">    public function up()
     {
         Schema::create('articulos', function (Blueprint $table) {
-            $table-&gt;bigIncrements('id');
+            $table-&gt;id('id');
             $table-&gt;foreignId('user_id')-&gt;constrained()-&gt;cascadeOnDelete();
 
             $table-&gt;string('titulo');

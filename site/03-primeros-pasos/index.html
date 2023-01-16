@@ -1617,7 +1617,7 @@ return new class extends Migration
 {
     Schema::create('articulos', function (Blueprint $table) {
         // Completar con los campos que queremos que contenta la tabla 'articulos':
-        $table-&gt;increments('id'); # Columna de tipo integer autoincremental (equivalente a UNSIGNED INTEGER)
+        $table-&gt;id(); # Columna de tipo integer autoincremental (equivalente a UNSIGNED INTEGER)
         $table-&gt;string('titulo'); # Columna de tipo string (equivalente a VARCHAR)
         $table-&gt;text('contenido'); # Columna de tipo text (equivalente a TEXT)
         $table-&gt;timestamps(); # Crea las columnas created_at y updated_at de tipo TIMESTAMP.
@@ -1635,7 +1635,7 @@ public function down()
 }
 
 </code></pre>
-<p>Aparte de <code>increments()</code>, <code>string()</code> o <code>integer()</code>, existen una gran variedad de tipos de columnas disponibles para definir las tablas. Puedes encontrarlas en la <a href="https://laravel.com/docs/9.x/migrations#creating-columns">documentación oficial</a>.</p>
+<p>Aparte de <code>id()</code>, <code>string()</code> o <code>integer()</code>, existen una gran variedad de tipos de columnas disponibles para definir las tablas. Puedes encontrarlas en la <a href="https://laravel.com/docs/9.x/migrations#creating-columns">documentación oficial</a>.</p>
 <p>Una vez tenemos definida una migración, solo quedará ejecutarla para que así se ejecute en nuestra base de datos y aplique los cambios indicados. Para ejecutar las migraciones simplemente lanza el comando <code>migrate</code> de Artisan:</p>
 <pre><code>php artisan migrate
 </code></pre>
