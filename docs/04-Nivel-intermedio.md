@@ -375,7 +375,7 @@ Por defecto, si no indicamos lo contrario, el modelo de Eloquent utilizará como
     public function up()
     {
         Schema::create('articulos', function (Blueprint $table) {
-            $table->id('id');
+            $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
 
             $table->string('titulo');
