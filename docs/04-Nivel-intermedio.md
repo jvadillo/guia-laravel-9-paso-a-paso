@@ -725,31 +725,31 @@ Más información sobre la configuración en la [documentación oficial](https:/
 Existen dos formas principales de acceder a la información de la sesión de usuario:
 -  El helper global `session`
 ```php
-    // Obtener un valor de la sesión
-    $value = session('key');
+// Obtener un valor de la sesión
+$value = session('key');
 
-    // Podemos indicar un valor por defecto
-    $value = session('key', 'default');
+// Podemos indicar un valor por defecto
+$value = session('key', 'default');
 
-    // Para almacenar un valor, le pasamos un Array:
-    session(['key' => 'value']);
+// Para almacenar un valor, le pasamos un Array:
+session(['key' => 'value']);
 ```
 -  Mediante la instancia `Request` (inyectada en los métodos de nuestros controladores)
 
 ```php
-    public function show(Request $request, $id)
-    {
-        $value = $request->session()->get('key');
-	
-        // También es posible indicar un valor por defecto si no existe ninguno:
-	$value = $request->session()->get('key', 'default');
-	
-	// Almacenar un valor
-	$request->session()->put('key', 'value');
-	
-	// Recuperar un valor y eliminarlo de la sesión
-	$value = $request->session()->pull('key', 'default');
-    }
+public function show(Request $request, $id)
+{
+    $value = $request->session()->get('key');
+
+    // También es posible indicar un valor por defecto si no existe ninguno:
+    $value = $request->session()->get('key', 'default');
+
+    // Almacenar un valor
+    $request->session()->put('key', 'value');
+
+    // Recuperar un valor y eliminarlo de la sesión
+    $value = $request->session()->pull('key', 'default');
+}
 ```
  
  También es posible acceder a valores de la sesión desde las vistas de Blade utilizardo la función `get()`:
