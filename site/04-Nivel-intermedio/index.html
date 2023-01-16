@@ -535,6 +535,33 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#eager-load-y-lazy-load" class="md-nav__link">
+    Eager load y lazy load
+  </a>
+  
+    <nav class="md-nav" aria-label="Eager load y lazy load">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ejemplo-1" class="md-nav__link">
+    Ejemplo 1
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ejemplo-2" class="md-nav__link">
+    Ejemplo 2
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#crear-la-restriccion-de-las-claves-foraneas-en-la-base-de-datos" class="md-nav__link">
     Crear la restricción de las claves foráneas en la Base de Datos
   </a>
@@ -1006,6 +1033,33 @@
   <a href="#acceder-a-los-modelos-de-una-relacion" class="md-nav__link">
     Acceder a los modelos de una relación
   </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#eager-load-y-lazy-load" class="md-nav__link">
+    Eager load y lazy load
+  </a>
+  
+    <nav class="md-nav" aria-label="Eager load y lazy load">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ejemplo-1" class="md-nav__link">
+    Ejemplo 1
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ejemplo-2" class="md-nav__link">
+    Ejemplo 2
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -1508,6 +1562,61 @@ Tienes toda la información sobre cómo definir relaciones entre modelos en la <
 <span class="x">}</span>
 </code></pre></div>
 <p>En el ejemplo anterior, la variable <code>$user_articulos</code> contiene una colección de objetos de la clase <code>Articulo</code>. </p>
+<h3 id="eager-load-y-lazy-load">Eager load y lazy load</h3>
+<p>Al obtener la información de un modelo puedes hacerlo de dos maneras, utilizando <strong>lazy load</strong> (por defecto) o <strong>eager load</strong>. Resumiéndolo en pocas palabras, con <strong>lazy loading</strong> se cargará la información en el momento que vaya a ser utilizada, mientras que <strong>eager loading</strong> consiste en realizar una carga previa de la información porque se sabe de antemano que se dará uso de ella.  </p>
+<p>En estos dos ejemplos verás claramente la utilidad de ambos patrones de diseño.  </p>
+<h4 id="ejemplo-1">Ejemplo 1</h4>
+<p>Imagina que tienes 20 usuarios registrados y quieres recorrerlos todos accediendo en cada uno de ellos a su lista de artículos.  </p>
+<p>Utilizando <strong>lazy loading</strong>
+<div class="highlight"><pre><span></span><code><span class="nx">$users</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">User</span><span class="o">::</span><span class="nx">all</span><span class="p">();</span><span class="w"> </span><span class="c1">// select * from users</span><span class="w"></span>
+<span class="nx">foreach</span><span class="w"> </span><span class="p">(</span><span class="nx">$users</span><span class="w"> </span><span class="kr">as</span><span class="w"> </span><span class="nx">$user</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nx">$user_articulos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">$user</span><span class="o">-&gt;</span><span class="nx">articulos</span><span class="p">;</span><span class="w"> </span><span class="c1">// select * from articulos where user_id = $user-&gt;id</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// ...</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+<span class="c1">// Sentencias totales: 21</span><span class="w"></span>
+<span class="c1">// ❌ Lazy Loading en este caso supondría un impacto de rendimiento</span><span class="w"></span>
+<span class="c1">// A esto se le conoce como problema de sentencias N+1 👈 ¡cuidado!</span><span class="w"></span>
+</code></pre></div></p>
+<p>Utilizando <strong>eager loading</strong>
+<div class="highlight"><pre><span></span><code><span class="nx">$users</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">User</span><span class="o">::</span><span class="kd">with</span><span class="p">([</span><span class="s1">&#39;articulos&#39;</span><span class="p">])</span><span class="o">-&gt;</span><span class="nx">get</span><span class="p">();</span><span class="w"> </span><span class="c1">// Ejecuta 2 sentencias</span><span class="w"></span>
+<span class="w">        </span><span class="c1">// 1- select * from users</span><span class="w"></span>
+<span class="w">        </span><span class="c1">// 2- select * from articulos where user_id IN (1, 2, 3, 4, ..., 20)</span><span class="w"></span>
+<span class="nx">foreach</span><span class="w"> </span><span class="p">(</span><span class="nx">$users</span><span class="w"> </span><span class="kr">as</span><span class="w"> </span><span class="nx">$user</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nx">$user_articulos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">$user</span><span class="o">-&gt;</span><span class="nx">articulos</span><span class="p">;</span><span class="w"> </span><span class="c1">// Información previamente cargada</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// ...</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+<span class="c1">// Sentencias totales: 2</span><span class="w"></span>
+<span class="c1">// ✅ Eager loading en este sería una optimización de rendimiento</span><span class="w"></span>
+</code></pre></div></p>
+<h4 id="ejemplo-2">Ejemplo 2</h4>
+<p>Ahora supón que tienes también 20 usuarios y quieres recogerlos todos pero únicamente acceder a la lista de artículos de <strong>los 5 primeros</strong>
+<div class="highlight"><pre><span></span><code><span class="c1">// ▶ Utilizando lazy loading</span><span class="w"></span>
+<span class="nx">$users</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">User</span><span class="o">::</span><span class="nx">all</span><span class="p">();</span><span class="w"> </span><span class="c1">// select * from users</span><span class="w"></span>
+<span class="nx">foreach</span><span class="w"> </span><span class="p">(</span><span class="nx">$users</span><span class="w"> </span><span class="kr">as</span><span class="w"> </span><span class="nx">$user</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">$user</span><span class="o">-&gt;</span><span class="nx">id</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">6</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nx">$user_articulos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">$user</span><span class="o">-&gt;</span><span class="nx">articulos</span><span class="p">;</span><span class="w"> </span><span class="c1">// select * from articulos where user_id = $user-&gt;id</span><span class="w"></span>
+<span class="w">        </span><span class="c1">// ...</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// ...</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+<span class="c1">// Únicamente se ha cargado la información necesaria</span><span class="w"></span>
+<span class="c1">// ✅ En este caso lazy loading sería ideal</span><span class="w"></span>
+
+<span class="c1">// ▶ Utilizando eager loading</span><span class="w"></span>
+<span class="nx">$users</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">User</span><span class="o">::</span><span class="kd">with</span><span class="p">([</span><span class="s1">&#39;articulos&#39;</span><span class="p">])</span><span class="o">-&gt;</span><span class="nx">get</span><span class="p">();</span><span class="w"> </span><span class="c1">// Ejecuta 2 sentencias</span><span class="w"></span>
+<span class="w">        </span><span class="c1">// 1- select * from users</span><span class="w"></span>
+<span class="w">        </span><span class="c1">// 2- select * from articulos where user_id IN (1, 2, 3, 4, ..., 20)</span><span class="w"></span>
+<span class="nx">foreach</span><span class="w"> </span><span class="p">(</span><span class="nx">$users</span><span class="w"> </span><span class="kr">as</span><span class="w"> </span><span class="nx">$user</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">$user</span><span class="o">-&gt;</span><span class="nx">id</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">6</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nx">$user_articulos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">$user</span><span class="o">-&gt;</span><span class="nx">articulos</span><span class="p">;</span><span class="w"> </span><span class="c1">// Información previamente cargada</span><span class="w"></span>
+<span class="w">        </span><span class="c1">// ...</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// ...</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+<span class="c1">// Se ha cargado mucha información que no ha sido utilizada</span><span class="w"></span>
+<span class="c1">// ❌ Eager loading supondría una carga innecesaria</span><span class="w"></span>
+</code></pre></div>
+En estos ejemplos sencillos se está dando uso del método <code>with</code> para decirle al modelo que se cargue con la relación señalada, <a href="https://laravel.com/docs/9.x/eloquent-relationships#eager-loading">puedes aprender más sobre cómo aplicar eager loading en la documentación oficial</a>. Si sientes que no te ha quedado claro, <a href="https://youtu.be/ZE7KBeraVpc">aquí tienes un vídeo que explica lo mismo pero de manera más clara y visual</a>.</p>
 <h3 id="crear-la-restriccion-de-las-claves-foraneas-en-la-base-de-datos">Crear la restricción de las claves foráneas en la Base de Datos</h3>
 <p>Como es lógico, para que el modelo pueda acceder a otro modelo con el que mantiene una relación one-to-many, es necesario especificar la <code>foreign key</code> correspondiente a nivel de base de datos. Recordemos que las foreign key permiten mantener la <a href="https://es.wikipedia.org/wiki/Integridad_referencial">integridad referencial</a> en nuestra base de datos.</p>
 <p>Por defecto, si no indicamos lo contrario, el modelo de Eloquent utilizará como foreign key el nombre del modelo que contiene la colección añadiendo el sufijo <code>'_id'</code>. Es decir, en el caso anterior la tabla de <code>Articulo</code> deberá contener una columna llamada <code>'user_id'</code>, ya que el nombre del otro modelo es <code>User</code>. Por lo tanto nuestra migración debería quedar de la siguiente forma:</p>
