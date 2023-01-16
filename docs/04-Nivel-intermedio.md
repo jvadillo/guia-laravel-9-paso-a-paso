@@ -366,6 +366,69 @@ foreach ($user_articulos as $articulo) {
 
 En el ejemplo anterior, la variable `$user_articulos` contiene una colección de objetos de la clase `Articulo`. 
 
+### Eager load y lazy load
+Al obtener la información de un modelo puedes hacerlo de dos maneras, utilizando **lazy load** (por defecto) o **eager load**. Resumiéndolo en pocas palabras, con **lazy loading** se cargará la información en el momento que vaya a ser utilizada, mientras que **eager loading** consiste en realizar una carga previa de la información porque se sabe de antemano que se dará uso de ella.  
+
+En estos dos ejemplos verás claramente la utilidad de ambos patrones de diseño.  
+#### Ejemplo 1
+Imagina que tienes 20 usuarios registrados y quieres recorrerlos todos accediendo en cada uno de ellos a su lista de artículos.  
+
+Utilizando **lazy loading**
+```js
+$users = User::all(); // select * from users
+foreach ($users as $user) {
+    $user_articulos = $user->articulos; // select * from articulos where user_id = $user->id
+    // ...
+}
+// Sentencias totales: 21
+// ❌ Lazy Loading en este caso supondría un impacto de rendimiento
+// A esto se le conoce como problema de sentencias N+1 👈 ¡cuidado!
+```
+
+Utilizando **eager loading**
+```js
+$users = User::with(['articulos'])->get(); // Ejecuta 2 sentencias
+        // 1- select * from users
+        // 2- select * from articulos where user_id IN (1, 2, 3, 4, ..., 20)
+foreach ($users as $user) {
+    $user_articulos = $user->articulos; // Información previamente cargada
+    // ...
+}
+// Sentencias totales: 2
+// ✅ Eager loading en este sería una optimización de rendimiento
+```
+
+#### Ejemplo 2
+Ahora supón que tienes también 20 usuarios y quieres recogerlos todos pero únicamente acceder a la lista de artículos de **los 5 primeros**
+```js
+// ▶ Utilizando lazy loading
+$users = User::all(); // select * from users
+foreach ($users as $user) {
+    if ($user->id < 6) {
+        $user_articulos = $user->articulos; // select * from articulos where user_id = $user->id
+        // ...
+    }
+    // ...
+}
+// Únicamente se ha cargado la información necesaria
+// ✅ En este caso lazy loading sería ideal
+
+// ▶ Utilizando eager loading
+$users = User::with(['articulos'])->get(); // Ejecuta 2 sentencias
+        // 1- select * from users
+        // 2- select * from articulos where user_id IN (1, 2, 3, 4, ..., 20)
+foreach ($users as $user) {
+    if ($user->id < 6) {
+        $user_articulos = $user->articulos; // Información previamente cargada
+        // ...
+    }
+    // ...
+}
+// Se ha cargado mucha información que no ha sido utilizada
+// ❌ Eager loading supondría una carga innecesaria
+```
+En estos ejemplos sencillos se está dando uso del método `with` para decirle al modelo que se cargue con la relación señalada, [puedes aprender más sobre cómo aplicar eager loading en la documentación oficial](https://laravel.com/docs/9.x/eloquent-relationships#eager-loading). Si sientes que no te ha quedado claro, [aquí tienes un vídeo que explica lo mismo pero de manera más clara y visual](https://youtu.be/ZE7KBeraVpc).
+
 ### Crear la restricción de las claves foráneas en la Base de Datos
 Como es lógico, para que el modelo pueda acceder a otro modelo con el que mantiene una relación one-to-many, es necesario especificar la `foreign key` correspondiente a nivel de base de datos. Recordemos que las foreign key permiten mantener la [integridad referencial](https://es.wikipedia.org/wiki/Integridad_referencial) en nuestra base de datos.
 
