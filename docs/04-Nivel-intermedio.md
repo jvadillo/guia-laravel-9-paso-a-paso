@@ -683,6 +683,11 @@ if (Auth::check()) {
 ### Autenticación con Laravel Breeze
 A partir de la versión 8 de Laravel se recomienda utilizar Laravel Breeze, el cual utiliza Tailwind CSS en lugar de Bootstrap. Este aspecto es importante ya que afecta a las vistas creadas. Laravel Breeze es una implementación sencilla de las funciones más habituales de autenticación como: login, registro, recuperación de contraseña, verificación de correo electrónico o confirmación de contraseña por correo. Para ello creará todas las vistas, rutas y controladores necesarios y además los dejará disponibles en el código de nuestro proyecto para que podamos modificar todo aquello que necesitemos.
 
+!!! note "Laravel Breeze debe instalarse tras la creación del proyecto"
+
+    Laravel Breeze debe instalarse sobre un proyecto recién creado de Laravel, ya que eliminará código existente en rutas, etc. Es lo que Laravel considera un [Starter Kit](https://laravel.com/docs/9.x/starter-kits).
+
+
 Para instalar Laravel Breeze es necesario lanzar el siguiente comando para instalar el paquete utilizando Composer:
 
 ```

@@ -760,13 +760,13 @@ Laravel Sail está disponible para macOS, Linux y Windows (vía WSL2).</p>
 <h3 id="pasos">Pasos</h3>
 <p>Para crear una aplicación de Laravel con Laravel Sail, necesitarás tener instalado <a href="https://www.docker.com/products/docker-desktop">Docker Desktop</a>. En el caso de Windows, asegúrate también que <a href="https://docs.microsoft.com/en-us/windows/wsl/install-win10">Windows Subsystem for Linux 2 (WSL2)</a> está instalado y habilitado.</p>
 <h4 id="1-crea-un-nuevo-proyecto-de-laravel-utilizando-el-servicio-laravelbuild">1. Crea un nuevo proyecto de Laravel utilizando el servicio laravel.build</h4>
-<p>Abre una terminal (en el caso de Windows, ábrela iniciando una sesión en WSL2) y ejecuta el siguiente comando dentro del directorio en el que deseas crear tu aplicación:</p>
-<pre><code>curl -s &quot;https://laravel.build/example-app&quot; | bash
-</code></pre>
-<p>Sustituye "example-app" por el nombre que quieres dar a tu aplicación. 
-Otro aspecto importante es que el comando anterior instalará por defecto mysql, redis, meilisearch, mailhog, y selenium. Puedes evitar esto y elegir los servicios que quieres instalar indicándolos como parámetro al final de la URL:</p>
-<pre><code>curl -s &quot;https://laravel.build/example-app?with=mysql,redis&quot; | bash
-</code></pre>
+<p>Abre una terminal (en el caso de Windows, ábrela iniciando una sesión en WSL2) y ejecuta el siguiente comando dentro del directorio en el que deseas crear tu aplicación:
+<div class="highlight"><pre><span></span><code>curl -s &quot;https://laravel.build/example-app&quot; | bash
+</code></pre></div>
+Sustituye "example-app" por el nombre que quieres dar a tu aplicación. 
+Otro aspecto importante es que el comando anterior instalará por defecto mysql, redis, meilisearch, mailhog, y selenium. Puedes evitar esto y elegir los servicios que quieres instalar indicándolos como parámetro al final de la URL:
+<div class="highlight"><pre><span></span><code>curl -s &quot;https://laravel.build/example-app?with=mysql,redis&quot; | bash
+</code></pre></div></p>
 <h4 id="2-inicia-el-entorno-de-desarrollo">2. Inicia el entorno de desarrollo</h4>
 <p>Espera a que Laravel Sail instale todas las dependencias necesarias para tu aplicación. Este proceso puede llevar varios minutos ya que debe preparar todos los contenedores para el desarrollo desde tu máquina local.</p>
 <p>Una vez que la instalación haya finalizado, entra en la carpeta creada para tu aplicación <code>cd example-app</code> y ejecuta el comando <code>./vendor/bin/sail up</code> para levantar el entorno de desarrollo local (utiliza <code>./vendor/bin/sail up -d</code> para arrancarlo en el background).</p>
@@ -775,17 +775,17 @@ Otro aspecto importante es que el comando anterior instalará por defecto mysql,
 <p>Puedes utilizar el comando <code>sail stop</code> para parar el entorno.</p>
 <h4 id="opcional-3-crea-un-alias-para-sail">(Opcional) 3. Crea un alias para sail</h4>
 <p>Para evitar tener que escribir <code>./vendor/bin/sail</code> continuamente, puedes crear un alias y así ejecutar simplemente <code>sail</code> directamente.</p>
-<p>Edita tu archivo añadiendo esto al final del fichero <code>~/.zshrc</code> o <code>~/.bashrc</code>:</p>
-<pre><code>alias sail='[ -f sail ] &amp;&amp; sh sail || sh vendor/bin/sail'
-</code></pre>
-<p>Una forma sencilla de editar/crear el fichero puede ser mediante el editor de texto nano:</p>
-<pre><code>nano ~/.zshrc
-</code></pre>
+<p>Edita tu archivo añadiendo esto al final del fichero <code>~/.zshrc</code> o <code>~/.bashrc</code>:
+<div class="highlight"><pre><span></span><code>alias sail=&#39;[ -f sail ] &amp;&amp; sh sail || sh vendor/bin/sail&#39;
+</code></pre></div></p>
+<p>Una forma sencilla de editar/crear el fichero puede ser mediante el editor de texto nano:
+<div class="highlight"><pre><span></span><code>nano ~/.zshrc
+</code></pre></div></p>
 <p>Vuelve a abrir el terminal y a partir de ahora ya podrás ejecutar comandos como <code>sail up</code> o <code>sail stop</code> directamente.</p>
 <h4 id="4-ejecutar-comandos-en-sail">4. Ejecutar comandos en Sail</h4>
 <p>En Laravel es muy común ejecutar comandos de utilizades como Composer, Artisan o Node.
-Para ejecutar esos comandos sin tener que conectarte al contenedor <code>laravel.test</code> puedes hacerlo de la siguiente forma:</p>
-<pre><code># Ejemplos de comandos desde dentro del contenedor:
+Para ejecutar esos comandos sin tener que conectarte al contenedor <code>laravel.test</code> puedes hacerlo de la siguiente forma:
+<div class="highlight"><pre><span></span><code># Ejemplos de comandos desde dentro del contenedor:
 php --version
 php script.php
 php artisan queue:work
@@ -798,27 +798,27 @@ sail php script.php
 sail artisan queue:work
 sail composer require laravel/sanctum
 sail node --version
-</code></pre>
-<p>De todas formas, siempre tienes la opción de conectarte al contenedor con el siguiente comando:</p>
-<pre><code>docker exec -it &lt;id_contenedor&gt; bash
-</code></pre>
-<p>Además del anterior comando, Laravel Sail también ofrece la posibilidad de acceder al contenedor mediante el siguiente comando:</p>
-<pre><code>sail shell
-</code></pre>
+</code></pre></div>
+De todas formas, siempre tienes la opción de conectarte al contenedor con el siguiente comando:
+<div class="highlight"><pre><span></span><code>docker exec -it &lt;id_contenedor&gt; bash
+</code></pre></div>
+Además del anterior comando, Laravel Sail también ofrece la posibilidad de acceder al contenedor mediante el siguiente comando:
+<div class="highlight"><pre><span></span><code>sail shell
+</code></pre></div></p>
 <h4 id="5-configuracion-inicial">5. Configuración inicial</h4>
 <p>Todos los archivos de configuración sobre la aplicación se almacenan en el directorio de configuración <code>config</code>. Laravel trae una configuración establecida por defecto, por lo que no es necesario configurar nada adicional para comenzar a desarrollar. No obstante, puedes entrar a ver el archivo <code>config/app.php</code> para hacerte a la idea de distintos parámetros a configurar.</p>
 <p>La configuración relativa al entorno se almacena en el fichero <code>.env</code>. El tipo de configuración almacenada en este entorno es especialmente aquella que variará en función de si se trata de un entorno de desarrollo local, producción, etc. Nunca deberías subir este fichero a tu repositorio de código (por ejemplo Github).</p>
 <h4 id="6-base-de-datos">6. Base de datos</h4>
 <p>Por defecto Laravel Sail crea dos bases de datos automáticamente.
-La primera con el mismo nombre de la aplicación. Puedes encontrar los datos relativos a la base de datos en el fichero <code>.env</code>.</p>
-<pre><code>DB_CONNECTION=mysql
+La primera con el mismo nombre de la aplicación. Puedes encontrar los datos relativos a la base de datos en el fichero <code>.env</code>.
+<div class="highlight"><pre><span></span><code>DB_CONNECTION=mysql
 DB_HOST=mysql
 DB_PORT=3306
 DB_DATABASE=example_app
 DB_USERNAME=sail
 DB_PASSWORD=password
-</code></pre>
-<p>Si deseas conectarte a la base de datos (mediante <a href="https://tableplus.com/">TablePlus</a> o <a href="https://www.mysql.com/products/workbench/">MySQL Workbench</a> por ejemplo) deberás utilizar los datos de conexión de este fichero.</p>
+</code></pre></div>
+Si deseas conectarte a la base de datos (mediante <a href="https://tableplus.com/">TablePlus</a> o <a href="https://www.mysql.com/products/workbench/">MySQL Workbench</a> por ejemplo) deberás utilizar los datos de conexión de este fichero.</p>
 <p>La segunda es una base de datos llamada <code>test</code> que se utilizará para testing (en caso de necesitarlo).</p>
 <h4 id="7-configuracion-adicional">7. Configuración adicional</h4>
 <p>Si quieres saber más detalles sobre la configuración de Sail, como por ejemplo cambiar la versión de PHP por defecto o configurar opciones de testing, puedes visitar el siguiente enlace: <a href="https://laravel.com/docs/9.x/sail">https://laravel.com/docs/9.x/sail</a></p>
@@ -832,23 +832,23 @@ DB_PASSWORD=password
 <p>Descarga e instala Vagrant tal y como lo indica la documentación de la página web oficial <a href="(https://www.vagrantup.com/downloads.html)">https://www.vagrantup.com</a>.</p>
 <h4 id="3-anadir-laravelhomestead-box-a-tu-instalacion-de-vagrant">3. Añadir laravel/homestead box a tu instalación de Vagrant</h4>
 <p>Una Vagrant box es una imagen base utilizada para clonar de forma rápida y sencilla una máquina virtual. Ejecuta el siguiente comando para descargar e instalar la Vagrant box the Larabel y así poder utilizarla para crear tantos entornos como quieras.</p>
-<pre><code>vagrant box add laravel/homestead
-</code></pre>
+<div class="highlight"><pre><span></span><code>vagrant box add laravel/homestead
+</code></pre></div>
 <p>Puedes comprobar que se ha añadido correctamente utilizando el comando <code>vagrant box list</code>.</p>
 <h4 id="4-instalar-homestead">4. Instalar Homestead</h4>
 <p>Clona el repositorio oficial de Homestead en un directorio. Como recomendación, puedes clonarlo en una carpeta llamada Homestead en la raíz de tu sistema, y utilizar esta máquina virtual para todos tus proyectos de Laravel.</p>
-<pre><code>git clone https://github.com/laravel/homestead.git ~/Homestead
-</code></pre>
+<div class="highlight"><pre><span></span><code>git clone https://github.com/laravel/homestead.git ~/Homestead
+</code></pre></div>
 <h4 id="5-crea-el-archivo-de-configuracion-homesteadyaml">5. Crea el archivo de configuración Homestead.yaml</h4>
 <p>Ejecuta el comando init.sh en un terminal dentro del directorio donde clonaste Homestead. Este comando creará el archivo de configuración Homestead.yaml.</p>
-<pre><code>// Mac / Linux...
+<div class="highlight"><pre><span></span><code>// Mac / Linux...
 bash init.sh
 
 // Windows...
 init.bat
-</code></pre>
+</code></pre></div>
 <p>El archivo Homestead.yaml creado tendrá el siguiente aspecto:</p>
-<pre><code>ip: &quot;192.168.10.10&quot;
+<div class="highlight"><pre><span></span><code>ip: &quot;192.168.10.10&quot;
 memory: 2048
 cpus: 2
 provider: virtualbox
@@ -868,69 +868,67 @@ sites:
 
 databases:
     - homestead
-</code></pre>
+</code></pre></div>
 <h4 id="6-genera-las-claves-ssh">6. Genera las claves ssh</h4>
 <p>Si no dispones de unas clasves ssh en el sistema necesitarás generarlas desde un terminal. Para saber si ya dispones de ellas, intanta encontrar el directorio <code>.ssh</code> en tu sistema operativo (normalmente suele encontrarse en C:\Users\USER_NAME en Windows y el el directorio raíz ~ en Linux/Mac ) y busca dos archivos llamados <code>id_rsa</code> y <code>id_rsa.pub</code>. Si los has encontrado, puedes saltarte este paso. En caso contrario, lanza el siguiente comando desde la consola:</p>
-<pre><code>ssh-keygen -t rsa -C &quot;your_email@example.com&quot;
-</code></pre>
+<div class="highlight"><pre><span></span><code>ssh-keygen -t rsa -C &quot;your_email@example.com&quot;
+</code></pre></div>
 <p>El script te realizará algunas preguntas, simplemente pulsa ENTER y te creará los archivos <code>id_rsa</code> y <code>id_rsa.pub</code> en un directorio con nombre <code>.ssh</code>.</p>
 <h4 id="7-configurar-homestead">7. Configurar Homestead</h4>
 <p>En esta instalación no tendrás que tocar el archivo <code>Vagrantfile</code> (probablemente estés familiarizado con él ya que es típicamente el utilizado para configurar el entorno). Homestead delega la configuración en el archivo <code>Homestead.yaml</code>,  por lo que a continuación te mostraremos las opciones más importantes que tendrás que configurar:</p>
 <ul>
 <li><strong>ssh keys</strong>: el fichero de configuración Homestead.yaml tendrá la configuración realizada correctamente tanto para Mac como Linux. Si estás utilizando Windows, modifica los siguientes valores:</li>
 </ul>
-<pre><code>authorize: c:/Users/USER_NAME/.ssh/id_rsa.pub
+<div class="highlight"><pre><span></span><code>authorize: c:/Users/USER_NAME/.ssh/id_rsa.pub
 
 keys:
     - c:/Users/USER_NAME/.ssh/id_rsa
-</code></pre>
+</code></pre></div>
 <ul>
-<li><strong>Shared folders</strong>: en este apartado se indican los directorios de tu sistema operativo que se mantendrán sincronizados con la máquina virtual creada. Modifica el valor de 'map' y escribe la carpeta donde almacenas tus proyectos (p.ej. <code>/Users/USER_NAME/dev/proyectos</code> en Linux/Mac o <code>c:/dev/proyectos</code> en Windows).  En el siguiente ejemplo puedes ver cómo se sincronizarían los ficheros de nuestra carpeta <code>~/code/projects</code> en la carpeta <code>/home/vagrant/projects</code> de nuestra máquina virtual:</li>
-</ul>
-<pre><code>folders:
+<li><strong>Shared folders</strong>: en este apartado se indican los directorios de tu sistema operativo que se mantendrán sincronizados con la máquina virtual creada. Modifica el valor de 'map' y escribe la carpeta donde almacenas tus proyectos (p.ej. <code>/Users/USER_NAME/dev/proyectos</code> en Linux/Mac o <code>c:/dev/proyectos</code> en Windows).  En el siguiente ejemplo puedes ver cómo se sincronizarían los ficheros de nuestra carpeta <code>~/code/projects</code> en la carpeta <code>/home/vagrant/projects</code> de nuestra máquina virtual:
+<div class="highlight"><pre><span></span><code>folders:
     - map: ~/code/projects
       to: /home/vagrant/projects
-</code></pre>
-<ul>
-<li><strong>Sites</strong>: La propiedad sites permite mapear fácilmente un dominio con un directorio de nuestro entorno virtual. De este forma podremos utilizar el dominio indicado (p.ej. aplicacion1.test) para acceder a nuestra aplicación desde el navegador. Ten en cuenta que el punto de entrada a una aplicación de Laravel es el archivo <code>index.php</code> ubicado en la carpeta <code>/public</code> de nuestro proyecto Laravel, por lo que el dominio tendrá que apuntar siempre a esta carpeta. Por ejemplo:</li>
-</ul>
-<pre><code>sites:
+</code></pre></div></li>
+<li><strong>Sites</strong>: La propiedad sites permite mapear fácilmente un dominio con un directorio de nuestro entorno virtual. De este forma podremos utilizar el dominio indicado (p.ej. aplicacion1.test) para acceder a nuestra aplicación desde el navegador. Ten en cuenta que el punto de entrada a una aplicación de Laravel es el archivo <code>index.php</code> ubicado en la carpeta <code>/public</code> de nuestro proyecto Laravel, por lo que el dominio tendrá que apuntar siempre a esta carpeta. Por ejemplo:
+<div class="highlight"><pre><span></span><code>sites:
     - map: aplicacion1.test
       to: /home/vagrant/projects/aplicacion1/public
     - map: aplicacion2.test
       to: /home/vagrant/projects/aplicacion2/public
-</code></pre>
+</code></pre></div></li>
+</ul>
 <h4 id="8-configurar-el-archivo-local-hosts">8. Configurar el archivo local hosts</h4>
 <p>Es probable que vayas a utilizar el entorno virtual creado para múltiples proyectos o aplicaciones, por lo que necesitarás añadir los dominios indicados en el anterior apartado de 'sites' al archivo <code>hosts</code> de tu ordenador. De esta forma puedes redirigir las peticiones a dominios concretos a aplicaciones de tu entorno virtual Homestead.</p>
 <p>Modifica el archivo <code>hosts</code> (lo encontrarás en <code>/etc/hosts</code> en Mac/Linux y en <code>C:\Windows\System32\drivers\etc\hosts</code> en Windows):</p>
-<pre><code>192.168.10.10  aplicacion1.test
+<div class="highlight"><pre><span></span><code>192.168.10.10  aplicacion1.test
 192.168.10.10  aplicacion2.test
-</code></pre>
+</code></pre></div>
 <p>Para evitar otro tipo de problemas, la recomendación general es utilizar dominios de tipo ".localhost", ".invalid", ".test", or ".example".</p>
 <h4 id="9-arrancar-y-prueba-el-entorno-creado">9. Arrancar y prueba el entorno creado</h4>
 <p>Una vez ya tenemos Homestead configurado y el archivo <code>hosts</code> modificado, ya podemos ir al directorio <code>Homestead</code> y ejecutar el siguiente comando para arranchar la máquina virtual (la primera vez tardará más tiempo al tener que realizar la preparación del entorno):</p>
-<pre><code>vagrant up
-</code></pre>
+<div class="highlight"><pre><span></span><code>vagrant up
+</code></pre></div>
 <p>Puedes acceder mediante SSH a tu máquina virtual:</p>
-<pre><code>vagrant ssh
-</code></pre>
+<div class="highlight"><pre><span></span><code>vagrant ssh
+</code></pre></div>
 <p>¡Enhorabuena! Ya estás preparado para comenzar a crear tu primera aplicación web con Laravel.</p>
 <p>Puedes detener la máquina virtual con el comando <code>vagrant halt</code>.</p>
 <h5 id="error-input-file-not-specified">Error 'input file not specified'</h5>
 <p>Es posible que al intentar cargar una aplicación el navegador te muestre el mensaje 'input file not specified'. Esto es algo común cuando por ejemplo cambiamos el archivo <code>host</code> y añadimos alguna URL más. En caso de que te aparezca este error, para la máquina virtual y vuélvela arrancar con el siguiente comando:</p>
-<pre><code>vagrant up --provision
-</code></pre>
+<div class="highlight"><pre><span></span><code>vagrant up --provision
+</code></pre></div>
 <h5 id="error-de-vboxmanage">Error de VBoxManage</h5>
 <p>Es posible que a la hora de hacer <code>vagrant up</code> no finalice correctamente y muestre el siguiente error:</p>
-<pre><code>There was an error while executing `VBoxManage`, a CLI used by Vagrant
+<div class="highlight"><pre><span></span><code>There was an error while executing `VBoxManage`, a CLI used by Vagrant
 for controlling VirtualBox. The command and stderr is shown below.
 
 Command: [&quot;startvm&quot;, &quot;b3d4e98d-8a88-4335-8430-28a731e02f07&quot;, &quot;--type&quot;, &quot;headless&quot;]
 
-Stderr: VBoxManage.exe: error: Failed to open/create the internal network 'HostInterfaceNetworking-VirtualBox Host-Only Ethernet Adapter #2' (VERR_INTNET_FLT_IF_NOT_FOUND).
+Stderr: VBoxManage.exe: error: Failed to open/create the internal network &#39;HostInterfaceNetworking-VirtualBox Host-Only Ethernet Adapter #2&#39; (VERR_INTNET_FLT_IF_NOT_FOUND).
 VBoxManage.exe: error: Failed to attach the network LUN (VERR_INTNET_FLT_IF_NOT_FOUND)
 VBoxManage.exe: error: Details: code E_FAIL (0x80004005), component ConsoleWrap, interface IConsole.
-</code></pre>
+</code></pre></div>
 <p>El error puede ser debido a las versiones de Vagrant y VirtualBox utilizadas. Para solucionarlo debería ser suficiente con actualizar VirtualBox.
 También puede ser necesario desinstalar el Extension Pack anterior e instalar la última versión.</p>
 <h4 id="bonus-extensiones-de-vs-code-para-desarrollar-en-laravel">Bonus: Extensiones de VS Code para desarrollar en Laravel</h4>
