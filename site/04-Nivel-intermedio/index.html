@@ -1694,60 +1694,55 @@ Route::get('/home', 'HomeController@index')-&gt;name('home');
 <p>¡Felicidades! Ya tienes la estructura básica de la aplicación creada. Puedes probar a registrar nuevos usuarios y realizar las acciones de login o logout con ellos.</p>
 <h4 id="paso-2-configuracion-basica">Paso 2: Configuración básica</h4>
 <p>Una de las cosas que tendrás que configurar es la ruta a la que se envía al usuario tras autenticarse. Esto puede especificarse  mediante la variable <code>HOME</code> del archivo <code>RouteServiceProvider</code>:</p>
-<pre><code class="language-php"> public const HOME = '/home';
- ```
-
- Laravel utiliza por defecto el campo `email` para identificar a los usuarios. Puedes cambiar esto creando un método `username()` en el controlador `LoginController`.
-
- ```php
- public function username()
+<pre><code class="language-php">public const HOME = '/home';
+</code></pre>
+<p>Laravel utiliza por defecto el campo <code>email</code> para identificar a los usuarios. Puedes cambiar esto creando un método <code>username()</code> en el controlador <code>LoginController</code>.</p>
+<pre><code class="language-php">public function username()
 {
     return 'username';
 }
 </code></pre>
 <p>Otro aspecto que podremos configurar es la ruta a la que enviaremos al usuario cuando intente acceder a una ruta protegida sin autenticarse. Por defecto Laravel le enviará a <code>/login</code>, pero podemos cambiar esto modificando el método <code>redirectTo()</code> del archivo <code>app/Http/Middleware/Authenticate.php</code>:</p>
-<p><code>php
-protected function redirectTo($request)
+<pre><code class="language-php">protected function redirectTo($request)
 {
     return route('login');
-}</code></p>
+}
+</code></pre>
 <h4 id="paso-3-securizar-rutas">Paso 3: Securizar rutas</h4>
 <p>Indicaremos las rutas que queramos proteger directamente en nuestro ruter <code>web.php</code>:</p>
 <pre><code class="language-php">Route::get('profile', function () {
     // Solo podrán acceder usuarios autenticados.
 })-&gt;middleware('auth');
- ```
-
-También podremos indicarlo directamente en el constructor de un controlador de la siguiente forma:
-
-```php
-public function __construct()
+</code></pre>
+<p>También podremos indicarlo directamente en el constructor de un controlador de la siguiente forma:</p>
+<pre><code class="language-php">public function __construct()
 {
     $this-&gt;middleware('auth');
 }
 </code></pre>
 <h4 id="paso-4-conseguir-el-usuario-autenticado">Paso 4: Conseguir el usuario autenticado</h4>
 <p>Existen distintas formas de acceder al objeto del usuario autenticado. Desde cualquier punto de la aplicación podremos acceder utilizado la facade <code>Auth</code>:</p>
-<p>```php
-use Illuminate\Support\Facades\Auth;</p>
-<p>// Conseguir el usuario autenticado:
-$user = Auth::user();</p>
-<p>// Conseguir el ID del usuario autenticado:
+<pre><code class="language-php">use Illuminate\Support\Facades\Auth;
+
+// Conseguir el usuario autenticado:
+$user = Auth::user();
+
+// Conseguir el ID del usuario autenticado:
 $id = Auth::id();
- ```</p>
+</code></pre>
 <p>También podremos conseguirlo desde cualquier petición:</p>
-<p><code>php
-public function update(Request $request)
+<pre><code class="language-php">public function update(Request $request)
 {
     $request-&gt;user(); //  devuelve una instancia del usuario autenticado.
-}</code></p>
+}
+</code></pre>
 <p>Para comprobar si un usuario está autenticado, podemos emplear el método <code>check()</code>:</p>
-<p>```php
-use Illuminate\Support\Facades\Auth;</p>
-<p>if (Auth::check()) {
+<pre><code class="language-php">use Illuminate\Support\Facades\Auth;
+
+if (Auth::check()) {
     // El usuario está autenticado.
 }
- ```</p>
+</code></pre>
 <h3 id="autenticacion-con-laravel-breeze">Autenticación con Laravel Breeze</h3>
 <p>A partir de la versión 8 de Laravel se recomienda utilizar Laravel Breeze, el cual utiliza Tailwind CSS en lugar de Bootstrap. Este aspecto es importante ya que afecta a las vistas creadas. Laravel Breeze es una implementación sencilla de las funciones más habituales de autenticación como: login, registro, recuperación de contraseña, verificación de correo electrónico o confirmación de contraseña por correo. Para ello creará todas las vistas, rutas y controladores necesarios y además los dejará disponibles en el código de nuestro proyecto para que podamos modificar todo aquello que necesitemos.</p>
 <p>Para instalar Laravel Breeze es necesario lanzar el siguiente comando para instalar el paquete utilizando Composer:</p>
@@ -1778,35 +1773,36 @@ use Illuminate\Support\Facades\Auth;</p>
 <p>Más información sobre la configuración en la <a href="https://laravel.com/docs/8.x/session">documentación oficial</a>.</p>
 <h4 id="uso-de-las-sesiones">Uso de las sesiones</h4>
 <p>Existen dos formas principales de acceder a la información de la sesión de usuario:
--  El helper global <code>session</code>
- ```php
-    // Obtener un valor de la sesión
-    $value = session('key');</p>
-<pre><code>// Podemos indicar un valor por defecto
-$value = session('key', 'default');
+-  El helper global <code>session</code></p>
+<pre><code class="language-php">    // Obtener un valor de la sesión
+    $value = session('key');
 
-// Para almacenar un valor, le pasamos un Array:
-session(['key' =&gt; 'value']);
+    // Podemos indicar un valor por defecto
+    $value = session('key', 'default');
+
+    // Para almacenar un valor, le pasamos un Array:
+    session(['key' =&gt; 'value']);
 </code></pre>
-<p><code>``
--  Mediante la instancia</code>Request` (inyectada en los métodos de nuestros controladores)</p>
-<p>```php
-    public function show(Request $request, $id)
+<ul>
+<li>Mediante la instancia <code>Request</code> (inyectada en los métodos de nuestros controladores)</li>
+</ul>
+<pre><code class="language-php">    public function show(Request $request, $id)
     {
-        $value = $request-&gt;session()-&gt;get('key');</p>
-<pre><code>    // También es posible indicar un valor por defecto si no existe ninguno:
-$value = $request-&gt;session()-&gt;get('key', 'default');
+        $value = $request-&gt;session()-&gt;get('key');
 
-// Almacenar un valor
-$request-&gt;session()-&gt;put('key', 'value');
+        // También es posible indicar un valor por defecto si no existe ninguno:
+    $value = $request-&gt;session()-&gt;get('key', 'default');
 
-// Recuperar un valor y eliminarlo de la sesión
-$value = $request-&gt;session()-&gt;pull('key', 'default');
-}
+    // Almacenar un valor
+    $request-&gt;session()-&gt;put('key', 'value');
+
+    // Recuperar un valor y eliminarlo de la sesión
+    $value = $request-&gt;session()-&gt;pull('key', 'default');
+    }
 </code></pre>
-<p>```</p>
 <p>También es posible acceder a valores de la sesión desde las vistas de Blade utilizardo la función <code>get()</code>:</p>
-<p><code>Session::get('key')</code></p>
+<pre><code> Session::get('key')
+</code></pre>
 <h3 id="hands-on_5">Hands on!</h3>
 <p>Añade las siguientes funcionalidades a la aplicación:
 - Guardar en sesión los artículos leídos: cuando un usuario entre a ver un artículo, se almacenará en sesión que ya lo ha leído.

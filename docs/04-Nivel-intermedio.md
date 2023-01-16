@@ -608,13 +608,13 @@ La segunda es simplemente un nuevo controlador autogenerado como ejemplo. Si int
 Una de las cosas que tendrás que configurar es la ruta a la que se envía al usuario tras autenticarse. Esto puede especificarse  mediante la variable `HOME` del archivo `RouteServiceProvider`:
 
 ```php
- public const HOME = '/home';
- ```
+public const HOME = '/home';
+```
  
- Laravel utiliza por defecto el campo `email` para identificar a los usuarios. Puedes cambiar esto creando un método `username()` en el controlador `LoginController`.
+Laravel utiliza por defecto el campo `email` para identificar a los usuarios. Puedes cambiar esto creando un método `username()` en el controlador `LoginController`.
  
- ```php
- public function username()
+```php
+public function username()
 {
     return 'username';
 }
@@ -622,12 +622,12 @@ Una de las cosas que tendrás que configurar es la ruta a la que se envía al us
 
 Otro aspecto que podremos configurar es la ruta a la que enviaremos al usuario cuando intente acceder a una ruta protegida sin autenticarse. Por defecto Laravel le enviará a `/login`, pero podemos cambiar esto modificando el método `redirectTo()` del archivo `app/Http/Middleware/Authenticate.php`:
 
- ```php
+```php
 protected function redirectTo($request)
 {
     return route('login');
 }
- ```
+```
  
 #### Paso 3: Securizar rutas
 Indicaremos las rutas que queramos proteger directamente en nuestro ruter `web.php`:
@@ -636,7 +636,7 @@ Indicaremos las rutas que queramos proteger directamente en nuestro ruter `web.p
 Route::get('profile', function () {
     // Solo podrán acceder usuarios autenticados.
 })->middleware('auth');
- ```
+```
 
 También podremos indicarlo directamente en el constructor de un controlador de la siguiente forma:
 
@@ -651,7 +651,7 @@ public function __construct()
 
 Existen distintas formas de acceder al objeto del usuario autenticado. Desde cualquier punto de la aplicación podremos acceder utilizado la facade `Auth`:
 
- ```php
+```php
 use Illuminate\Support\Facades\Auth;
 
 // Conseguir el usuario autenticado:
@@ -659,26 +659,26 @@ $user = Auth::user();
 
 // Conseguir el ID del usuario autenticado:
 $id = Auth::id();
- ```
+```
  
 También podremos conseguirlo desde cualquier petición:
 
- ```php
+```php
 public function update(Request $request)
 {
     $request->user(); //  devuelve una instancia del usuario autenticado.
 }
- ```
+```
  
  Para comprobar si un usuario está autenticado, podemos emplear el método `check()`:
 
- ```php
+```php
 use Illuminate\Support\Facades\Auth;
 
 if (Auth::check()) {
     // El usuario está autenticado.
 }
- ```
+```
 
 ### Autenticación con Laravel Breeze
 A partir de la versión 8 de Laravel se recomienda utilizar Laravel Breeze, el cual utiliza Tailwind CSS en lugar de Bootstrap. Este aspecto es importante ya que afecta a las vistas creadas. Laravel Breeze es una implementación sencilla de las funciones más habituales de autenticación como: login, registro, recuperación de contraseña, verificación de correo electrónico o confirmación de contraseña por correo. Para ello creará todas las vistas, rutas y controladores necesarios y además los dejará disponibles en el código de nuestro proyecto para que podamos modificar todo aquello que necesitemos.
@@ -724,7 +724,7 @@ Más información sobre la configuración en la [documentación oficial](https:/
 #### Uso de las sesiones
 Existen dos formas principales de acceder a la información de la sesión de usuario:
 -  El helper global `session`
- ```php
+```php
     // Obtener un valor de la sesión
     $value = session('key');
 
@@ -733,10 +733,10 @@ Existen dos formas principales de acceder a la información de la sesión de usu
 
     // Para almacenar un valor, le pasamos un Array:
     session(['key' => 'value']);
- ```
+```
 -  Mediante la instancia `Request` (inyectada en los métodos de nuestros controladores)
 
- ```php
+```php
     public function show(Request $request, $id)
     {
         $value = $request->session()->get('key');
@@ -750,13 +750,13 @@ Existen dos formas principales de acceder a la información de la sesión de usu
 	// Recuperar un valor y eliminarlo de la sesión
 	$value = $request->session()->pull('key', 'default');
     }
- ```
+```
  
  También es posible acceder a valores de la sesión desde las vistas de Blade utilizardo la función `get()`:
  
- ```
+```
  Session::get('key')
- ```
+```
  
 ### Hands on!
 Añade las siguientes funcionalidades a la aplicación:
