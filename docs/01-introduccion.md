@@ -3,9 +3,8 @@
 ## Prerequisitos
 Para seguir esta guía únicamente necesitarás **conocimientos básicos/medios de PHP** y motivación para aprender. Si todavía no dispones de estos conocimientos, puedes utilizar el material gratuito disponible en [http://jonvadillo.com/learn](http://jonvadillo.com/learn) para comenzar tu aprendizaje.
 
-Cualquier editor de texto te servirá también para programar. No obstante, te recomiendo [VS Code](https://code.visualstudio.com/) o [PhpStorm](https://www.jetbrains.com/es-es/phpstorm/), los cuales considero sin duda alguna dos de los editores para PHP más potentes en la actualidad.
-
-**¡Comencemos!**
+!!! tip "Consejo"
+    Cualquier editor de texto te servirá también para programar. No obstante, te recomiendo [VS Code](https://code.visualstudio.com/) o [PhpStorm](https://www.jetbrains.com/es-es/phpstorm/), los cuales considero sin duda alguna dos de los editores para PHP más potentes en la actualidad.
 
 ## ¿Qué es Laravel?
 Tal y como dice la guía oficial, Laravel es un **framework de desarrollo de aplicaciones web** con una sintaxis elegante que nos permitirá desarrollar aplicaciones web de forma rápida y segura.

@@ -256,7 +256,7 @@ El error puede ser debido a las versiones de Vagrant y VirtualBox utilizadas. Pa
 También puede ser necesario desinstalar el Extension Pack anterior e instalar la última versión.
 
 
-#### Bonus: Extensiones de VS Code para desarrollar en Laravel
-Puedes instalar algunas extensiones de VS Code para facilitar el desarrollo con Laravel. En el siguiente enlace tienes una recopilación de las más recomendadas:
+!!! tip "Bonus: Extensiones de VS Code para desarrollar en Laravel"
+    Puedes instalar algunas extensiones de VS Code para facilitar el desarrollo con Laravel. En el siguiente enlace tienes una recopilación de las más recomendadas:
 
-[https://devdojo.com/bobbyiliev/8-awesome-vs-code-extensions-for-laravel-developers](https://devdojo.com/bobbyiliev/8-awesome-vs-code-extensions-for-laravel-developers)
+    [https://devdojo.com/bobbyiliev/8-awesome-vs-code-extensions-for-laravel-developers](https://devdojo.com/bobbyiliev/8-awesome-vs-code-extensions-for-laravel-developers)

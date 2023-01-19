@@ -1,5 +1,7 @@
 # Tu primera aplicación en 7 pasos
-Ahora que ya tenemos nuestro entorno de desarrollo preparado, crearemos una aplicación web con Laravel paso por paso. Al finalizar los 7 pasos que encontrarás en este capítulo, obtendremos como resultado una revista online a la que hemos llamado RevistApp. Esta aplicación mostrará los artículos de una revista almacenados en una base de datos. ¿Comenzamos?
+Ahora que ya tenemos nuestro entorno de desarrollo preparado, crearemos una aplicación web con Laravel paso por paso. Al finalizar los 7 pasos que encontrarás en este capítulo, obtendremos como resultado una revista online a la que hemos llamado RevistApp. Esta aplicación mostrará los artículos de una revista almacenados en una base de datos.md-button. 
+
+¿Comenzamos?
 
 ## Paso 1 - Crea tu primer proyecto
 Este paso **no es necesario realizarlo si has optado por utilizar Laravel Sail**, ya que Sail creará automáticamente una nueva aplicación junto con el entorno.
