@@ -56,6 +56,8 @@ Si no lo has hecho ya, crea una aplicación llamada `revistapp`. Esta será la a
 Las rutas son los puntos de entrada a nuestra aplicación. Cada vez que un usuario hace una petición a una de las rutas de la aplicación, Laravel trata la petición mediante un Router definido en el directorio `routes`, el cual será el encargado de direccionar la petición a un Controlador. Las rutas accesibles para navegadores estarán definidas en el archivo `routes/web.php` y aquellas accesibles para servicios web (webservices) estarán definidas en el archivo `routes/api.php`. A continuación se muestra un ejemplo:
 
 ```php
+<?php
+
 Route::get('/articulos', function () {
     return '¡Vamos a leer unos articulos!';
 });
@@ -67,6 +69,8 @@ El código anterior muestra cómo se define una ruta básica. En este caso, cuan
 Podemos especificar tantas rutas como queramos:
 
 ```php
+<?php
+
 Route::get('/articulos', function () {
     return '¡Vamos a leer unos articulos!';
 });
@@ -80,6 +84,8 @@ Route::get('/usuarios', function () {
 También es posible responder a peticiones de tipo POST, por ejemplo para recibir datos de formularios: 
 
 ```php
+<?php
+
 Route::get('/articulos', function () {
     return '¡Vamos a leer unos articulos!';
 });
@@ -113,6 +119,8 @@ php artisan route:list --except-vendor
 También es posible devolver un JSON. Laravel convertirá automáticamente cualquier array a JSON:
 
 ```php
+<?php
+
 Route::get('/articulos', function () {
     $articulos = [
         [
@@ -133,6 +141,8 @@ Route::get('/articulos', function () {
 Una URL puede contener información de nuestro interés. Laravel permite acceder a esta información de forma sencilla utilizando los parámetros de ruta:
 
 ```php
+<?php
+
 Route::get('articulos/{id}', function ($id) {
     return 'Vas a leer el artículo: '.$id;
 });
@@ -141,6 +151,8 @@ Route::get('articulos/{id}', function ($id) {
 Los parámetros de ruta vienen definidos entre llaves `{}` y se inyectan automáticamente en las callbacks. Es posible utilizar más de un parámetro de ruta:
 
 ```php
+<?php
+
 Route::get('articulos/{id}/usuario/{name}', function ($id, $name) {
     return 'Vas a leer el artículo: '.$id. ' del usuario' .$name;
 });
@@ -149,6 +161,8 @@ Route::get('articulos/{id}/usuario/{name}', function ($id, $name) {
 Para indicar un parámetro como opcional, le tenemos que añadir el símbolo `?` al final del parámentro. Le tendremos que añadir un valor por defecto para asegurarnos su correcto funcionamiento:
 
 ```php
+<?php
+
 Route::get('articulos/{id?}', function ($id = 0) {
     return 'Vas a leer el artículo: '.$id;
 });
@@ -159,6 +173,8 @@ Route::get('articulos/{id?}', function ($id = 0) {
 También es posible acceder a la información enviada en la petición mediante el método `request()`. Por ejemplo, el siguiente código devolverá el valor enviado para el parámetro 'fecha' de la URL `/articulos?fecha=hoy`:
 
 ```php
+<?php
+
 Route::get('/articulos', function () {
     $fecha = request('fecha');
     return $fecha;
@@ -171,6 +187,8 @@ Es posible asignar nombres a las rutas que sirvan para referirnos a ellas. De es
 Para especificar el nombre a una ruta debemos utilizar la función `name()`, la cual deberá recibir como parámetro el nombre que se desea asignar a la ruta:
 
 ```php
+<?php
+
 Route::get('/articulos', function () {
     return "Ruta con nombre!";
 })->name('articulos.index');
@@ -196,6 +214,8 @@ Añade a tu aplicación `revistapp` dos nuevas rutas.
 #### Solución
 
 ```php
+<?php
+
 Route::get('/articulos', function () {
     $articulos = [
         ["id" => 1, "titulo" => "Primer artículo..."],
@@ -231,6 +251,8 @@ Tendrán la extensión `.blade.php` ya que Laravel utiliza el motor de plantilla
 Cargar y devolver una vista al usuario es tan sencillo como utilizar la función global (helper) `view()`:
 
 ```php
+<?php
+
 Route::get('/articulos', function () {
     return view('articulos');
 })->name('articulos');
@@ -259,6 +281,8 @@ Es una buena práctica evitar mezclar el código PHP con nuestras vistas, por lo
 La primera opción sería utilizando el método `with()`, pasándole como parámetros el nombre de la variable y su valor:
 
 ```php
+<?php
+
 Route::get('/', function () {
     $nombre = "Nora";
     return view('saludo')->with('nombre', $nombre);
@@ -268,6 +292,8 @@ Route::get('/', function () {
 Otra forma sería enviándolo como array:
 
 ```php
+<?php
+
 Route::get('/', function () {
     $nombre = "Nora";
     return view('saludo')->with(['nombre' => $nombre]);
@@ -277,6 +303,8 @@ Route::get('/', function () {
 También podríamos pasar el array como segundo parámetro de la función `view()` y no utilizar `with()`:
 
 ```php
+<?php
+
 Route::get('/', function () {
     $nombre = "Nora";
     return view('saludo',['nombre' => $nombre]);
@@ -303,6 +331,8 @@ Blade permite iterar por los datos de una colección o array. El siguiente ejemp
 En el caso anterior, la vista muestra el valor de la variable `nombre` e itera por el array `articulos`, por lo que será necesario proporcionarle dichos datos en la llamada al método `view()`:
 
 ```php
+<?php
+
 Route::get('/articulos', function () {
     $articulos = array('Primero', 'Segundo','Tercero', 'Último');
     return view('articulos', [
@@ -313,7 +343,7 @@ Route::get('/articulos', function () {
 ```
 El motor de plantillas Blade permite el uso de todo tipo de estructuras:
 
-```php
+```html
 @for ($i = 0; $i < 10; $i++)
     El valor actual es {{ $i }}
 @endfor
@@ -390,6 +420,8 @@ Actualiza las rutas de tu aplicación para que comiencen a devolver vistas al us
 ```
 `routes/web.php`:
 ```php
+<?php
+
 Route::get('/articulos', function () {
     $articulos = [
         ["id" => 1, "titulo" => "Primer artículo..."],
@@ -492,6 +524,8 @@ Cada método tiene su función:
 El siguiente paso es incluir en el Router las llamadas a los métodos del Controlador. En este caso crearemos las siguientes como ejemplo:
 
 ```php
+<?php
+
 use App\Http\Controllers\ArticuloController;
 
 Route::get('articulos/', [ArticuloController::class, 'index'])->name('articulos.index');
@@ -512,6 +546,8 @@ Si ejecutamos el comando `php artisan route:list` podemos comprobar cómo ya dis
 Esta opción de `Route::resource` también ofrece la posibilidad de generar únicamente las rutas que le indiquemos. El siguiente ejemplo muestra como generar únicamene las rutas index y create utilizando el método `only()`:
 
 ```php
+<?php
+
 Route::resource('articulos', ArticuloController::class)->only([
     'index', 'create'
 ]);
@@ -555,6 +591,7 @@ class ArticuloController extends Controller
 
 El router pasará a indicar el controlador y el método que se encargará de cada petición:
 ```php
+<?php
 
 use App\Http\Controllers\ArticuloController;
 
@@ -667,6 +704,8 @@ Tal y como puedes deducir del código anterior, una migración contiene 2 métod
 El siguiente paso es implementar el método `up()` para que cree las columnas tal y como queremos:
 
 ```php
+<?php
+
 public function up()
 {
     Schema::create('articulos', function (Blueprint $table) {
@@ -757,6 +796,8 @@ class Articulo extends Model
 Los modelos de Eloquent se pueden utilizar para recuperar información de las tablas relacionadas con ese modelo. Proporcionan métodos como los siguientes:
 
 ```php
+<?php
+
 use App\Models\Articulo;
 
 // Recupera todos los modelos
@@ -779,6 +820,8 @@ $articulos = Articulo::where('active', 1)
 Es posible iterar por la colección que devuelven los métodos `all()`, `get()` o `first()` de la siguiente forma:
 
 ```php
+<?php
+
 foreach ($articulos as $articulo) {
     echo $articulo->titulo;
 }
@@ -797,6 +840,8 @@ Por lo tanto, será necesario crear dos nuevas rutas que invoquen a los métodos
 
 El fichero `/routes/web.php` quedará así:
 ```php
+<?php
+
 use App\Http\Controllers\ArticuloController;
 
 Route::get('articulos', [ArticuloController::class, 'index'])->name('articulos.index');
@@ -850,7 +895,10 @@ En el método `store()` se ha incluido una validación de los datos. Para conoce
 Si no se quiere validar los datos (no recomendado) se podría haber creado el nuevo artículo de la siguiente forma:
 
 ```php
+<?php
+
     ...
+
     public function store(Request $request)
     {
         
@@ -869,6 +917,7 @@ Si no se quiere validar los datos (no recomendado) se podría haber creado el nu
     }
 }
 ```
+
 En el ejemplo anterior se puede apreciar que el método `request()` permite acceder a los datos enviados en la petición.
 
 Por último, quedaría crear la vista que muestre el formulario:
@@ -917,13 +966,13 @@ class Articulo extends Model
         'publicado' => false,
     ];
 }
-
 ```
-El ejemplo anterior muestra cómo establecer el atributo `publicado` como `false` cada vez que creemos un nuevo objeto de la clase `Articulo`.
 
+El ejemplo anterior muestra cómo establecer el atributo `publicado` como `false` cada vez que creemos un nuevo objeto de la clase `Articulo`.
 
 ### Alternativas a Eloquent ORM
 Laravel también permite interactuar con la base de datos mediante otras técnicas distintas a Eloquent ORM. Las alternativas disponibles son:
+
 - Raw SQL: se trata de ejecutar sentencias SQL directamente contra la base de datos. Tienes toda la información disponible [aquí](https://laravel.com/docs/9.x/database).
 - Query Builder: es una interfaz de comunicación con la base de datos que permite lanzar prácticamente cualquier consulta. A diferencia de la anterior, no es tan eficiente en cuanto a rendimiento pero aporta otras ventajas como la seguridad y abstracción de base de datos. Tienes toda la información disponible [aquí](https://laravel.com/docs/9.x/queries).
 
@@ -981,11 +1030,13 @@ Crea una vista para crear nuevos artículos y los métodos `create()` y `store()
 
 
 ### Hands on! (7/7)
+
 - Actualiza el método `index()` para que utilice los datos almacenados en la base de datos. Puedes utilizar el método `all()` para recoger todos los artículos de la base de datos.
 - Actualiza el método `show()` para que muestre el título y el contenido del artículo seleccionado.
 - Añade también en la página incial un enlace a la página de creación de artículos.
 
 #### Solución
+
 `/App/Http/Controllers/ArticuloController.php`:
 ```php
 <?php
@@ -1044,7 +1095,9 @@ Actualiza la vista `index.blade.php` para que utilice los datos correctamente y 
 </body>
 </html>
 ```
+
 Actualiza la vista `show.blade.php` para que utilice los datos reales del artículo seleccionado:
+
 ```html
 <!DOCTYPE html>
 <html>
@@ -1062,6 +1115,7 @@ Actualiza la vista `show.blade.php` para que utilice los datos reales del artíc
 ```
 
 ## Bonus - Opciones (flags) de Artisan
+
 Existen opciones muy útiles para generar archivos relacionados con los modelos. El siguiente ejemplo **crea un modelo junto con su controlador y migración utilizando un único comando**:
 
 ```

@@ -1640,7 +1640,7 @@ Expliquemos la siguiente sentencia:</p>
 <h3 id="hands-on_3">Hands on!</h3>
 <p>La vista de detalle de artículo mostrará los comentarios del artículo e incluirá la posibilidad de añadir nuevos comentarios.</p>
 <h4 id="solucion_1">Solución</h4>
-<p>Crear la migración para los comentarios e implementar el método <code>up()</code>. Deberá incluir un campo de texto para almacenar el comentario y la clave foránea indicando el artículo al que pertenece ek comentario:</p>
+<p>Crear la migración para los comentarios e implementar el método <code>up()</code>. Deberá incluir un campo de texto para almacenar el comentario y la clave foránea indicando el artículo al que pertenece el comentario:</p>
 <div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
 <span class="o">...</span>
@@ -1765,25 +1765,27 @@ Actualizar la vista para que muestre el formulario de creación de un comentario
 </code></pre></div>
 <h2 id="generar-datos-de-prueba">Generar datos de prueba</h2>
 <p>Laravel incluye un mecanismo llamado Seeder que sirve para rellenar la base de datos con datos de prueba. Por defecto nos incluye la clase DatabaseSeeder en la que podemos incluir el código que genere los datos de prueba:</p>
-<div class="highlight"><pre><span></span><code><span class="x">class DatabaseSeeder extends Seeder</span>
-<span class="x">{</span>
-<span class="x">    /**</span>
-<span class="x">     * Seed the application&#39;s database.</span>
-<span class="x">     *</span>
-<span class="x">     * @return void</span>
-<span class="x">     */</span>
-<span class="x">    public function run()</span>
-<span class="x">    {</span>
-<span class="x">        $faker = \Faker\Factory::create();</span>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
-<span class="x">        for($i=0;$i&lt;10;$i++){</span>
-<span class="x">            DB::table(&#39;articulos&#39;)-&gt;insert([</span>
-<span class="x">                &#39;titulo&#39; =&gt; $faker-&gt;text(50),</span>
-<span class="x">                &#39;contenido&#39; =&gt; $faker-&gt;text(400)</span>
-<span class="x">            ]);</span>
-<span class="x">        }</span>
-<span class="x">    }</span>
-<span class="x">}</span>
+<span class="k">class</span> <span class="nc">DatabaseSeeder</span> <span class="k">extends</span> <span class="nx">Seeder</span>
+<span class="p">{</span>
+    <span class="sd">/**</span>
+<span class="sd">     * Seed the application&#39;s database.</span>
+<span class="sd">     *</span>
+<span class="sd">     * @return void</span>
+<span class="sd">     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">run</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="nv">$faker</span> <span class="o">=</span> <span class="nx">\Faker\Factory</span><span class="o">::</span><span class="na">create</span><span class="p">();</span>
+
+        <span class="k">for</span><span class="p">(</span><span class="nv">$i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="nv">$i</span><span class="o">&lt;</span><span class="mi">10</span><span class="p">;</span><span class="nv">$i</span><span class="o">++</span><span class="p">){</span>
+            <span class="nx">DB</span><span class="o">::</span><span class="na">table</span><span class="p">(</span><span class="s1">&#39;articulos&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">insert</span><span class="p">([</span>
+                <span class="s1">&#39;titulo&#39;</span> <span class="o">=&gt;</span> <span class="nv">$faker</span><span class="o">-&gt;</span><span class="na">text</span><span class="p">(</span><span class="mi">50</span><span class="p">),</span>
+                <span class="s1">&#39;contenido&#39;</span> <span class="o">=&gt;</span> <span class="nv">$faker</span><span class="o">-&gt;</span><span class="na">text</span><span class="p">(</span><span class="mi">400</span><span class="p">)</span>
+            <span class="p">]);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
 </code></pre></div>
 <p>Una vez creado nuestro Seeder es probable que necesites regenerar el fichero autoload.php:</p>
 <div class="highlight"><pre><span></span><code>composer dump-autoload

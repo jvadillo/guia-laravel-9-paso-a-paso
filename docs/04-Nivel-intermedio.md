@@ -5,6 +5,8 @@ Normalmente cuando se incluye el ID de un registro en la URL, como por ejemplo e
 
 A continuación se muestra un ejemplo en el router:
 ``` php
+<?php
+
 use App\Models\Articulo;
  
 Route::get('/articulos/{articulo}', function (Articulo $articulo) {
@@ -16,6 +18,8 @@ Como puede verse, la función en lugar de recibir el ID como parámetro recibe d
 Igualmente se puede hacer en el controlador:
 
 ```php
+<?php
+
 use App\Http\Controllers\ArticuloController;
 use App\Models\Articulo;
  
@@ -39,7 +43,7 @@ El borrado de registros es un tema que suele traer complicaciones, debido a que 
 - Hacer la petición de tipo DELETE utilizando AJAX y especificando en la llamada el tipo de método: `'type': 'DELETE'`
 - Emular la llamada `DELETE` mediante el campo oculto `_method`. Para ello podemos utilizar los helpers o directivas de Laravel en un formulario para notificar que se trata de una petición de tipo `DELETE`:
 
-```php	
+```html
 <form method="POST">
      @csrf
      @method("DELETE")
@@ -51,6 +55,8 @@ El borrado de registros es un tema que suele traer complicaciones, debido a que 
 Siguiendo con la última de las opciones, quedaría añadir la ruta de borrado al router e implementar el método `destroy()` del controlador:
 
 ```php
+<?php
+
 // Nueva ruta en /router/web.php:
 Route::delete('/articulos/{articulo}', [ArticuloController::class, 'destroy'])->name('articulos.destroy');
 
@@ -61,6 +67,7 @@ public function destroy(Articulo $articulo)
     return redirect(route('articulos.index'));
 }
 ```
+
 El borrado de un modelo se puede hacer de forma sencilla invocando al método `delete()` del modelo.
 
 ### Hands on!
@@ -100,12 +107,16 @@ En el código anterior puede verse cómo se han asignado los valores actuales a 
 
 Nuevas rutas añadidas a `/routes/web.php`:
 ```php
+<?php
+
 Route::get('/articulos/{articulo}/edit', [ArticuloController::class, 'edit'])->name('articulos.edit');
 Route::put('/articulos/{articulo}', [ArticuloController::class, 'update'])->name('articulos.update');
 ```
 
 En cuanto a los métodos de `ArticuloController.php`, se utilizará el método `update()` para actualizar el modelo:
+
 ```php
+<?php
 public function edit(Articulo $articulo)
 {
     return view('articulos.edit', [
@@ -328,6 +339,8 @@ Añade estilo a la aplicación mediante el framework Bootstrap 5.
 Las relaciones en Eloquent ORM se definen como métodos. Supongamos que tenemos dos entidades, `User` y `Articulo`. Podríamos decir que un `User` tiene (*has*) varios `Articulo` o que un `Articulo` pertenece a (*belongs to*) un `User`. Por lo tanto, podemos definir la relación en cualquiera de los dos modelos, incluso en los dos.
 
 ```php
+<?php
+
 class User extends Model
 {
     /**
@@ -341,6 +354,8 @@ class User extends Model
 ```
 
 ```php
+<?php
+
 class Articulo extends Model
 {
     /**
@@ -358,6 +373,8 @@ Tienes toda la información sobre cómo definir relaciones entre modelos en la [
 El acceso se podrá hacer como propiedades del propio modelo, es decir, mediante `$user->articulos` o `$articulo->user`. Esto es gracias a que Eloquent utiliza lo que conocemos como 'dynamic properties' y acceder a los métodos de las relaciones como si fuesen propiedades:
 
 ```php
+<?php
+
 $user = App\Models\User::find(1); // Ejecuta la sentencia: select * from users where id = 1
 
 $user_articulos = $user->articulos; // Ejecutara la sentencia: select * from articulos where user_id = 1
@@ -419,12 +436,14 @@ php artisan migrate:make add_category_to_articulos --table="articulos"
 ```
 
 ```php
-public function up()
-{
-    Schema::table('articulos', function($table)
+<?php
+
+    public function up()
     {
-        $table->string('category');
-    });
+        Schema::table('articulos', function($table)
+        {
+            $table->string('category');
+        });
     }
     /**
      * Reverse the migrations.
@@ -439,12 +458,13 @@ public function up()
     }
 }
 ```
+
 ### Hands on!
 La vista de detalle de artículo mostrará los comentarios del artículo e incluirá la posibilidad de añadir nuevos comentarios.
 
 #### Solución
 
-Crear la migración para los comentarios e implementar el método `up()`. Deberá incluir un campo de texto para almacenar el comentario y la clave foránea indicando el artículo al que pertenece ek comentario:
+Crear la migración para los comentarios e implementar el método `up()`. Deberá incluir un campo de texto para almacenar el comentario y la clave foránea indicando el artículo al que pertenece el comentario:
 
 ```php
 <?php
@@ -491,6 +511,8 @@ Añadir las relación en la clase Articulo:
 
 `/App/Models/Articulo.php`:
 ```php
+<?php
+
 class Articulo extends Model
 {
     ...
@@ -589,6 +611,8 @@ Route::post('articulos/{articulo}/comentarios', [ComentarioController::class, 's
 Laravel incluye un mecanismo llamado Seeder que sirve para rellenar la base de datos con datos de prueba. Por defecto nos incluye la clase DatabaseSeeder en la que podemos incluir el código que genere los datos de prueba:
 
 ```php
+<?php
+
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -638,6 +662,7 @@ php artisan make:seeder UsersTableSeeder
 Por último, tendrás que modificar la clase DatabaseSeeder para que lance nuestros Seeders:
 
 ```php
+<?php
 
 public function run()
 {
@@ -680,6 +705,8 @@ Es suficiente con implementar el método `definition` y especificar en él las p
 Una vez tenemos creadas las factories, solo nos quedaría utilizarlas desde el Seeder correspondiente:
 
 ```php
+<?php
+
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -775,6 +802,8 @@ public const HOME = '/home';
 Laravel utiliza por defecto el campo `email` para identificar a los usuarios. Puedes cambiar esto creando un método `username()` en el controlador `LoginController.php`.
  
 ```php
+<?php
+
 public function username()
 {
     return 'username';
@@ -784,6 +813,8 @@ public function username()
 Otro aspecto que podremos configurar es la ruta a la que enviaremos al usuario cuando intente acceder a una ruta protegida sin autenticarse. Por defecto Laravel le enviará a `/login`, pero podemos cambiar esto modificando el método `redirectTo()` del archivo `app/Http/Middleware/Authenticate.php`:
 
 ```php
+<?php
+
 protected function redirectTo($request)
 {
     return route('login');
@@ -828,6 +859,8 @@ Por último, no olvides lanzar las migraciones necesarias mediante el comando `p
 Indicaremos las rutas que queramos proteger directamente en nuestro ruter `web.php`:
 
 ```php
+<?php
+
 Route::get('profile', function () {
     // Solo podrán acceder usuarios autenticados.
 })->middleware('auth');
@@ -839,6 +872,8 @@ Route::get('articulos', [ArticuloController::class, 'index'])->name('articulos.i
 También podremos indicarlo directamente en el constructor de un controlador de la siguiente forma:
 
 ```php
+<?php
+
 public function __construct()
 {
     $this->middleware('auth');
@@ -850,6 +885,8 @@ public function __construct()
 Existen distintas formas de acceder al objeto del usuario autenticado. Desde cualquier punto de la aplicación podremos acceder utilizado la facade `Auth`:
 
 ```php
+<?php
+
 use Illuminate\Support\Facades\Auth;
 
 // Conseguir el usuario autenticado:
@@ -862,6 +899,8 @@ $id = Auth::id();
 También podremos conseguirlo desde cualquier petición que reciba nuestro controlador:
 
 ```php
+<?php
+
 public function update(Request $request)
 {
     $request->user(); //  devuelve una instancia del usuario autenticado.
@@ -871,6 +910,8 @@ public function update(Request $request)
 Para comprobar si un usuario está autenticado, podemos emplear el método `check()`:
 
 ```php
+<?php
+
 use Illuminate\Support\Facades\Auth;
 
 if (Auth::check()) {
@@ -882,6 +923,8 @@ if (Auth::check()) {
 Cuando nuestro middleware de autenticación detecte que un usuario tiene que está autenticado para acceder a una ruta, automáticamente redirigirá al usuario donde nosotros le indiquemos (habitualmente una vista de login). Esto lo podremos indicar en el método `redirectTo()` del archivo `app/Http/Middleware/Authenticate.php`.
 
 ```php
+<?php
+
 protected function redirectTo($request)
 {
     return route('login');
@@ -924,6 +967,8 @@ Existen dos formas principales de acceder a la información de la sesión de usu
 -  El helper global `session`:
 
 ```php
+<?php
+
 // Obtener un valor de la sesión
 $value = session('key');
 
@@ -937,6 +982,8 @@ session(['key' => 'value']);
 -  Mediante la instancia `Request` (inyectada en los métodos de nuestros controladores)
 
 ```php
+<?php
+
 public function show(Request $request, $id)
 {
     $value = $request->session()->get('key');
@@ -974,6 +1021,8 @@ Los artículos marcados como favoritos se podrán distinguir visualmente (median
 Laravel permite validar cualquier campo enviado por un formulario mediante el método `validate`. Tal y como ya habíamos hecho anteriormente:
 
 ```php
+<?php
+
 public function store(Request $request)
 {
     //Validar la petición:
@@ -1016,7 +1065,7 @@ Todas las vistas de Laravel tienen disponible la variable llamada `$errors`. En 
 La directiva `@error` permite comprobar si un campo concreto ha tenido algún error, y en caso afirmativo mostrar el mensaje de error de dicho campo. Se utilizará de la siguiente manera:
 
 
-```php
+```html
 <p>
     <label>Titulo: </label>
     <input type="text" name="titulo">
