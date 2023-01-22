@@ -629,13 +629,6 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#autenticacion-en-blade" class="md-nav__link">
-    Autenticación en Blade
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#laravel-breeze" class="md-nav__link">
     Laravel Breeze
   </a>
@@ -679,6 +672,13 @@
           <li class="md-nav__item">
   <a href="#hands-on_4" class="md-nav__link">
     Hands on!
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#autenticacion-en-blade" class="md-nav__link">
+    Autenticación en Blade
   </a>
   
 </li>
@@ -1131,13 +1131,6 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#autenticacion-en-blade" class="md-nav__link">
-    Autenticación en Blade
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#laravel-breeze" class="md-nav__link">
     Laravel Breeze
   </a>
@@ -1181,6 +1174,13 @@
           <li class="md-nav__item">
   <a href="#hands-on_4" class="md-nav__link">
     Hands on!
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#autenticacion-en-blade" class="md-nav__link">
+    Autenticación en Blade
   </a>
   
 </li>
@@ -1759,16 +1759,6 @@ php artisan ui react --auth
 <span class="x">    return route(&#39;login&#39;);</span>
 <span class="x">}</span>
 </code></pre></div>
-<h3 id="autenticacion-en-blade">Autenticación en Blade</h3>
-<p>También podremos comprobar en nuestras vistas si un usuario está autenticado o no. Para ello tendremos la directiva <code>@auth</code> y <code>@guest</code>:</p>
-<div class="highlight"><pre><span></span><code><span class="x">@auth</span>
-<span class="x">    // Si el usuario está autenticado...</span>
-<span class="x">@endauth</span>
-<span class="x"> </span>
-<span class="x">@guest</span>
-<span class="x">    // Si el usuario no está autenticado...</span>
-<span class="x">@endguest</span>
-</code></pre></div>
 <h3 id="laravel-breeze">Laravel Breeze</h3>
 <p>A partir de la versión 8 de Laravel se recomienda utilizar Laravel Breeze, el cual utiliza Tailwind CSS en lugar de Bootstrap. Este aspecto es importante ya que afecta a las vistas creadas. Laravel Breeze es una implementación sencilla de las funciones más habituales de autenticación como: login, registro, recuperación de contraseña, verificación de correo electrónico o confirmación de contraseña por correo. Para ello creará todas las vistas, rutas y controladores necesarios y además los dejará disponibles en el código de nuestro proyecto para que podamos modificar todo aquello que necesitemos.</p>
 <div class="admonition note">
@@ -1845,6 +1835,16 @@ php artisan ui react --auth
 <li>La opción de borrar un artículo únicamente estará visible para usuarios autenticados.</li>
 <li>Muestra los comentarios de los artículos únicamente a usuarios autenticados. A los usuarios no identificados muéstrales un mensaje con un enlace a la página de login.</li>
 </ul>
+<h3 id="autenticacion-en-blade">Autenticación en Blade</h3>
+<p>También podremos comprobar en nuestras vistas si un usuario está autenticado o no. Para ello tendremos la directiva <code>@auth</code> y <code>@guest</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="x">@auth</span>
+<span class="x">    // Si el usuario está autenticado...</span>
+<span class="x">@endauth</span>
+<span class="x"> </span>
+<span class="x">@guest</span>
+<span class="x">    // Si el usuario no está autenticado...</span>
+<span class="x">@endguest</span>
+</code></pre></div>
 <h2 id="manejo-de-sesiones">Manejo de sesiones</h2>
 <p>HTTP es un protocolo sin estado (stateless), es decir, no guarda ninguna información sobre conexiones anteriores. Esto quiere decir que nuestra aplicación no tiene "memoria", y cada petición realizada por un usuario es nueva para la aplicación. Las sesiones permiten afrontar este problema, ya que son un mecanismo para almacenar información entre las peticiones que realiza un usuario al navegar por nuestra aplicación. Laravel implementa las sesiones de forma que su uso es muy sencillo para los desarrolladores.</p>
 <h4 id="configuracion">Configuración</h4>

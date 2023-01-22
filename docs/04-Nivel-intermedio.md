@@ -634,19 +634,6 @@ protected function redirectTo($request)
 }
 ```
 
-### Autenticación en Blade
-También podremos comprobar en nuestras vistas si un usuario está autenticado o no. Para ello tendremos la directiva `@auth` y `@guest`:
-
-```php
-@auth
-    // Si el usuario está autenticado...
-@endauth
- 
-@guest
-    // Si el usuario no está autenticado...
-@endguest
-```
-
 ### Laravel Breeze
 A partir de la versión 8 de Laravel se recomienda utilizar Laravel Breeze, el cual utiliza Tailwind CSS en lugar de Bootstrap. Este aspecto es importante ya que afecta a las vistas creadas. Laravel Breeze es una implementación sencilla de las funciones más habituales de autenticación como: login, registro, recuperación de contraseña, verificación de correo electrónico o confirmación de contraseña por correo. Para ello creará todas las vistas, rutas y controladores necesarios y además los dejará disponibles en el código de nuestro proyecto para que podamos modificar todo aquello que necesitemos.
 
@@ -750,6 +737,21 @@ protected function redirectTo($request)
 - Protege la ruta empleada para escribir un nuevo artículo (solo usuarios autenticados podrán acceder).
 - La opción de borrar un artículo únicamente estará visible para usuarios autenticados.
 - Muestra los comentarios de los artículos únicamente a usuarios autenticados. A los usuarios no identificados muéstrales un mensaje con un enlace a la página de login.
+
+
+### Autenticación en Blade
+También podremos comprobar en nuestras vistas si un usuario está autenticado o no. Para ello tendremos la directiva `@auth` y `@guest`:
+
+```php
+@auth
+    // Si el usuario está autenticado...
+@endauth
+ 
+@guest
+    // Si el usuario no está autenticado...
+@endguest
+```
+
 
 ## Manejo de sesiones
 HTTP es un protocolo sin estado (stateless), es decir, no guarda ninguna información sobre conexiones anteriores. Esto quiere decir que nuestra aplicación no tiene "memoria", y cada petición realizada por un usuario es nueva para la aplicación. Las sesiones permiten afrontar este problema, ya que son un mecanismo para almacenar información entre las peticiones que realiza un usuario al navegar por nuestra aplicación. Laravel implementa las sesiones de forma que su uso es muy sencillo para los desarrolladores.
