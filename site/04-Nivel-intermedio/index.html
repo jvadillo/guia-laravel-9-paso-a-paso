@@ -1305,25 +1305,29 @@
 <h2 id="route-model-binding">Route Model Binding</h2>
 <p>Normalmente cuando se incluye el ID de un registro en la URL, como por ejemplo en una ruta como <code>/articulos/{id}</code> de tipo <code>GET</code>, lo más común es que el controlador de turno tenga que recuperar de la base de datos el registro con el ID indicado. Es por esto que Laravel permite inyectar directamente el modelo entero en lugar del <code>id</code>.</p>
 <p>A continuación se muestra un ejemplo en el router:
-<div class="highlight"><pre><span></span><code><span class="x">use App\Models\Articulo;</span>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
-<span class="x">Route::get(&#39;/articulos/{articulo}&#39;, function (Articulo $articulo) {</span>
-<span class="x">    return $articulo-&gt;titulo;</span>
-<span class="x">});</span>
+<span class="k">use</span> <span class="nx">App\Models\Articulo</span><span class="p">;</span>
+
+<span class="nx">Route</span><span class="o">::</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;/articulos/{articulo}&#39;</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nx">Articulo</span> <span class="nv">$articulo</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$articulo</span><span class="o">-&gt;</span><span class="na">titulo</span><span class="p">;</span>
+<span class="p">});</span>
 </code></pre></div>
 Como puede verse, la función en lugar de recibir el ID como parámetro recibe directamente el modelo. Esto ha sido gracias a que el parámetro ha sido declarado del tipo <code>Articulo</code> y el nombre del parámentro (<code>$articulo</code>) coincide con el parametro de la ruta (<code>{articulo}</code>).</p>
 <p>Igualmente se puede hacer en el controlador:</p>
-<div class="highlight"><pre><span></span><code><span class="x">use App\Http\Controllers\ArticuloController;</span>
-<span class="x">use App\Models\Articulo;</span>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
-<span class="x">// Definición de la ruta:</span>
-<span class="x">Route::get(&#39;/articulos/{articulo}&#39;, [UserController::class, &#39;show&#39;]);</span>
+<span class="k">use</span> <span class="nx">App\Http\Controllers\ArticuloController</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">App\Models\Articulo</span><span class="p">;</span>
 
-<span class="x">// Definición del método en el Controlador:</span>
-<span class="x">public function show(Articulo $articulo)</span>
-<span class="x">{</span>
-<span class="x">    return view(&#39;articulos.index&#39;, [&#39;articulo&#39; =&gt; $articulo]);</span>
-<span class="x">}</span>
+<span class="c1">// Definición de la ruta:</span>
+<span class="nx">Route</span><span class="o">::</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;/articulos/{articulo}&#39;</span><span class="p">,</span> <span class="p">[</span><span class="nx">UserController</span><span class="o">::</span><span class="na">class</span><span class="p">,</span> <span class="s1">&#39;show&#39;</span><span class="p">]);</span>
+
+<span class="c1">// Definición del método en el Controlador:</span>
+<span class="k">public</span> <span class="k">function</span> <span class="nf">show</span><span class="p">(</span><span class="nx">Articulo</span> <span class="nv">$articulo</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="nx">view</span><span class="p">(</span><span class="s1">&#39;articulos.index&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;articulo&#39;</span> <span class="o">=&gt;</span> <span class="nv">$articulo</span><span class="p">]);</span>
+<span class="p">}</span>
 </code></pre></div>
 <h3 id="hands-on">Hands on!</h3>
 <p>Actualiza la ruta y el controlador ArticuloController de tu aplicación para que utilice el <code>Route Model Binding</code> cuando el usuario solicite los detalles de un artículo (show).</p>
@@ -1334,25 +1338,27 @@ Como puede verse, la función en lugar de recibir el ID como parámetro recibe d
 <li>Hacer la petición de tipo DELETE utilizando AJAX y especificando en la llamada el tipo de método: <code>'type': 'DELETE'</code></li>
 <li>Emular la llamada <code>DELETE</code> mediante el campo oculto <code>_method</code>. Para ello podemos utilizar los helpers o directivas de Laravel en un formulario para notificar que se trata de una petición de tipo <code>DELETE</code>:</li>
 </ul>
-<div class="highlight"><pre><span></span><code><span class="x">&lt;form method=&quot;POST&quot;&gt;</span>
-<span class="x">     @csrf</span>
-<span class="x">     @method(&quot;DELETE&quot;)</span>
+<div class="highlight"><pre><span></span><code><span class="p">&lt;</span><span class="nt">form</span> <span class="na">method</span><span class="o">=</span><span class="s">&quot;POST&quot;</span><span class="p">&gt;</span>
+     @csrf
+     @method(&quot;DELETE&quot;)
 
-<span class="x">     &lt;button type=&quot;submit&quot;&gt;Eliminar&lt;/button&gt;</span>
-<span class="x">&lt;/form&gt;</span>
+     <span class="p">&lt;</span><span class="nt">button</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;submit&quot;</span><span class="p">&gt;</span>Eliminar<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">form</span><span class="p">&gt;</span>
 </code></pre></div>
 <p>Siguiendo con la última de las opciones, quedaría añadir la ruta de borrado al router e implementar el método <code>destroy()</code> del controlador:</p>
-<p><div class="highlight"><pre><span></span><code><span class="x">// Nueva ruta en /router/web.php:</span>
-<span class="x">Route::delete(&#39;/articulos/{articulo}&#39;, [ArticuloController::class, &#39;destroy&#39;])-&gt;name(&#39;articulos.destroy&#39;);</span>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
-<span class="x">// Método destroy() en ArticuloContoller:</span>
-<span class="x">public function destroy(Articulo $articulo)</span>
-<span class="x">{</span>
-<span class="x">    $articulo-&gt;delete();</span>
-<span class="x">    return redirect(route(&#39;articulos.index&#39;));</span>
-<span class="x">}</span>
+<span class="c1">// Nueva ruta en /router/web.php:</span>
+<span class="nx">Route</span><span class="o">::</span><span class="na">delete</span><span class="p">(</span><span class="s1">&#39;/articulos/{articulo}&#39;</span><span class="p">,</span> <span class="p">[</span><span class="nx">ArticuloController</span><span class="o">::</span><span class="na">class</span><span class="p">,</span> <span class="s1">&#39;destroy&#39;</span><span class="p">])</span><span class="o">-&gt;</span><span class="na">name</span><span class="p">(</span><span class="s1">&#39;articulos.destroy&#39;</span><span class="p">);</span>
+
+<span class="c1">// Método destroy() en ArticuloContoller:</span>
+<span class="k">public</span> <span class="k">function</span> <span class="nf">destroy</span><span class="p">(</span><span class="nx">Articulo</span> <span class="nv">$articulo</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="nv">$articulo</span><span class="o">-&gt;</span><span class="na">delete</span><span class="p">();</span>
+    <span class="k">return</span> <span class="nx">redirect</span><span class="p">(</span><span class="nx">route</span><span class="p">(</span><span class="s1">&#39;articulos.index&#39;</span><span class="p">));</span>
+<span class="p">}</span>
 </code></pre></div>
-El borrado de un modelo se puede hacer de forma sencilla invocando al método <code>delete()</code> del modelo.</p>
+<p>El borrado de un modelo se puede hacer de forma sencilla invocando al método <code>delete()</code> del modelo.</p>
 <h3 id="hands-on_1">Hands on!</h3>
 <p>Añade la opción de eliminar cualquier artículo de la aplicación.</p>
 <h2 id="actualizar-un-modelo">Actualizar un modelo</h2>
@@ -1385,27 +1391,30 @@ El borrado de un modelo se puede hacer de forma sencilla invocando al método <c
 </code></pre></div>
 En el código anterior puede verse cómo se han asignado los valores actuales a los atributos <code>value</code> de cada campo. Se ha utilizado la directiva <code>@method('PUT')</code> de Laravel para indicar que el método de envío será de tipo <code>PUT</code>.</p>
 <p>Nuevas rutas añadidas a <code>/routes/web.php</code>:
-<div class="highlight"><pre><span></span><code><span class="x">Route::get(&#39;/articulos/{articulo}/edit&#39;, [ArticuloController::class, &#39;edit&#39;])-&gt;name(&#39;articulos.edit&#39;);</span>
-<span class="x">Route::put(&#39;/articulos/{articulo}&#39;, [ArticuloController::class, &#39;update&#39;])-&gt;name(&#39;articulos.update&#39;);</span>
-</code></pre></div></p>
-<p>En cuanto a los métodos de <code>ArticuloController.php</code>, se utilizará el método <code>update()</code> para actualizar el modelo:
-<div class="highlight"><pre><span></span><code><span class="x">public function edit(Articulo $articulo)</span>
-<span class="x">{</span>
-<span class="x">    return view(&#39;articulos.edit&#39;, [</span>
-<span class="x">        &#39;articulo&#39; =&gt; $articulo</span>
-<span class="x">    ]);</span>
-<span class="x">}</span>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
-<span class="x">public function update(Request $request, Articulo $articulo)</span>
-<span class="x">{</span>
-<span class="x">    $validated = $request-&gt;validate([</span>
-<span class="x">        &#39;titulo&#39; =&gt; &#39;required|string|max:255&#39;,</span>
-<span class="x">        &#39;contenido&#39; =&gt;&#39;required|string&#39;</span>
-<span class="x">    ]);</span>
-<span class="x">    $articulo-&gt;update($validated);</span>
-<span class="x">    return redirect(route(&#39;articulos.show&#39;, $articulo));</span>
-<span class="x">}</span>
+<span class="nx">Route</span><span class="o">::</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;/articulos/{articulo}/edit&#39;</span><span class="p">,</span> <span class="p">[</span><span class="nx">ArticuloController</span><span class="o">::</span><span class="na">class</span><span class="p">,</span> <span class="s1">&#39;edit&#39;</span><span class="p">])</span><span class="o">-&gt;</span><span class="na">name</span><span class="p">(</span><span class="s1">&#39;articulos.edit&#39;</span><span class="p">);</span>
+<span class="nx">Route</span><span class="o">::</span><span class="na">put</span><span class="p">(</span><span class="s1">&#39;/articulos/{articulo}&#39;</span><span class="p">,</span> <span class="p">[</span><span class="nx">ArticuloController</span><span class="o">::</span><span class="na">class</span><span class="p">,</span> <span class="s1">&#39;update&#39;</span><span class="p">])</span><span class="o">-&gt;</span><span class="na">name</span><span class="p">(</span><span class="s1">&#39;articulos.update&#39;</span><span class="p">);</span>
 </code></pre></div></p>
+<p>En cuanto a los métodos de <code>ArticuloController.php</code>, se utilizará el método <code>update()</code> para actualizar el modelo:</p>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+<span class="k">public</span> <span class="k">function</span> <span class="nf">edit</span><span class="p">(</span><span class="nx">Articulo</span> <span class="nv">$articulo</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="nx">view</span><span class="p">(</span><span class="s1">&#39;articulos.edit&#39;</span><span class="p">,</span> <span class="p">[</span>
+        <span class="s1">&#39;articulo&#39;</span> <span class="o">=&gt;</span> <span class="nv">$articulo</span>
+    <span class="p">]);</span>
+<span class="p">}</span>
+
+<span class="k">public</span> <span class="k">function</span> <span class="nf">update</span><span class="p">(</span><span class="nx">Request</span> <span class="nv">$request</span><span class="p">,</span> <span class="nx">Articulo</span> <span class="nv">$articulo</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="nv">$validated</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="na">validate</span><span class="p">([</span>
+        <span class="s1">&#39;titulo&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;required|string|max:255&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;contenido&#39;</span> <span class="o">=&gt;</span><span class="s1">&#39;required|string&#39;</span>
+    <span class="p">]);</span>
+    <span class="nv">$articulo</span><span class="o">-&gt;</span><span class="na">update</span><span class="p">(</span><span class="nv">$validated</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nx">redirect</span><span class="p">(</span><span class="nx">route</span><span class="p">(</span><span class="s1">&#39;articulos.show&#39;</span><span class="p">,</span> <span class="nv">$articulo</span><span class="p">));</span>
+<span class="p">}</span>
+</code></pre></div>
 <h2 id="construir-layouts">Construir layouts</h2>
 <p>Las aplicaciones siempre contienen varias parte de la interfaz que son comunes en todas las páginas (la cabecera, menú de navegación, footer, etc.). Una de las características de <a href="https://laravel.com/docs/9.x/blade">Blade</a> es el uso de Layouts, los cuales permiten de forma muy sencilla compartir entre distintas vistas las partes que tienen en común y así evitar repetir lo mismo múltiples veces. La idea consiste en <strong>separar en un archivo distinto la parte común de nuestras vistas</strong> y especificar en ella las zonas que albergarán los contenidos específicos de cada vista (lo que no es común).</p>
 <p>Empecemos por definir un layout básico:</p>
@@ -1546,38 +1555,44 @@ El comando anterior también dejará los archivos compilados en la carpeta <code
 <h2 id="relaciones-one-to-many">Relaciones One-to-Many</h2>
 <h3 id="definir-una-relacion">Definir una relación</h3>
 <p>Las relaciones en Eloquent ORM se definen como métodos. Supongamos que tenemos dos entidades, <code>User</code> y <code>Articulo</code>. Podríamos decir que un <code>User</code> tiene (<em>has</em>) varios <code>Articulo</code> o que un <code>Articulo</code> pertenece a (<em>belongs to</em>) un <code>User</code>. Por lo tanto, podemos definir la relación en cualquiera de los dos modelos, incluso en los dos.</p>
-<div class="highlight"><pre><span></span><code><span class="x">class User extends Model</span>
-<span class="x">{</span>
-<span class="x">    /**</span>
-<span class="x">     * Get the articulos records associated with the user.</span>
-<span class="x">     */</span>
-<span class="x">    public function articulos()</span>
-<span class="x">    {</span>
-<span class="x">        return $this-&gt;hasMany(Articulo::class);</span>
-<span class="x">    }</span>
-<span class="x">}</span>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+
+<span class="k">class</span> <span class="nc">User</span> <span class="k">extends</span> <span class="nx">Model</span>
+<span class="p">{</span>
+    <span class="sd">/**</span>
+<span class="sd">     * Get the articulos records associated with the user.</span>
+<span class="sd">     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">articulos</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">hasMany</span><span class="p">(</span><span class="nx">Articulo</span><span class="o">::</span><span class="na">class</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
 </code></pre></div>
-<p><div class="highlight"><pre><span></span><code><span class="x">class Articulo extends Model</span>
-<span class="x">{</span>
-<span class="x">    /**</span>
-<span class="x">     * Get the user record associated with the articulo.</span>
-<span class="x">     */</span>
-<span class="x">    public function user()</span>
-<span class="x">    {</span>
-<span class="x">        return $this-&gt;belongsTo(User::class);</span>
-<span class="x">    }</span>
-<span class="x">}</span>
+<p><div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+
+<span class="k">class</span> <span class="nc">Articulo</span> <span class="k">extends</span> <span class="nx">Model</span>
+<span class="p">{</span>
+    <span class="sd">/**</span>
+<span class="sd">     * Get the user record associated with the articulo.</span>
+<span class="sd">     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">user</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">belongsTo</span><span class="p">(</span><span class="nx">User</span><span class="o">::</span><span class="na">class</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
 </code></pre></div>
 Tienes toda la información sobre cómo definir relaciones entre modelos en la <a href="https://laravel.com/docs/9.x/eloquent-relationships">documentación oficial</a>.</p>
 <h3 id="acceder-a-los-modelos-de-una-relacion">Acceder a los modelos de una relación</h3>
 <p>El acceso se podrá hacer como propiedades del propio modelo, es decir, mediante <code>$user-&gt;articulos</code> o <code>$articulo-&gt;user</code>. Esto es gracias a que Eloquent utiliza lo que conocemos como 'dynamic properties' y acceder a los métodos de las relaciones como si fuesen propiedades:</p>
-<div class="highlight"><pre><span></span><code><span class="x">$user = App\Models\User::find(1); // Ejecuta la sentencia: select * from users where id = 1</span>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
-<span class="x">$user_articulos = $user-&gt;articulos; // Ejecutara la sentencia: select * from articulos where user_id = 1</span>
+<span class="nv">$user</span> <span class="o">=</span> <span class="nx">App\Models\User</span><span class="o">::</span><span class="na">find</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span> <span class="c1">// Ejecuta la sentencia: select * from users where id = 1</span>
 
-<span class="x">foreach ($user_articulos as $articulo) {</span>
-<span class="x">    //</span>
-<span class="x">}</span>
+<span class="nv">$user_articulos</span> <span class="o">=</span> <span class="nv">$user</span><span class="o">-&gt;</span><span class="na">articulos</span><span class="p">;</span> <span class="c1">// Ejecutara la sentencia: select * from articulos where user_id = 1</span>
+
+<span class="k">foreach</span> <span class="p">(</span><span class="nv">$user_articulos</span> <span class="k">as</span> <span class="nv">$articulo</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">//</span>
+<span class="p">}</span>
 </code></pre></div>
 <p>En el ejemplo anterior, la variable <code>$user_articulos</code> contiene una colección de objetos de la clase <code>Articulo</code>. </p>
 <h3 id="crear-la-restriccion-de-las-claves-foraneas-en-la-base-de-datos">Crear la restricción de las claves foráneas en la Base de Datos</h3>
@@ -1617,25 +1632,27 @@ Expliquemos la siguiente sentencia:</p>
 <p>Para el segundo caso (modificar una tabla sin perder datos), lo recomendable es crear una nueva migración y ejecutar el comando <code>php artisan migrate</code> para lanzar los cambios. Normalmente se incluyen los cambios en el propio nombre de la migración, por ejemplo:</p>
 <div class="highlight"><pre><span></span><code>php artisan migrate:make add_category_to_articulos --table<span class="o">=</span><span class="s2">&quot;articulos&quot;</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><span class="x">public function up()</span>
-<span class="x">{</span>
-<span class="x">    Schema::table(&#39;articulos&#39;, function($table)</span>
-<span class="x">    {</span>
-<span class="x">        $table-&gt;string(&#39;category&#39;);</span>
-<span class="x">    });</span>
-<span class="x">    }</span>
-<span class="x">    /**</span>
-<span class="x">     * Reverse the migrations.</span>
-<span class="x">     *</span>
-<span class="x">     * @return void</span>
-<span class="x">     */</span>
-<span class="x">    public function down()</span>
-<span class="x">    {</span>
-<span class="x">        Schema::table(&#39;articulos&#39;, function ($table) {</span>
-<span class="x">        $table-&gt;dropColumn(&#39;category&#39;);</span>
-<span class="x">        });</span>
-<span class="x">    }</span>
-<span class="x">}</span>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">up</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="nx">Schema</span><span class="o">::</span><span class="na">table</span><span class="p">(</span><span class="s1">&#39;articulos&#39;</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$table</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="nv">$table</span><span class="o">-&gt;</span><span class="na">string</span><span class="p">(</span><span class="s1">&#39;category&#39;</span><span class="p">);</span>
+        <span class="p">});</span>
+    <span class="p">}</span>
+    <span class="sd">/**</span>
+<span class="sd">     * Reverse the migrations.</span>
+<span class="sd">     *</span>
+<span class="sd">     * @return void</span>
+<span class="sd">     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">down</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="nx">Schema</span><span class="o">::</span><span class="na">table</span><span class="p">(</span><span class="s1">&#39;articulos&#39;</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nv">$table</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nv">$table</span><span class="o">-&gt;</span><span class="na">dropColumn</span><span class="p">(</span><span class="s1">&#39;category&#39;</span><span class="p">);</span>
+        <span class="p">});</span>
+    <span class="p">}</span>
+<span class="p">}</span>
 </code></pre></div>
 <h3 id="hands-on_3">Hands on!</h3>
 <p>La vista de detalle de artículo mostrará los comentarios del artículo e incluirá la posibilidad de añadir nuevos comentarios.</p>
@@ -1679,15 +1696,17 @@ Expliquemos la siguiente sentencia:</p>
 </code></pre></div>
 <p>Añadir las relación en la clase Articulo:</p>
 <p><code>/App/Models/Articulo.php</code>:
-<div class="highlight"><pre><span></span><code><span class="x">class Articulo extends Model</span>
-<span class="x">{</span>
-<span class="x">    ...</span>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
-<span class="x">    public function comentarios()</span>
-<span class="x">    {</span>
-<span class="x">        return $this-&gt;hasMany(Comentario::class);</span>
-<span class="x">    }</span>
-<span class="x">}</span>
+<span class="k">class</span> <span class="nc">Articulo</span> <span class="k">extends</span> <span class="nx">Model</span>
+<span class="p">{</span>
+    <span class="o">...</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">comentarios</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">hasMany</span><span class="p">(</span><span class="nx">Comentario</span><span class="o">::</span><span class="na">class</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
 </code></pre></div>
 Actualizar la vista para que muestre el formulario de creación de un comentario y el listado de comentarios del artículo:</p>
 <p><code>show.blade.php</code>:
@@ -1801,14 +1820,16 @@ Actualizar la vista para que muestre el formulario de creación de un comentario
 <div class="highlight"><pre><span></span><code>php artisan make:seeder UsersTableSeeder
 </code></pre></div>
 <p>Por último, tendrás que modificar la clase DatabaseSeeder para que lance nuestros Seeders:</p>
-<div class="highlight"><pre><span></span><code><span class="x">public function run()</span>
-<span class="x">{</span>
-<span class="x">    $this-&gt;call([</span>
-<span class="x">        UsersTableSeeder::class,</span>
-<span class="x">        PostsTableSeeder::class,</span>
-<span class="x">        CommentsTableSeeder::class,</span>
-<span class="x">    ]);</span>
-<span class="x">}</span>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+
+<span class="k">public</span> <span class="k">function</span> <span class="nf">run</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">call</span><span class="p">([</span>
+        <span class="nx">UsersTableSeeder</span><span class="o">::</span><span class="na">class</span><span class="p">,</span>
+        <span class="nx">PostsTableSeeder</span><span class="o">::</span><span class="na">class</span><span class="p">,</span>
+        <span class="nx">CommentsTableSeeder</span><span class="o">::</span><span class="na">class</span><span class="p">,</span>
+    <span class="p">]);</span>
+<span class="p">}</span>
 </code></pre></div>
 <h3 id="uso-de-factories">Uso de factories</h3>
 <p>A la hora de generar datos para testing también es recomendable utilizar Factories para crear los objetos de BBDD. Una Factory simplemente es una clase que define los atributos que tendrá un objeto en su creación. En el siguiente ejemplo se muestra una posible factory para la clase Articulo:</p>
@@ -1836,18 +1857,20 @@ Actualizar la vista para que muestre el formulario de creación de un comentario
 </code></pre></div>
 Es suficiente con implementar el método <code>definition</code> y especificar en él las propiedades del objeto que se creará. 
 Una vez tenemos creadas las factories, solo nos quedaría utilizarlas desde el Seeder correspondiente:</p>
-<div class="highlight"><pre><span></span><code><span class="x">class DatabaseSeeder extends Seeder</span>
-<span class="x">{</span>
-<span class="x">    /**</span>
-<span class="x">     * Seed the application&#39;s database.</span>
-<span class="x">     *</span>
-<span class="x">     * @return void</span>
-<span class="x">     */</span>
-<span class="x">    public function run()</span>
-<span class="x">    {</span>
-<span class="x">        \App\Models\Articulo::factory(20)-&gt;create();</span>
-<span class="x">    }</span>
-<span class="x">}</span>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+
+<span class="k">class</span> <span class="nc">DatabaseSeeder</span> <span class="k">extends</span> <span class="nx">Seeder</span>
+<span class="p">{</span>
+    <span class="sd">/**</span>
+<span class="sd">     * Seed the application&#39;s database.</span>
+<span class="sd">     *</span>
+<span class="sd">     * @return void</span>
+<span class="sd">     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">run</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="nx">\App\Models\Articulo</span><span class="o">::</span><span class="na">factory</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">create</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">}</span>
 </code></pre></div>
 <p>La creación de factories se puede realizar mediante el comando <code>php artisan make:factory</code>. Por ejemplo:</p>
 <div class="highlight"><pre><span></span><code>php artisan make:factory ArticuloFactory
@@ -1902,16 +1925,20 @@ php artisan ui react --auth
 <div class="highlight"><pre><span></span><code><span class="x">public const HOME = &#39;/home&#39;;</span>
 </code></pre></div>
 <p>Laravel utiliza por defecto el campo <code>email</code> para identificar a los usuarios. Puedes cambiar esto creando un método <code>username()</code> en el controlador <code>LoginController.php</code>.</p>
-<div class="highlight"><pre><span></span><code><span class="x">public function username()</span>
-<span class="x">{</span>
-<span class="x">    return &#39;username&#39;;</span>
-<span class="x">}</span>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+
+<span class="k">public</span> <span class="k">function</span> <span class="nf">username</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="s1">&#39;username&#39;</span><span class="p">;</span>
+<span class="p">}</span>
 </code></pre></div>
 <p>Otro aspecto que podremos configurar es la ruta a la que enviaremos al usuario cuando intente acceder a una ruta protegida sin autenticarse. Por defecto Laravel le enviará a <code>/login</code>, pero podemos cambiar esto modificando el método <code>redirectTo()</code> del archivo <code>app/Http/Middleware/Authenticate.php</code>:</p>
-<div class="highlight"><pre><span></span><code><span class="x">protected function redirectTo($request)</span>
-<span class="x">{</span>
-<span class="x">    return route(&#39;login&#39;);</span>
-<span class="x">}</span>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+
+<span class="k">protected</span> <span class="k">function</span> <span class="nf">redirectTo</span><span class="p">(</span><span class="nv">$request</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="nx">route</span><span class="p">(</span><span class="s1">&#39;login&#39;</span><span class="p">);</span>
+<span class="p">}</span>
 </code></pre></div>
 <h3 id="laravel-breeze">Laravel Breeze</h3>
 <p>A partir de la versión 8 de Laravel se recomienda utilizar Laravel Breeze, el cual utiliza Tailwind CSS en lugar de Bootstrap. Este aspecto es importante ya que afecta a las vistas creadas. Laravel Breeze es una implementación sencilla de las funciones más habituales de autenticación como: login, registro, recuperación de contraseña, verificación de correo electrónico o confirmación de contraseña por correo. Para ello creará todas las vistas, rutas y controladores necesarios y además los dejará disponibles en el código de nuestro proyecto para que podamos modificar todo aquello que necesitemos.</p>
@@ -1939,48 +1966,60 @@ php artisan ui react --auth
 <p>Por último, no olvides lanzar las migraciones necesarias mediante el comando <code>php artisan migrate</code>.</p>
 <h3 id="securizar-rutas">Securizar rutas</h3>
 <p>Indicaremos las rutas que queramos proteger directamente en nuestro ruter <code>web.php</code>:</p>
-<div class="highlight"><pre><span></span><code><span class="x">Route::get(&#39;profile&#39;, function () {</span>
-<span class="x">    // Solo podrán acceder usuarios autenticados.</span>
-<span class="x">})-&gt;middleware(&#39;auth&#39;);</span>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
-<span class="x">// Otro ejemplo:</span>
-<span class="x">Route::get(&#39;articulos&#39;, [ArticuloController::class, &#39;index&#39;])-&gt;name(&#39;articulos.index&#39;)-&gt;middleware(&#39;auth&#39;);</span>
+<span class="nx">Route</span><span class="o">::</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;profile&#39;</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// Solo podrán acceder usuarios autenticados.</span>
+<span class="p">})</span><span class="o">-&gt;</span><span class="na">middleware</span><span class="p">(</span><span class="s1">&#39;auth&#39;</span><span class="p">);</span>
+
+<span class="c1">// Otro ejemplo:</span>
+<span class="nx">Route</span><span class="o">::</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;articulos&#39;</span><span class="p">,</span> <span class="p">[</span><span class="nx">ArticuloController</span><span class="o">::</span><span class="na">class</span><span class="p">,</span> <span class="s1">&#39;index&#39;</span><span class="p">])</span><span class="o">-&gt;</span><span class="na">name</span><span class="p">(</span><span class="s1">&#39;articulos.index&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">middleware</span><span class="p">(</span><span class="s1">&#39;auth&#39;</span><span class="p">);</span>
 </code></pre></div>
 <p>También podremos indicarlo directamente en el constructor de un controlador de la siguiente forma:</p>
-<div class="highlight"><pre><span></span><code><span class="x">public function __construct()</span>
-<span class="x">{</span>
-<span class="x">    $this-&gt;middleware(&#39;auth&#39;);</span>
-<span class="x">}</span>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+
+<span class="k">public</span> <span class="k">function</span> <span class="fm">__construct</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">middleware</span><span class="p">(</span><span class="s1">&#39;auth&#39;</span><span class="p">);</span>
+<span class="p">}</span>
 </code></pre></div>
 <h3 id="acceder-al-usuario-autenticado">Acceder al usuario autenticado</h3>
 <p>Existen distintas formas de acceder al objeto del usuario autenticado. Desde cualquier punto de la aplicación podremos acceder utilizado la facade <code>Auth</code>:</p>
-<div class="highlight"><pre><span></span><code><span class="x">use Illuminate\Support\Facades\Auth;</span>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
-<span class="x">// Conseguir el usuario autenticado:</span>
-<span class="x">$user = Auth::user();</span>
+<span class="k">use</span> <span class="nx">Illuminate\Support\Facades\Auth</span><span class="p">;</span>
 
-<span class="x">// Conseguir el ID del usuario autenticado:</span>
-<span class="x">$id = Auth::id();</span>
+<span class="c1">// Conseguir el usuario autenticado:</span>
+<span class="nv">$user</span> <span class="o">=</span> <span class="nx">Auth</span><span class="o">::</span><span class="na">user</span><span class="p">();</span>
+
+<span class="c1">// Conseguir el ID del usuario autenticado:</span>
+<span class="nv">$id</span> <span class="o">=</span> <span class="nx">Auth</span><span class="o">::</span><span class="na">id</span><span class="p">();</span>
 </code></pre></div>
 <p>También podremos conseguirlo desde cualquier petición que reciba nuestro controlador:</p>
-<div class="highlight"><pre><span></span><code><span class="x">public function update(Request $request)</span>
-<span class="x">{</span>
-<span class="x">    $request-&gt;user(); //  devuelve una instancia del usuario autenticado.</span>
-<span class="x">}</span>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+
+<span class="k">public</span> <span class="k">function</span> <span class="nf">update</span><span class="p">(</span><span class="nx">Request</span> <span class="nv">$request</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="nv">$request</span><span class="o">-&gt;</span><span class="na">user</span><span class="p">();</span> <span class="c1">//  devuelve una instancia del usuario autenticado.</span>
+<span class="p">}</span>
 </code></pre></div>
 <p>Para comprobar si un usuario está autenticado, podemos emplear el método <code>check()</code>:</p>
-<div class="highlight"><pre><span></span><code><span class="x">use Illuminate\Support\Facades\Auth;</span>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
-<span class="x">if (Auth::check()) {</span>
-<span class="x">    // El usuario está autenticado.</span>
-<span class="x">}</span>
+<span class="k">use</span> <span class="nx">Illuminate\Support\Facades\Auth</span><span class="p">;</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="nx">Auth</span><span class="o">::</span><span class="na">check</span><span class="p">())</span> <span class="p">{</span>
+    <span class="c1">// El usuario está autenticado.</span>
+<span class="p">}</span>
 </code></pre></div>
 <h3 id="redireccionar-al-usuario-no-autenticado-a-una-pagina">Redireccionar al usuario no autenticado a una página</h3>
 <p>Cuando nuestro middleware de autenticación detecte que un usuario tiene que está autenticado para acceder a una ruta, automáticamente redirigirá al usuario donde nosotros le indiquemos (habitualmente una vista de login). Esto lo podremos indicar en el método <code>redirectTo()</code> del archivo <code>app/Http/Middleware/Authenticate.php</code>.</p>
-<div class="highlight"><pre><span></span><code><span class="x">protected function redirectTo($request)</span>
-<span class="x">{</span>
-<span class="x">    return route(&#39;login&#39;);</span>
-<span class="x">}</span>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+
+<span class="k">protected</span> <span class="k">function</span> <span class="nf">redirectTo</span><span class="p">(</span><span class="nv">$request</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="nx">route</span><span class="p">(</span><span class="s1">&#39;login&#39;</span><span class="p">);</span>
+<span class="p">}</span>
 </code></pre></div>
 <h3 id="hands-on_4">Hands on!</h3>
 <ul>
@@ -2009,31 +2048,35 @@ php artisan ui react --auth
 <ul>
 <li>El helper global <code>session</code>:</li>
 </ul>
-<div class="highlight"><pre><span></span><code><span class="x">// Obtener un valor de la sesión</span>
-<span class="x">$value = session(&#39;key&#39;);</span>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
-<span class="x">// Podemos indicar un valor por defecto</span>
-<span class="x">$value = session(&#39;key&#39;, &#39;default&#39;);</span>
+<span class="c1">// Obtener un valor de la sesión</span>
+<span class="nv">$value</span> <span class="o">=</span> <span class="nx">session</span><span class="p">(</span><span class="s1">&#39;key&#39;</span><span class="p">);</span>
 
-<span class="x">// Para almacenar un valor, le pasamos un Array:</span>
-<span class="x">session([&#39;key&#39; =&gt; &#39;value&#39;]);</span>
+<span class="c1">// Podemos indicar un valor por defecto</span>
+<span class="nv">$value</span> <span class="o">=</span> <span class="nx">session</span><span class="p">(</span><span class="s1">&#39;key&#39;</span><span class="p">,</span> <span class="s1">&#39;default&#39;</span><span class="p">);</span>
+
+<span class="c1">// Para almacenar un valor, le pasamos un Array:</span>
+<span class="nx">session</span><span class="p">([</span><span class="s1">&#39;key&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;value&#39;</span><span class="p">]);</span>
 </code></pre></div>
 <ul>
 <li>Mediante la instancia <code>Request</code> (inyectada en los métodos de nuestros controladores)</li>
 </ul>
-<div class="highlight"><pre><span></span><code><span class="x">public function show(Request $request, $id)</span>
-<span class="x">{</span>
-<span class="x">    $value = $request-&gt;session()-&gt;get(&#39;key&#39;);</span>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
-<span class="x">    // También es posible indicar un valor por defecto si no existe ninguno:</span>
-<span class="x">    $value = $request-&gt;session()-&gt;get(&#39;key&#39;, &#39;default&#39;);</span>
+<span class="k">public</span> <span class="k">function</span> <span class="nf">show</span><span class="p">(</span><span class="nx">Request</span> <span class="nv">$request</span><span class="p">,</span> <span class="nv">$id</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="nv">$value</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="na">session</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;key&#39;</span><span class="p">);</span>
 
-<span class="x">    // Almacenar un valor</span>
-<span class="x">    $request-&gt;session()-&gt;put(&#39;key&#39;, &#39;value&#39;);</span>
+    <span class="c1">// También es posible indicar un valor por defecto si no existe ninguno:</span>
+    <span class="nv">$value</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="na">session</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;key&#39;</span><span class="p">,</span> <span class="s1">&#39;default&#39;</span><span class="p">);</span>
 
-<span class="x">    // Recuperar un valor y eliminarlo de la sesión</span>
-<span class="x">    $value = $request-&gt;session()-&gt;pull(&#39;key&#39;, &#39;default&#39;);</span>
-<span class="x">}</span>
+    <span class="c1">// Almacenar un valor</span>
+    <span class="nv">$request</span><span class="o">-&gt;</span><span class="na">session</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">put</span><span class="p">(</span><span class="s1">&#39;key&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">);</span>
+
+    <span class="c1">// Recuperar un valor y eliminarlo de la sesión</span>
+    <span class="nv">$value</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="na">session</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">pull</span><span class="p">(</span><span class="s1">&#39;key&#39;</span><span class="p">,</span> <span class="s1">&#39;default&#39;</span><span class="p">);</span>
+<span class="p">}</span>
 </code></pre></div>
 <p>También es posible acceder a valores de la sesión desde las vistas de Blade utilizardo la función <code>get()</code>:</p>
 <div class="highlight"><pre><span></span><code> Session::get(&#39;key&#39;)
@@ -2048,18 +2091,20 @@ php artisan ui react --auth
 <h2 id="validacion-de-formularios">Validación de formularios</h2>
 <h3 id="realizar-la-validacion-de-los-campos-del-formulario">Realizar la validación de los campos del formulario</h3>
 <p>Laravel permite validar cualquier campo enviado por un formulario mediante el método <code>validate</code>. Tal y como ya habíamos hecho anteriormente:</p>
-<div class="highlight"><pre><span></span><code><span class="x">public function store(Request $request)</span>
-<span class="x">{</span>
-<span class="x">    //Validar la petición:</span>
-<span class="x">    $validated = $request-&gt;validate([</span>
-<span class="x">        &#39;titulo&#39; =&gt; &#39;required|string|max:255&#39;,</span>
-<span class="x">        &#39;contenido&#39; =&gt;&#39;required|string&#39;</span>
-<span class="x">    ]);</span>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
-<span class="x">    Articulo::create($validated);</span>
+<span class="k">public</span> <span class="k">function</span> <span class="nf">store</span><span class="p">(</span><span class="nx">Request</span> <span class="nv">$request</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">//Validar la petición:</span>
+    <span class="nv">$validated</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="na">validate</span><span class="p">([</span>
+        <span class="s1">&#39;titulo&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;required|string|max:255&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;contenido&#39;</span> <span class="o">=&gt;</span><span class="s1">&#39;required|string&#39;</span>
+    <span class="p">]);</span>
 
-<span class="x">    return redirect(route(&#39;articulos.index&#39;));</span>
-<span class="x">}</span>
+    <span class="nx">Articulo</span><span class="o">::</span><span class="na">create</span><span class="p">(</span><span class="nv">$validated</span><span class="p">);</span>
+
+    <span class="k">return</span> <span class="nx">redirect</span><span class="p">(</span><span class="nx">route</span><span class="p">(</span><span class="s1">&#39;articulos.index&#39;</span><span class="p">));</span>
+<span class="p">}</span>
 </code></pre></div>
 <p>Si la validación pasa correctamente el código seguirá ejecutándose de forma normal y corriente. Pero si la validación falla, se redirigirá al usuario a la página desde la que se ha realizado el envío del formulario. </p>
 <p>Puedes ver todas las reglas de validación disponibles <a href="https://laravel.com/docs/9.x/validation#available-validation-rules">aquí</a>.</p>
@@ -2079,20 +2124,20 @@ php artisan ui react --auth
 </code></pre></div>
 <h3 id="directiva-error">Directiva <code>@error</code></h3>
 <p>La directiva <code>@error</code> permite comprobar si un campo concreto ha tenido algún error, y en caso afirmativo mostrar el mensaje de error de dicho campo. Se utilizará de la siguiente manera:</p>
-<p><div class="highlight"><pre><span></span><code><span class="x">&lt;p&gt;</span>
-<span class="x">    &lt;label&gt;Titulo: &lt;/label&gt;</span>
-<span class="x">    &lt;input type=&quot;text&quot; name=&quot;titulo&quot;&gt;</span>
-<span class="x">    @error(&#39;titulo&#39;)</span>
-<span class="x">    &lt;small style=&quot;color:red;&quot;&gt;{{ $message }}&lt;/small&gt;</span>
-<span class="x">    @enderror</span>
-<span class="x">&lt;/p&gt;</span>
-<span class="x">&lt;p&gt;</span>
-<span class="x">    &lt;label&gt;Titulo: &lt;/label&gt;</span>
-<span class="x">    &lt;input type=&quot;text&quot; name=&quot;contenido&quot;&gt;</span>
-<span class="x">    @error(&#39;contenido&#39;)</span>
-<span class="x">    &lt;small style=&quot;color:red;&quot;&gt;{{ $message }}&lt;/small&gt;</span>
-<span class="x">    @enderror</span>
-<span class="x">&lt;/p&gt;</span>
+<p><div class="highlight"><pre><span></span><code><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">label</span><span class="p">&gt;</span>Titulo: <span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;text&quot;</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;titulo&quot;</span><span class="p">&gt;</span>
+    @error(&#39;titulo&#39;)
+    <span class="p">&lt;</span><span class="nt">small</span> <span class="na">style</span><span class="o">=</span><span class="s">&quot;color:red;&quot;</span><span class="p">&gt;</span>{{ $message }}<span class="p">&lt;/</span><span class="nt">small</span><span class="p">&gt;</span>
+    @enderror
+<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">label</span><span class="p">&gt;</span>Titulo: <span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;text&quot;</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;contenido&quot;</span><span class="p">&gt;</span>
+    @error(&#39;contenido&#39;)
+    <span class="p">&lt;</span><span class="nt">small</span> <span class="na">style</span><span class="o">=</span><span class="s">&quot;color:red;&quot;</span><span class="p">&gt;</span>{{ $message }}<span class="p">&lt;/</span><span class="nt">small</span><span class="p">&gt;</span>
+    @enderror
+<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
 </code></pre></div>
 En caso de error se mostrará el contenido indicado entre las etiquetas <code>@error</code> y <code>@enderror</code>. Además la variable <code>$message</code> estará disponible entre dichas etiquetas e incluirá el mensaje de error.</p>
 <h3 id="mantener-el-valor-de-los-campos-correctos">Mantener el valor de los campos correctos</h3>

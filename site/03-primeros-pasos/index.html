@@ -1104,28 +1104,34 @@
 <p>Si no lo has hecho ya, crea una aplicación llamada <code>revistapp</code>. Esta será la aplicación que iremos creando paso a paso.</p>
 <h2 id="paso-2-crear-un-router">Paso 2 - Crear un Router</h2>
 <p>Las rutas son los puntos de entrada a nuestra aplicación. Cada vez que un usuario hace una petición a una de las rutas de la aplicación, Laravel trata la petición mediante un Router definido en el directorio <code>routes</code>, el cual será el encargado de direccionar la petición a un Controlador. Las rutas accesibles para navegadores estarán definidas en el archivo <code>routes/web.php</code> y aquellas accesibles para servicios web (webservices) estarán definidas en el archivo <code>routes/api.php</code>. A continuación se muestra un ejemplo:</p>
-<div class="highlight"><pre><span></span><code><span class="x">Route::get(&#39;/articulos&#39;, function () {</span>
-<span class="x">    return &#39;¡Vamos a leer unos articulos!&#39;;</span>
-<span class="x">});</span>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+
+<span class="nx">Route</span><span class="o">::</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;/articulos&#39;</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="s1">&#39;¡Vamos a leer unos articulos!&#39;</span><span class="p">;</span>
+<span class="p">});</span>
 </code></pre></div>
 <p>El código anterior muestra cómo se define una ruta básica. En este caso, cuando el usuario realice una petición sobre <code>/articulos</code>, nuestra aplicación ejecutará la función anónima definida. En este caso enviará una respuesta al usuario con el string '¡Vamos a leer unos articulos!'.</p>
 <p>Podemos especificar tantas rutas como queramos:</p>
-<div class="highlight"><pre><span></span><code><span class="x">Route::get(&#39;/articulos&#39;, function () {</span>
-<span class="x">    return &#39;¡Vamos a leer unos articulos!&#39;;</span>
-<span class="x">});</span>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
-<span class="x">Route::get(&#39;/usuarios&#39;, function () {</span>
-<span class="x">    return &#39;Hay muchos usuarios en esta aplicación&#39;;</span>
-<span class="x">});</span>
+<span class="nx">Route</span><span class="o">::</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;/articulos&#39;</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="s1">&#39;¡Vamos a leer unos articulos!&#39;</span><span class="p">;</span>
+<span class="p">});</span>
+
+<span class="nx">Route</span><span class="o">::</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;/usuarios&#39;</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="s1">&#39;Hay muchos usuarios en esta aplicación&#39;</span><span class="p">;</span>
+<span class="p">});</span>
 </code></pre></div>
 <p>También es posible responder a peticiones de tipo POST, por ejemplo para recibir datos de formularios: </p>
-<div class="highlight"><pre><span></span><code><span class="x">Route::get(&#39;/articulos&#39;, function () {</span>
-<span class="x">    return &#39;¡Vamos a leer unos articulos!&#39;;</span>
-<span class="x">});</span>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
-<span class="x">Route::post(&#39;/articulos&#39;, function () {</span>
-<span class="x">    return &#39;¡Vamos a insertar un artículo!&#39;;</span>
-<span class="x">});</span>
+<span class="nx">Route</span><span class="o">::</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;/articulos&#39;</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="s1">&#39;¡Vamos a leer unos articulos!&#39;</span><span class="p">;</span>
+<span class="p">});</span>
+
+<span class="nx">Route</span><span class="o">::</span><span class="na">post</span><span class="p">(</span><span class="s1">&#39;/articulos&#39;</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="s1">&#39;¡Vamos a insertar un artículo!&#39;</span><span class="p">;</span>
+<span class="p">});</span>
 </code></pre></div>
 <p>Aparte de ejecutar las acciones definidas para cada ruta, Laravel ejecutará el middlewere específico en función del Router utilizado (por ejemplo, el middlewere relacionado con las peticiones web proveerá de funcionalidades como el estado de la sesión o la protección <a href="https://es.wikipedia.org/wiki/Cross-site_request_forgery">CSRF</a>).</p>
 <h4 id="ver-las-rutas-creadas">Ver las rutas creadas</h4>
@@ -1140,49 +1146,61 @@ Recuerda que si estás utilizando Laravel Sail, puedes ejecutar el comando direc
 </code></pre></div></p>
 <h4 id="devolver-un-json">Devolver un JSON</h4>
 <p>También es posible devolver un JSON. Laravel convertirá automáticamente cualquier array a JSON:</p>
-<div class="highlight"><pre><span></span><code><span class="x">Route::get(&#39;/articulos&#39;, function () {</span>
-<span class="x">    $articulos = [</span>
-<span class="x">        [</span>
-<span class="x">            &quot;id&quot; =&gt; 1,</span>
-<span class="x">            &quot;titulo&quot; =&gt; &quot;Primer artículo...&quot;</span>
-<span class="x">        ],</span>
-<span class="x">        [</span>
-<span class="x">            &quot;id&quot; =&gt; 1,</span>
-<span class="x">            &quot;titulo&quot; =&gt; &quot;Segundo artículo...&quot;</span>
-<span class="x">        ]</span>
-<span class="x">    ];</span>
-<span class="x">    return $articulos;</span>
-<span class="x">});</span>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+
+<span class="nx">Route</span><span class="o">::</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;/articulos&#39;</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="nv">$articulos</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">[</span>
+            <span class="s2">&quot;id&quot;</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="s2">&quot;titulo&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;Primer artículo...&quot;</span>
+        <span class="p">],</span>
+        <span class="p">[</span>
+            <span class="s2">&quot;id&quot;</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="s2">&quot;titulo&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;Segundo artículo...&quot;</span>
+        <span class="p">]</span>
+    <span class="p">];</span>
+    <span class="k">return</span> <span class="nv">$articulos</span><span class="p">;</span>
+<span class="p">});</span>
 </code></pre></div>
 <h4 id="parametros-en-la-ruta">Parámetros en la ruta</h4>
 <p>Una URL puede contener información de nuestro interés. Laravel permite acceder a esta información de forma sencilla utilizando los parámetros de ruta:</p>
-<div class="highlight"><pre><span></span><code><span class="x">Route::get(&#39;articulos/{id}&#39;, function ($id) {</span>
-<span class="x">    return &#39;Vas a leer el artículo: &#39;.$id;</span>
-<span class="x">});</span>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+
+<span class="nx">Route</span><span class="o">::</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;articulos/{id}&#39;</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nv">$id</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="s1">&#39;Vas a leer el artículo: &#39;</span><span class="o">.</span><span class="nv">$id</span><span class="p">;</span>
+<span class="p">});</span>
 </code></pre></div>
 <p>Los parámetros de ruta vienen definidos entre llaves <code>{}</code> y se inyectan automáticamente en las callbacks. Es posible utilizar más de un parámetro de ruta:</p>
-<div class="highlight"><pre><span></span><code><span class="x">Route::get(&#39;articulos/{id}/usuario/{name}&#39;, function ($id, $name) {</span>
-<span class="x">    return &#39;Vas a leer el artículo: &#39;.$id. &#39; del usuario&#39; .$name;</span>
-<span class="x">});</span>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+
+<span class="nx">Route</span><span class="o">::</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;articulos/{id}/usuario/{name}&#39;</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nv">$id</span><span class="p">,</span> <span class="nv">$name</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="s1">&#39;Vas a leer el artículo: &#39;</span><span class="o">.</span><span class="nv">$id</span><span class="o">.</span> <span class="s1">&#39; del usuario&#39;</span> <span class="o">.</span><span class="nv">$name</span><span class="p">;</span>
+<span class="p">});</span>
 </code></pre></div>
 <p>Para indicar un parámetro como opcional, le tenemos que añadir el símbolo <code>?</code> al final del parámentro. Le tendremos que añadir un valor por defecto para asegurarnos su correcto funcionamiento:</p>
-<div class="highlight"><pre><span></span><code><span class="x">Route::get(&#39;articulos/{id?}&#39;, function ($id = 0) {</span>
-<span class="x">    return &#39;Vas a leer el artículo: &#39;.$id;</span>
-<span class="x">});</span>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+
+<span class="nx">Route</span><span class="o">::</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;articulos/{id?}&#39;</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nv">$id</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="s1">&#39;Vas a leer el artículo: &#39;</span><span class="o">.</span><span class="nv">$id</span><span class="p">;</span>
+<span class="p">});</span>
 </code></pre></div>
 <h4 id="acceder-a-la-informacion-de-la-peticion">Acceder a la información de la petición</h4>
 <p>También es posible acceder a la información enviada en la petición mediante el método <code>request()</code>. Por ejemplo, el siguiente código devolverá el valor enviado para el parámetro 'fecha' de la URL <code>/articulos?fecha=hoy</code>:</p>
-<div class="highlight"><pre><span></span><code><span class="x">Route::get(&#39;/articulos&#39;, function () {</span>
-<span class="x">    $fecha = request(&#39;fecha&#39;);</span>
-<span class="x">    return $fecha;</span>
-<span class="x">});</span>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+
+<span class="nx">Route</span><span class="o">::</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;/articulos&#39;</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="nv">$fecha</span> <span class="o">=</span> <span class="nx">request</span><span class="p">(</span><span class="s1">&#39;fecha&#39;</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nv">$fecha</span><span class="p">;</span>
+<span class="p">});</span>
 </code></pre></div>
 <h4 id="rutas-con-nombre">Rutas con nombre</h4>
 <p>Es posible asignar nombres a las rutas que sirvan para referirnos a ellas. De esta forma, en caso de que la URL de una ruta cambie, únicamente tendremos que cambiarlo en el router y no en todos los ficheros HTML donde estemos enlazando a dicha ruta.</p>
 <p>Para especificar el nombre a una ruta debemos utilizar la función <code>name()</code>, la cual deberá recibir como parámetro el nombre que se desea asignar a la ruta:</p>
-<div class="highlight"><pre><span></span><code><span class="x">Route::get(&#39;/articulos&#39;, function () {</span>
-<span class="x">    return &quot;Ruta con nombre!&quot;;</span>
-<span class="x">})-&gt;name(&#39;articulos.index&#39;);</span>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+
+<span class="nx">Route</span><span class="o">::</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;/articulos&#39;</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="s2">&quot;Ruta con nombre!&quot;</span><span class="p">;</span>
+<span class="p">})</span><span class="o">-&gt;</span><span class="na">name</span><span class="p">(</span><span class="s1">&#39;articulos.index&#39;</span><span class="p">);</span>
 </code></pre></div>
 <p>En un futuro veremos cómo generar las URLs a partir de su nombre. Por ejemplo, en lugar de utilizar:</p>
 <div class="highlight"><pre><span></span><code><span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;/articulos&quot;</span><span class="p">&gt;</span>Ver artículos<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
@@ -1195,19 +1213,21 @@ Recuerda que si estás utilizando Laravel Sail, puedes ejecutar el comando direc
 - <code>articulos/</code>: Devolverá un array de artículos en formato JSON. Asigna el nombre <code>articulos.index</code> a la ruta utilizando la función <code>name()</code>.
 - <code>articulos/{id}</code>: Devolverá la siguiente frase: <strong>"Gracias por leer el artículo con id: {id}"</strong>. Asigna el nombre <code>articulos.show</code> a la ruta utilizando la función <code>name()</code>. </p>
 <h4 id="solucion">Solución</h4>
-<div class="highlight"><pre><span></span><code><span class="x">Route::get(&#39;/articulos&#39;, function () {</span>
-<span class="x">    $articulos = [</span>
-<span class="x">        [&quot;id&quot; =&gt; 1, &quot;titulo&quot; =&gt; &quot;Primer artículo...&quot;],</span>
-<span class="x">        [&quot;id&quot; =&gt; 2, &quot;titulo&quot; =&gt; &quot;Segundo artículo...&quot;],</span>
-<span class="x">        [&quot;id&quot; =&gt; 3, &quot;titulo&quot; =&gt; &quot;Tercer artículo...&quot;],</span>
-<span class="x">    ];</span>
-<span class="x">    return $articulos;</span>
-<span class="x">})-&gt;name(&#39;articulos.index&#39;);</span>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
-<span class="x">Route::get(&#39;articulos/{id}&#39;, function ($id) {</span>
-<span class="x">    $frase = &quot;Gracias por leer el artículo con id: &quot; . $id;</span>
-<span class="x">    return $frase;</span>
-<span class="x">})-&gt;name(&#39;articulos.show&#39;);</span>
+<span class="nx">Route</span><span class="o">::</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;/articulos&#39;</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="nv">$articulos</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">[</span><span class="s2">&quot;id&quot;</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;titulo&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;Primer artículo...&quot;</span><span class="p">],</span>
+        <span class="p">[</span><span class="s2">&quot;id&quot;</span> <span class="o">=&gt;</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;titulo&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;Segundo artículo...&quot;</span><span class="p">],</span>
+        <span class="p">[</span><span class="s2">&quot;id&quot;</span> <span class="o">=&gt;</span> <span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;titulo&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;Tercer artículo...&quot;</span><span class="p">],</span>
+    <span class="p">];</span>
+    <span class="k">return</span> <span class="nv">$articulos</span><span class="p">;</span>
+<span class="p">})</span><span class="o">-&gt;</span><span class="na">name</span><span class="p">(</span><span class="s1">&#39;articulos.index&#39;</span><span class="p">);</span>
+
+<span class="nx">Route</span><span class="o">::</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;articulos/{id}&#39;</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nv">$id</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$frase</span> <span class="o">=</span> <span class="s2">&quot;Gracias por leer el artículo con id: &quot;</span> <span class="o">.</span> <span class="nv">$id</span><span class="p">;</span>
+    <span class="k">return</span> <span class="nv">$frase</span><span class="p">;</span>
+<span class="p">})</span><span class="o">-&gt;</span><span class="na">name</span><span class="p">(</span><span class="s1">&#39;articulos.show&#39;</span><span class="p">);</span>
 </code></pre></div>
 <h2 id="paso-3-crear-una-vista">Paso 3 - Crear una vista</h2>
 <h4 id="definiendo-una-vista-sencilla">Definiendo una vista sencilla</h4>
@@ -1222,9 +1242,11 @@ Recuerda que si estás utilizando Laravel Sail, puedes ejecutar el comando direc
 <p>Tendrán la extensión <code>.blade.php</code> ya que Laravel utiliza el motor de plantillas <a href="https://laravel.com/docs/9.x/blade">Blade</a>, como veremos más adelante.</p>
 <h4 id="devolver-una-vista">Devolver una vista</h4>
 <p>Cargar y devolver una vista al usuario es tan sencillo como utilizar la función global (helper) <code>view()</code>:</p>
-<p><div class="highlight"><pre><span></span><code><span class="x">Route::get(&#39;/articulos&#39;, function () {</span>
-<span class="x">    return view(&#39;articulos&#39;);</span>
-<span class="x">})-&gt;name(&#39;articulos&#39;);</span>
+<p><div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+
+<span class="nx">Route</span><span class="o">::</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;/articulos&#39;</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">view</span><span class="p">(</span><span class="s1">&#39;articulos&#39;</span><span class="p">);</span>
+<span class="p">})</span><span class="o">-&gt;</span><span class="na">name</span><span class="p">(</span><span class="s1">&#39;articulos&#39;</span><span class="p">);</span>
 </code></pre></div>
 Al indicarle el nombre de la vista como parámetro no es necesario indicar la ruta completa de la vista ni la extensión <code>.blade.php</code>. Laravel asume que las vistas estarán en la carpeta <code>/resources/views</code> y que tendrán la extensión <code>.blade.php</code>.</p>
 <h4 id="acceder-a-datos-desde-la-vista">Acceder a datos desde la vista</h4>
@@ -1241,22 +1263,28 @@ Al indicarle el nombre de la vista como parámetro no es necesario indicar la ru
 <p>Tal y como se puede ver en el ejemplo anterior, basta con escribir el nombre de la variable entre llaves <code>{{ }}</code>.
 Es una buena práctica evitar mezclar el código PHP con nuestras vistas, por lo que toda la información que necesitemos en las vistas la ubicaremos fuera de ellas. Existen distintas formas de pasarle variables a las vistas:</p>
 <p>La primera opción sería utilizando el método <code>with()</code>, pasándole como parámetros el nombre de la variable y su valor:</p>
-<div class="highlight"><pre><span></span><code><span class="x">Route::get(&#39;/&#39;, function () {</span>
-<span class="x">    $nombre = &quot;Nora&quot;;</span>
-<span class="x">    return view(&#39;saludo&#39;)-&gt;with(&#39;nombre&#39;, $nombre);</span>
-<span class="x">});</span>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+
+<span class="nx">Route</span><span class="o">::</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="nv">$nombre</span> <span class="o">=</span> <span class="s2">&quot;Nora&quot;</span><span class="p">;</span>
+    <span class="k">return</span> <span class="nx">view</span><span class="p">(</span><span class="s1">&#39;saludo&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">with</span><span class="p">(</span><span class="s1">&#39;nombre&#39;</span><span class="p">,</span> <span class="nv">$nombre</span><span class="p">);</span>
+<span class="p">});</span>
 </code></pre></div>
 <p>Otra forma sería enviándolo como array:</p>
-<div class="highlight"><pre><span></span><code><span class="x">Route::get(&#39;/&#39;, function () {</span>
-<span class="x">    $nombre = &quot;Nora&quot;;</span>
-<span class="x">    return view(&#39;saludo&#39;)-&gt;with([&#39;nombre&#39; =&gt; $nombre]);</span>
-<span class="x">});</span>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+
+<span class="nx">Route</span><span class="o">::</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="nv">$nombre</span> <span class="o">=</span> <span class="s2">&quot;Nora&quot;</span><span class="p">;</span>
+    <span class="k">return</span> <span class="nx">view</span><span class="p">(</span><span class="s1">&#39;saludo&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">with</span><span class="p">([</span><span class="s1">&#39;nombre&#39;</span> <span class="o">=&gt;</span> <span class="nv">$nombre</span><span class="p">]);</span>
+<span class="p">});</span>
 </code></pre></div>
 <p>También podríamos pasar el array como segundo parámetro de la función <code>view()</code> y no utilizar <code>with()</code>:</p>
-<div class="highlight"><pre><span></span><code><span class="x">Route::get(&#39;/&#39;, function () {</span>
-<span class="x">    $nombre = &quot;Nora&quot;;</span>
-<span class="x">    return view(&#39;saludo&#39;,[&#39;nombre&#39; =&gt; $nombre]);</span>
-<span class="x">});</span>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+
+<span class="nx">Route</span><span class="o">::</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="nv">$nombre</span> <span class="o">=</span> <span class="s2">&quot;Nora&quot;</span><span class="p">;</span>
+    <span class="k">return</span> <span class="nx">view</span><span class="p">(</span><span class="s1">&#39;saludo&#39;</span><span class="p">,[</span><span class="s1">&#39;nombre&#39;</span> <span class="o">=&gt;</span> <span class="nv">$nombre</span><span class="p">]);</span>
+<span class="p">});</span>
 </code></pre></div>
 <p>Blade permite iterar por los datos de una colección o array. El siguiente ejemplo muestra cómo iterar por un array de strings de forma rápida:</p>
 <div class="highlight"><pre><span></span><code><span class="cm">&lt;!-- Vista almacenada en resources/views/articulos.blade.php --&gt;</span>
@@ -1273,44 +1301,46 @@ Es una buena práctica evitar mezclar el código PHP con nuestras vistas, por lo
 <span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
 </code></pre></div>
 <p>En el caso anterior, la vista muestra el valor de la variable <code>nombre</code> e itera por el array <code>articulos</code>, por lo que será necesario proporcionarle dichos datos en la llamada al método <code>view()</code>:</p>
-<p><div class="highlight"><pre><span></span><code><span class="x">Route::get(&#39;/articulos&#39;, function () {</span>
-<span class="x">    $articulos = array(&#39;Primero&#39;, &#39;Segundo&#39;,&#39;Tercero&#39;, &#39;Último&#39;);</span>
-<span class="x">    return view(&#39;articulos&#39;, [</span>
-<span class="x">        &#39;nombre&#39; =&gt; &#39;Ane Aranceta&#39;,</span>
-<span class="x">        &#39;articulos&#39; =&gt; $articulos</span>
-<span class="x">    ]);</span>
-<span class="x">})-&gt;name(&#39;articulos&#39;);</span>
+<p><div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+
+<span class="nx">Route</span><span class="o">::</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;/articulos&#39;</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="nv">$articulos</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;Primero&#39;</span><span class="p">,</span> <span class="s1">&#39;Segundo&#39;</span><span class="p">,</span><span class="s1">&#39;Tercero&#39;</span><span class="p">,</span> <span class="s1">&#39;Último&#39;</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nx">view</span><span class="p">(</span><span class="s1">&#39;articulos&#39;</span><span class="p">,</span> <span class="p">[</span>
+        <span class="s1">&#39;nombre&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Ane Aranceta&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;articulos&#39;</span> <span class="o">=&gt;</span> <span class="nv">$articulos</span>
+    <span class="p">]);</span>
+<span class="p">})</span><span class="o">-&gt;</span><span class="na">name</span><span class="p">(</span><span class="s1">&#39;articulos&#39;</span><span class="p">);</span>
 </code></pre></div>
 El motor de plantillas Blade permite el uso de todo tipo de estructuras:</p>
-<div class="highlight"><pre><span></span><code><span class="x">@for ($i = 0; $i &lt; 10; $i++)</span>
-<span class="x">    El valor actual es {{ $i }}</span>
-<span class="x">@endfor</span>
+<div class="highlight"><pre><span></span><code>@for ($i = 0; $i <span class="p">&lt;</span> <span class="nt">10</span><span class="err">;</span> <span class="err">$</span><span class="na">i</span><span class="err">++)</span>
+    <span class="na">El</span> <span class="na">valor</span> <span class="na">actual</span> <span class="na">es</span> <span class="err">{{</span> <span class="err">$</span><span class="na">i</span> <span class="err">}}</span>
+<span class="err">@</span><span class="na">endfor</span>
 
-<span class="x">@foreach ($users as $user)</span>
-<span class="x">    &lt;p&gt;El usuario: {{ $user-&gt;id }}&lt;/p&gt;</span>
-<span class="x">@endforeach</span>
+<span class="err">@</span><span class="na">foreach</span> <span class="err">($</span><span class="na">users</span> <span class="na">as</span> <span class="err">$</span><span class="na">user</span><span class="err">)</span>
+    <span class="err">&lt;</span><span class="na">p</span><span class="p">&gt;</span>El usuario: {{ $user-&gt;id }}<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+@endforeach
 
-<span class="x">@forelse($users as $user)</span>
-<span class="x">    &lt;li&gt;{{ $user-&gt;name }}&lt;/li&gt;</span>
-<span class="x">@empty</span>
-<span class="x">    &lt;p&gt;No users&lt;/p&gt;</span>
-<span class="x">@endforelse</span>
+@forelse($users as $user)
+    <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span>{{ $user-&gt;name }}<span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+@empty
+    <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>No users<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+@endforelse
 
-<span class="x">@while (true)</span>
-<span class="x">    &lt;p&gt;Eso es un bucle infinito.&lt;/p&gt;</span>
-<span class="x">@endwhile</span>
+@while (true)
+    <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Eso es un bucle infinito.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+@endwhile
 
-<span class="x">@if (count($articulos) === 1)</span>
-<span class="x">    Hay un artículo.</span>
-<span class="x">@elseif (count($articulos) &gt; 1)</span>
-<span class="x">    Hay varios artículos.</span>
-<span class="x">@else</span>
-<span class="x">    No hay ninguno.</span>
-<span class="x">@endif</span>
+@if (count($articulos) === 1)
+    Hay un artículo.
+@elseif (count($articulos) &gt; 1)
+    Hay varios artículos.
+@else
+    No hay ninguno.
+@endif
 
-<span class="x">@unless (Auth::check())</span>
-<span class="x">    No estas autenticado.</span>
-<span class="x">@endunless</span>
+@unless (Auth::check())
+    No estas autenticado.
+@endunless
 </code></pre></div>
 <p>Puedes encontrar toda la información acerca de Blade en la <a href="https://laravel.com/docs/9.x/blade">documentación oficial</a>.</p>
 <h3 id="hands-on-37">Hands on! (3/7)</h3>
@@ -1352,22 +1382,24 @@ El motor de plantillas Blade permite el uso de todo tipo de estructuras:</p>
 <span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
 </code></pre></div>
 <code>routes/web.php</code>:
-<div class="highlight"><pre><span></span><code><span class="x">Route::get(&#39;/articulos&#39;, function () {</span>
-<span class="x">    $articulos = [</span>
-<span class="x">        [&quot;id&quot; =&gt; 1, &quot;titulo&quot; =&gt; &quot;Primer artículo...&quot;],</span>
-<span class="x">        [&quot;id&quot; =&gt; 2, &quot;titulo&quot; =&gt; &quot;Segundo artículo...&quot;],</span>
-<span class="x">        [&quot;id&quot; =&gt; 3, &quot;titulo&quot; =&gt; &quot;Tercer artículo...&quot;],</span>
-<span class="x">    ];</span>
-<span class="x">    return view(&#39;articulos.index&#39;, [</span>
-<span class="x">        &#39;articulos&#39; =&gt; $articulos</span>
-<span class="x">    ]);</span>
-<span class="x">})-&gt;name(&#39;articulos.index&#39;);</span>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
-<span class="x">Route::get(&#39;articulos/{id}&#39;, function ($id) {</span>
-<span class="x">    return view(&#39;articulos.show&#39;, [</span>
-<span class="x">        &#39;id&#39; =&gt; $id</span>
-<span class="x">    ]);</span>
-<span class="x">})-&gt;name(&#39;articulos.show&#39;);</span>
+<span class="nx">Route</span><span class="o">::</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;/articulos&#39;</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="nv">$articulos</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">[</span><span class="s2">&quot;id&quot;</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;titulo&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;Primer artículo...&quot;</span><span class="p">],</span>
+        <span class="p">[</span><span class="s2">&quot;id&quot;</span> <span class="o">=&gt;</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;titulo&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;Segundo artículo...&quot;</span><span class="p">],</span>
+        <span class="p">[</span><span class="s2">&quot;id&quot;</span> <span class="o">=&gt;</span> <span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;titulo&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;Tercer artículo...&quot;</span><span class="p">],</span>
+    <span class="p">];</span>
+    <span class="k">return</span> <span class="nx">view</span><span class="p">(</span><span class="s1">&#39;articulos.index&#39;</span><span class="p">,</span> <span class="p">[</span>
+        <span class="s1">&#39;articulos&#39;</span> <span class="o">=&gt;</span> <span class="nv">$articulos</span>
+    <span class="p">]);</span>
+<span class="p">})</span><span class="o">-&gt;</span><span class="na">name</span><span class="p">(</span><span class="s1">&#39;articulos.index&#39;</span><span class="p">);</span>
+
+<span class="nx">Route</span><span class="o">::</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;articulos/{id}&#39;</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nv">$id</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">view</span><span class="p">(</span><span class="s1">&#39;articulos.show&#39;</span><span class="p">,</span> <span class="p">[</span>
+        <span class="s1">&#39;id&#39;</span> <span class="o">=&gt;</span> <span class="nv">$id</span>
+    <span class="p">]);</span>
+<span class="p">})</span><span class="o">-&gt;</span><span class="na">name</span><span class="p">(</span><span class="s1">&#39;articulos.show&#39;</span><span class="p">);</span>
 </code></pre></div></p>
 <h2 id="paso-4-crear-un-controlador">Paso 4 - Crear un Controlador</h2>
 <p>Los controladores <strong>contienen la lógica</strong> para atender las peticiones recibidas. En otras palabras, un Controlador es una clase que agrupa el comportamiento de todas las peticiones <strong>relacionadas con una misma entidad</strong>. Por ejemplo, el controlador <code>ArticuloController</code> será el encargado de definir el comportamiento de acciones como: creación de un artículo, modificación de un artículo, búsqueda de artículos, etc.</p>
@@ -1478,12 +1510,14 @@ El motor de plantillas Blade permite el uso de todo tipo de estructuras:</p>
 </table>
 <h4 id="enrutar-el-controlador">Enrutar el Controlador</h4>
 <p>El siguiente paso es incluir en el Router las llamadas a los métodos del Controlador. En este caso crearemos las siguientes como ejemplo:</p>
-<p><div class="highlight"><pre><span></span><code><span class="x">use App\Http\Controllers\ArticuloController;</span>
+<p><div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
-<span class="x">Route::get(&#39;articulos/&#39;, [ArticuloController::class, &#39;index&#39;])-&gt;name(&#39;articulos.index&#39;);</span>
-<span class="x">Route::get(&#39;articulos/{id}&#39;, [ArticuloController::class, &#39;show&#39;])-&gt;name(&#39;articulos.show&#39;);</span>
-<span class="x">Route::get(&#39;articulos/create&#39;, [ArticuloController::class, &#39;create&#39;])-&gt;name(&#39;articulos.create&#39;);</span>
-<span class="x">Route::post(&#39;articulos/&#39;, [ArticuloController::class, &#39;store&#39;])-&gt;name(&#39;articulos.store&#39;);</span>
+<span class="k">use</span> <span class="nx">App\Http\Controllers\ArticuloController</span><span class="p">;</span>
+
+<span class="nx">Route</span><span class="o">::</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;articulos/&#39;</span><span class="p">,</span> <span class="p">[</span><span class="nx">ArticuloController</span><span class="o">::</span><span class="na">class</span><span class="p">,</span> <span class="s1">&#39;index&#39;</span><span class="p">])</span><span class="o">-&gt;</span><span class="na">name</span><span class="p">(</span><span class="s1">&#39;articulos.index&#39;</span><span class="p">);</span>
+<span class="nx">Route</span><span class="o">::</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;articulos/{id}&#39;</span><span class="p">,</span> <span class="p">[</span><span class="nx">ArticuloController</span><span class="o">::</span><span class="na">class</span><span class="p">,</span> <span class="s1">&#39;show&#39;</span><span class="p">])</span><span class="o">-&gt;</span><span class="na">name</span><span class="p">(</span><span class="s1">&#39;articulos.show&#39;</span><span class="p">);</span>
+<span class="nx">Route</span><span class="o">::</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;articulos/create&#39;</span><span class="p">,</span> <span class="p">[</span><span class="nx">ArticuloController</span><span class="o">::</span><span class="na">class</span><span class="p">,</span> <span class="s1">&#39;create&#39;</span><span class="p">])</span><span class="o">-&gt;</span><span class="na">name</span><span class="p">(</span><span class="s1">&#39;articulos.create&#39;</span><span class="p">);</span>
+<span class="nx">Route</span><span class="o">::</span><span class="na">post</span><span class="p">(</span><span class="s1">&#39;articulos/&#39;</span><span class="p">,</span> <span class="p">[</span><span class="nx">ArticuloController</span><span class="o">::</span><span class="na">class</span><span class="p">,</span> <span class="s1">&#39;store&#39;</span><span class="p">])</span><span class="o">-&gt;</span><span class="na">name</span><span class="p">(</span><span class="s1">&#39;articulos.store&#39;</span><span class="p">);</span>
 </code></pre></div>
 De esta forma direccionaremos las peticiones a los métodos de los controladores. Recuerda que el router no debe incluir ninguna lógica de la aplicación, únicamente redireccionar las peticiones a los controladores.</p>
 <p>Existe también otra forma más rápida para generar automáticamente las rutas a todos los métodos de nuestro controlador:</p>
@@ -1491,9 +1525,11 @@ De esta forma direccionaremos las peticiones a los métodos de los controladores
 </code></pre></div>
 <p>Si ejecutamos el comando <code>php artisan route:list</code> podemos comprobar cómo ya disponemos de todas las rutas a nuestro recurso y que cada una apunta al método correspondiente en el controlador.</p>
 <p>Esta opción de <code>Route::resource</code> también ofrece la posibilidad de generar únicamente las rutas que le indiquemos. El siguiente ejemplo muestra como generar únicamene las rutas index y create utilizando el método <code>only()</code>:</p>
-<div class="highlight"><pre><span></span><code><span class="x">Route::resource(&#39;articulos&#39;, ArticuloController::class)-&gt;only([</span>
-<span class="x">    &#39;index&#39;, &#39;create&#39;</span>
-<span class="x">]);</span>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+
+<span class="nx">Route</span><span class="o">::</span><span class="na">resource</span><span class="p">(</span><span class="s1">&#39;articulos&#39;</span><span class="p">,</span> <span class="nx">ArticuloController</span><span class="o">::</span><span class="na">class</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">only</span><span class="p">([</span>
+    <span class="s1">&#39;index&#39;</span><span class="p">,</span> <span class="s1">&#39;create&#39;</span>
+<span class="p">]);</span>
 </code></pre></div>
 <h3 id="hands-on-47">Hands on! (4/7)</h3>
 <p>Crea un controlador llamado <code>ArticuloController.php</code> y mueve la lógica de las dos rutas del router <code>articulos/</code> y <code>articulos/{id}</code> al nuevo controlador.</p>
@@ -1528,10 +1564,12 @@ De esta forma direccionaremos las peticiones a los métodos de los controladores
 <span class="p">}</span>
 </code></pre></div></p>
 <p>El router pasará a indicar el controlador y el método que se encargará de cada petición:
-<div class="highlight"><pre><span></span><code><span class="x">use App\Http\Controllers\ArticuloController;</span>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
-<span class="x">Route::get(&#39;articulos&#39;, [ArticuloController::class, &#39;index&#39;])-&gt;name(&#39;articulos.index&#39;);</span>
-<span class="x">Route::get(&#39;articulos/{id}&#39;, [ArticuloController::class, &#39;show&#39;])-&gt;name(&#39;articulos.show&#39;);</span>
+<span class="k">use</span> <span class="nx">App\Http\Controllers\ArticuloController</span><span class="p">;</span>
+
+<span class="nx">Route</span><span class="o">::</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;articulos&#39;</span><span class="p">,</span> <span class="p">[</span><span class="nx">ArticuloController</span><span class="o">::</span><span class="na">class</span><span class="p">,</span> <span class="s1">&#39;index&#39;</span><span class="p">])</span><span class="o">-&gt;</span><span class="na">name</span><span class="p">(</span><span class="s1">&#39;articulos.index&#39;</span><span class="p">);</span>
+<span class="nx">Route</span><span class="o">::</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;articulos/{id}&#39;</span><span class="p">,</span> <span class="p">[</span><span class="nx">ArticuloController</span><span class="o">::</span><span class="na">class</span><span class="p">,</span> <span class="s1">&#39;show&#39;</span><span class="p">])</span><span class="o">-&gt;</span><span class="na">name</span><span class="p">(</span><span class="s1">&#39;articulos.show&#39;</span><span class="p">);</span>
 </code></pre></div></p>
 <h2 id="paso-5-configurar-la-base-de-datos">Paso 5 - Configurar la base de datos</h2>
 <p>Es muy difícil de imaginar una aplicación web que no haga uso de una base de datos para almacenar la información. A continuación veremos como preparar la base de datos para nuestra aplicación.</p>
@@ -1608,26 +1646,28 @@ Todas estas variables de configuración serán referenciadas desde el archivo de
 <li><code>down()</code>: se utiliza para revertir operaciones realizadas por el método <code>up()</code>.</li>
 </ul>
 <p>El siguiente paso es implementar el método <code>up()</code> para que cree las columnas tal y como queremos:</p>
-<div class="highlight"><pre><span></span><code><span class="x">public function up()</span>
-<span class="x">{</span>
-<span class="x">    Schema::create(&#39;articulos&#39;, function (Blueprint $table) {</span>
-<span class="x">        // Completar con los campos que queremos que contenta la tabla &#39;articulos&#39;:</span>
-<span class="x">        $table-&gt;id(); # Columna de tipo integer autoincremental (equivalente a UNSIGNED INTEGER)</span>
-<span class="x">        $table-&gt;string(&#39;titulo&#39;); # Columna de tipo string (equivalente a VARCHAR)</span>
-<span class="x">        $table-&gt;text(&#39;contenido&#39;); # Columna de tipo text (equivalente a TEXT)</span>
-<span class="x">        $table-&gt;timestamps(); # Crea las columnas created_at y updated_at de tipo TIMESTAMP.</span>
-<span class="x">    });</span>
-<span class="x">}</span>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
-<span class="x">/**</span>
-<span class="x"> * Reverse the migrations.</span>
-<span class="x"> *</span>
-<span class="x"> * @return void</span>
-<span class="x"> */</span>
-<span class="x">public function down()</span>
-<span class="x">{</span>
-<span class="x">    Schema::dropIfExists(&#39;articulos&#39;);</span>
-<span class="x">}</span>
+<span class="k">public</span> <span class="k">function</span> <span class="nf">up</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="nx">Schema</span><span class="o">::</span><span class="na">create</span><span class="p">(</span><span class="s1">&#39;articulos&#39;</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nx">Blueprint</span> <span class="nv">$table</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// Completar con los campos que queremos que contenta la tabla &#39;articulos&#39;:</span>
+        <span class="nv">$table</span><span class="o">-&gt;</span><span class="na">id</span><span class="p">();</span> <span class="c1"># Columna de tipo integer autoincremental (equivalente a UNSIGNED INTEGER)</span>
+        <span class="nv">$table</span><span class="o">-&gt;</span><span class="na">string</span><span class="p">(</span><span class="s1">&#39;titulo&#39;</span><span class="p">);</span> <span class="c1"># Columna de tipo string (equivalente a VARCHAR)</span>
+        <span class="nv">$table</span><span class="o">-&gt;</span><span class="na">text</span><span class="p">(</span><span class="s1">&#39;contenido&#39;</span><span class="p">);</span> <span class="c1"># Columna de tipo text (equivalente a TEXT)</span>
+        <span class="nv">$table</span><span class="o">-&gt;</span><span class="na">timestamps</span><span class="p">();</span> <span class="c1"># Crea las columnas created_at y updated_at de tipo TIMESTAMP.</span>
+    <span class="p">});</span>
+<span class="p">}</span>
+
+<span class="sd">/**</span>
+<span class="sd"> * Reverse the migrations.</span>
+<span class="sd"> *</span>
+<span class="sd"> * @return void</span>
+<span class="sd"> */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="nf">down</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="nx">Schema</span><span class="o">::</span><span class="na">dropIfExists</span><span class="p">(</span><span class="s1">&#39;articulos&#39;</span><span class="p">);</span>
+<span class="p">}</span>
 </code></pre></div>
 <p>Aparte de <code>id()</code>, <code>string()</code> o <code>integer()</code>, existen una gran variedad de tipos de columnas disponibles para definir las tablas. Puedes encontrarlas en la <a href="https://laravel.com/docs/9.x/migrations#creating-columns">documentación oficial</a>.</p>
 <p>Una vez tenemos definida una migración, solo quedará ejecutarla para que así se ejecute en nuestra base de datos y aplique los cambios indicados. Para ejecutar las migraciones simplemente lanza el comando <code>migrate</code> de Artisan:</p>
@@ -1676,27 +1716,31 @@ Todas estas variables de configuración serán referenciadas desde el archivo de
 </code></pre></div>
 <h3 id="consultando-datos-de-la-base-de-datos">Consultando datos de la base de datos</h3>
 <p>Los modelos de Eloquent se pueden utilizar para recuperar información de las tablas relacionadas con ese modelo. Proporcionan métodos como los siguientes:</p>
-<div class="highlight"><pre><span></span><code><span class="x">use App\Models\Articulo;</span>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
-<span class="x">// Recupera todos los modelos</span>
-<span class="x">$articulos = Articulo::all();</span>
+<span class="k">use</span> <span class="nx">App\Models\Articulo</span><span class="p">;</span>
 
-<span class="x">// Recupera un modelo a partir de su clave</span>
-<span class="x">$articulo = Articulo::find(1);</span>
+<span class="c1">// Recupera todos los modelos</span>
+<span class="nv">$articulos</span> <span class="o">=</span> <span class="nx">Articulo</span><span class="o">::</span><span class="na">all</span><span class="p">();</span>
 
-<span class="x">// Recupera el primer modelo que cumpla con los criterios indicados</span>
-<span class="x">$articulos = Articulo::where(&#39;active&#39;, 1)-&gt;first();</span>
+<span class="c1">// Recupera un modelo a partir de su clave</span>
+<span class="nv">$articulo</span> <span class="o">=</span> <span class="nx">Articulo</span><span class="o">::</span><span class="na">find</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
 
-<span class="x">// Recupera los modelos que cumplan con los criterios indicados y de la forma indicada:</span>
-<span class="x">$articulos = Articulo::where(&#39;active&#39;, 1)</span>
-<span class="x">               -&gt;orderBy(&#39;titulo&#39;, &#39;desc&#39;)</span>
-<span class="x">               -&gt;take(10)</span>
-<span class="x">               -&gt;get();</span>
+<span class="c1">// Recupera el primer modelo que cumpla con los criterios indicados</span>
+<span class="nv">$articulos</span> <span class="o">=</span> <span class="nx">Articulo</span><span class="o">::</span><span class="na">where</span><span class="p">(</span><span class="s1">&#39;active&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">first</span><span class="p">();</span>
+
+<span class="c1">// Recupera los modelos que cumplan con los criterios indicados y de la forma indicada:</span>
+<span class="nv">$articulos</span> <span class="o">=</span> <span class="nx">Articulo</span><span class="o">::</span><span class="na">where</span><span class="p">(</span><span class="s1">&#39;active&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+               <span class="o">-&gt;</span><span class="na">orderBy</span><span class="p">(</span><span class="s1">&#39;titulo&#39;</span><span class="p">,</span> <span class="s1">&#39;desc&#39;</span><span class="p">)</span>
+               <span class="o">-&gt;</span><span class="na">take</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+               <span class="o">-&gt;</span><span class="na">get</span><span class="p">();</span>
 </code></pre></div>
 <p>Es posible iterar por la colección que devuelven los métodos <code>all()</code>, <code>get()</code> o <code>first()</code> de la siguiente forma:</p>
-<div class="highlight"><pre><span></span><code><span class="x">foreach ($articulos as $articulo) {</span>
-<span class="x">    echo $articulo-&gt;titulo;</span>
-<span class="x">}</span>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+
+<span class="k">foreach</span> <span class="p">(</span><span class="nv">$articulos</span> <span class="k">as</span> <span class="nv">$articulo</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">echo</span> <span class="nv">$articulo</span><span class="o">-&gt;</span><span class="na">titulo</span><span class="p">;</span>
+<span class="p">}</span>
 </code></pre></div>
 <p>Es importante mencionar que los métodos como <code>all()</code> o <code>get</code> no devuelven arrays típicos de PHP si no que devuelven una instancia de la clase <code>Collection</code> de Laravel. La diferencia es que estas colecciones tienen métodos adicionales que pueden ayudarnos en distintas situaciones, como por ejemplo: <code>last()</code>, <code>count()</code>, <code>sort()</code>, <code>merge()</code>, <code>filter()</code>, ...
 Puedes encontrar la lista de estos métodos de ayuda aquí: <a href="https://laravel.com/docs/9.x/collections#available-methods">https://laravel.com/docs/9.x/collections#available-methods</a></p>
@@ -1707,12 +1751,14 @@ Puedes encontrar la lista de estos métodos de ayuda aquí: <a href="https://lar
 3. Una vez enviados los datos, si todo ha ido bien nuestra aplicación le mostrará una nueva página.</p>
 <p>Por lo tanto, será necesario crear dos nuevas rutas que invoquen a los métodos <code>create()</code> y <code>store()</code> del controlador.</p>
 <p>El fichero <code>/routes/web.php</code> quedará así:
-<div class="highlight"><pre><span></span><code><span class="x">use App\Http\Controllers\ArticuloController;</span>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
-<span class="x">Route::get(&#39;articulos&#39;, [ArticuloController::class, &#39;index&#39;])-&gt;name(&#39;articulos.index&#39;);</span>
-<span class="x">Route::get(&#39;articulos/create&#39;, [ArticuloController::class, &#39;create&#39;])-&gt;name(&#39;articulos.create&#39;);</span>
-<span class="x">Route::get(&#39;articulos/{id}&#39;, [ArticuloController::class, &#39;show&#39;])-&gt;name(&#39;articulos.show&#39;);</span>
-<span class="x">Route::post(&#39;articulos/&#39;, [ArticuloController::class, &#39;store&#39;])-&gt;name(&#39;articulos.store&#39;);</span>
+<span class="k">use</span> <span class="nx">App\Http\Controllers\ArticuloController</span><span class="p">;</span>
+
+<span class="nx">Route</span><span class="o">::</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;articulos&#39;</span><span class="p">,</span> <span class="p">[</span><span class="nx">ArticuloController</span><span class="o">::</span><span class="na">class</span><span class="p">,</span> <span class="s1">&#39;index&#39;</span><span class="p">])</span><span class="o">-&gt;</span><span class="na">name</span><span class="p">(</span><span class="s1">&#39;articulos.index&#39;</span><span class="p">);</span>
+<span class="nx">Route</span><span class="o">::</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;articulos/create&#39;</span><span class="p">,</span> <span class="p">[</span><span class="nx">ArticuloController</span><span class="o">::</span><span class="na">class</span><span class="p">,</span> <span class="s1">&#39;create&#39;</span><span class="p">])</span><span class="o">-&gt;</span><span class="na">name</span><span class="p">(</span><span class="s1">&#39;articulos.create&#39;</span><span class="p">);</span>
+<span class="nx">Route</span><span class="o">::</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;articulos/{id}&#39;</span><span class="p">,</span> <span class="p">[</span><span class="nx">ArticuloController</span><span class="o">::</span><span class="na">class</span><span class="p">,</span> <span class="s1">&#39;show&#39;</span><span class="p">])</span><span class="o">-&gt;</span><span class="na">name</span><span class="p">(</span><span class="s1">&#39;articulos.show&#39;</span><span class="p">);</span>
+<span class="nx">Route</span><span class="o">::</span><span class="na">post</span><span class="p">(</span><span class="s1">&#39;articulos/&#39;</span><span class="p">,</span> <span class="p">[</span><span class="nx">ArticuloController</span><span class="o">::</span><span class="na">class</span><span class="p">,</span> <span class="s1">&#39;store&#39;</span><span class="p">])</span><span class="o">-&gt;</span><span class="na">name</span><span class="p">(</span><span class="s1">&#39;articulos.store&#39;</span><span class="p">);</span>
 </code></pre></div></p>
 <p>La ruta empleada para mostrar el formulario será de tipo <code>GET</code> y la encargada de almacenar los datos será de tipo <code>POST</code>.</p>
 <p>A continuación será necesario implementar los métodos del controlador:</p>
@@ -1752,26 +1798,29 @@ Puedes encontrar la lista de estos métodos de ayuda aquí: <a href="https://lar
 </code></pre></div>
 <p>En el método <code>store()</code> se ha incluido una validación de los datos. Para conocer más acerca de las validaciones automáticas que Laravel puede hacer por nosotros, puedes visitar <a href="https://laravel.com/docs/9.x/validation">este enlace</a>.</p>
 <p>Si no se quiere validar los datos (no recomendado) se podría haber creado el nuevo artículo de la siguiente forma:</p>
-<p><div class="highlight"><pre><span></span><code><span class="x">    ...</span>
-<span class="x">    public function store(Request $request)</span>
-<span class="x">    {</span>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
-<span class="x">        $articulo = new Articulo;</span>
-<span class="x">        $articulo-&gt;titulo = request(&#39;titulo&#39;);</span>
-<span class="x">        $articulo-&gt;contenido = request(&#39;contenido&#39;);</span>
-<span class="x">        $articulo-&gt;save();</span>
+    <span class="o">...</span>
 
-<span class="x">        // Otra alternativa para la inserción:</span>
-<span class="x">        $articulo = Articulo::create([</span>
-<span class="x">            &#39;titulo&#39; =&gt; request(&#39;titulo&#39;),</span>
-<span class="x">            &#39;contenido&#39; =&gt; request(&#39;contenido&#39;)</span>
-<span class="x">         ]);</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">store</span><span class="p">(</span><span class="nx">Request</span> <span class="nv">$request</span><span class="p">)</span>
+    <span class="p">{</span>
 
-<span class="x">        return redirect(route(&#39;articulos.index&#39;));</span>
-<span class="x">    }</span>
-<span class="x">}</span>
+        <span class="nv">$articulo</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Articulo</span><span class="p">;</span>
+        <span class="nv">$articulo</span><span class="o">-&gt;</span><span class="na">titulo</span> <span class="o">=</span> <span class="nx">request</span><span class="p">(</span><span class="s1">&#39;titulo&#39;</span><span class="p">);</span>
+        <span class="nv">$articulo</span><span class="o">-&gt;</span><span class="na">contenido</span> <span class="o">=</span> <span class="nx">request</span><span class="p">(</span><span class="s1">&#39;contenido&#39;</span><span class="p">);</span>
+        <span class="nv">$articulo</span><span class="o">-&gt;</span><span class="na">save</span><span class="p">();</span>
+
+        <span class="c1">// Otra alternativa para la inserción:</span>
+        <span class="nv">$articulo</span> <span class="o">=</span> <span class="nx">Articulo</span><span class="o">::</span><span class="na">create</span><span class="p">([</span>
+            <span class="s1">&#39;titulo&#39;</span> <span class="o">=&gt;</span> <span class="nx">request</span><span class="p">(</span><span class="s1">&#39;titulo&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;contenido&#39;</span> <span class="o">=&gt;</span> <span class="nx">request</span><span class="p">(</span><span class="s1">&#39;contenido&#39;</span><span class="p">)</span>
+         <span class="p">]);</span>
+
+        <span class="k">return</span> <span class="nx">redirect</span><span class="p">(</span><span class="nx">route</span><span class="p">(</span><span class="s1">&#39;articulos.index&#39;</span><span class="p">));</span>
+    <span class="p">}</span>
+<span class="p">}</span>
 </code></pre></div>
-En el ejemplo anterior se puede apreciar que el método <code>request()</code> permite acceder a los datos enviados en la petición.</p>
+<p>En el ejemplo anterior se puede apreciar que el método <code>request()</code> permite acceder a los datos enviados en la petición.</p>
 <p>Por último, quedaría crear la vista que muestre el formulario:</p>
 <p><code>/resources/views/articulos/create.blade.php</code>:
 <div class="highlight"><pre><span></span><code><span class="p">&lt;</span><span class="nt">html</span><span class="p">&gt;</span>
@@ -1795,7 +1844,7 @@ En el ejemplo anterior se puede apreciar que el método <code>request()</code> p
 La directiva @csrf agrega un campo oculto con el Token de usuario para que Laravel nos proteja automáticamente de ataques XSS o de suplantación de identidad. Es necesario agregar siempre esta directiva.</p>
 <h3 id="valores-por-defecto-de-un-modelo">Valores por defecto de un modelo</h3>
 <p>Al crear una instancia nueva de un modelo, los atributos de la instancia no tendrán ningún valor establecido. Si queremos definir valores por defecto, es posible hacerlo de la siguiente forma:</p>
-<p><div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
 <span class="k">namespace</span> <span class="nx">App\Models</span><span class="p">;</span>
 
@@ -1813,11 +1862,13 @@ La directiva @csrf agrega un campo oculto con el Token de usuario para que Larav
     <span class="p">];</span>
 <span class="p">}</span>
 </code></pre></div>
-El ejemplo anterior muestra cómo establecer el atributo <code>publicado</code> como <code>false</code> cada vez que creemos un nuevo objeto de la clase <code>Articulo</code>.</p>
+<p>El ejemplo anterior muestra cómo establecer el atributo <code>publicado</code> como <code>false</code> cada vez que creemos un nuevo objeto de la clase <code>Articulo</code>.</p>
 <h3 id="alternativas-a-eloquent-orm">Alternativas a Eloquent ORM</h3>
-<p>Laravel también permite interactuar con la base de datos mediante otras técnicas distintas a Eloquent ORM. Las alternativas disponibles son:
-- Raw SQL: se trata de ejecutar sentencias SQL directamente contra la base de datos. Tienes toda la información disponible <a href="https://laravel.com/docs/9.x/database">aquí</a>.
-- Query Builder: es una interfaz de comunicación con la base de datos que permite lanzar prácticamente cualquier consulta. A diferencia de la anterior, no es tan eficiente en cuanto a rendimiento pero aporta otras ventajas como la seguridad y abstracción de base de datos. Tienes toda la información disponible <a href="https://laravel.com/docs/9.x/queries">aquí</a>.</p>
+<p>Laravel también permite interactuar con la base de datos mediante otras técnicas distintas a Eloquent ORM. Las alternativas disponibles son:</p>
+<ul>
+<li>Raw SQL: se trata de ejecutar sentencias SQL directamente contra la base de datos. Tienes toda la información disponible <a href="https://laravel.com/docs/9.x/database">aquí</a>.</li>
+<li>Query Builder: es una interfaz de comunicación con la base de datos que permite lanzar prácticamente cualquier consulta. A diferencia de la anterior, no es tan eficiente en cuanto a rendimiento pero aporta otras ventajas como la seguridad y abstracción de base de datos. Tienes toda la información disponible <a href="https://laravel.com/docs/9.x/queries">aquí</a>.</li>
+</ul>
 <h3 id="tinker-un-potente-repl-para-laravel">Tinker: un potente REPL para Laravel</h3>
 <p>Tinker es un potente <a href="https://es.wikipedia.org/wiki/REPL">REPL</a> o <strong>consola interactiva</strong> que viene por defecto en Laravel. Resulta muy útil durante el desarrollo ya que permite interactuar con nuestra aplicación Laravel y probar cantidad de cosas: eventos, acceso a datos, etc.
 Para iniciar Tinker hay que ejecutar el siguiente comando:</p>
@@ -1900,7 +1951,7 @@ Para iniciar Tinker hay que ejecutar el siguiente comando:</p>
 <span class="p">}</span>
 </code></pre></div></p>
 <p>Actualiza la vista <code>index.blade.php</code> para que utilice los datos correctamente y muestre el nuevo enlace:</p>
-<p><div class="highlight"><pre><span></span><code><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;!DOCTYPE html&gt;</span>
 <span class="p">&lt;</span><span class="nt">html</span><span class="p">&gt;</span>
 <span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
     <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>RevistApp<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
@@ -1921,7 +1972,7 @@ Para iniciar Tinker hay que ejecutar el siguiente comando:</p>
 <span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
 </code></pre></div>
-Actualiza la vista <code>show.blade.php</code> para que utilice los datos reales del artículo seleccionado:
+<p>Actualiza la vista <code>show.blade.php</code> para que utilice los datos reales del artículo seleccionado:</p>
 <div class="highlight"><pre><span></span><code><span class="cp">&lt;!DOCTYPE html&gt;</span>
 <span class="p">&lt;</span><span class="nt">html</span><span class="p">&gt;</span>
 <span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
@@ -1935,7 +1986,7 @@ Actualiza la vista <code>show.blade.php</code> para que utilice los datos reales
     <span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;{{ route(&#39;articulos.index&#39;) }}&quot;</span><span class="p">&gt;</span>Volver<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
-</code></pre></div></p>
+</code></pre></div>
 <h2 id="bonus-opciones-flags-de-artisan">Bonus - Opciones (flags) de Artisan</h2>
 <p>Existen opciones muy útiles para generar archivos relacionados con los modelos. El siguiente ejemplo <strong>crea un modelo junto con su controlador y migración utilizando un único comando</strong>:</p>
 <div class="highlight"><pre><span></span><code>php artisan make:model Articulo -mcr
