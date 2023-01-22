@@ -232,7 +232,7 @@ npm run build
 La consola nos mostrará la dirección de los archivos publicados (`/public/build/assets/`). Este paso será necesario antes de desplegar nuestra aplicación en producción.
 
 ## Utilizar Bootstrap en tu proyecto
-A diferencia de versiones anteriores, a partir de su versión 6, Laravel no incluye por defecto las dependencias necesarias para [Bootstrap](https://getbootstrap.com/). Por lo tanto, tendremos 3 opciones para utilizar Bootstrap:
+A diferencia de versiones anteriores, a partir de su versión 6, Laravel no incluye por defecto las dependencias necesarias para [Bootstrap](https://getbootstrap.com/). Por lo tanto, tendremos 4 opciones para utilizar Bootstrap:
 
 a) Referenciar las dependecias JS y CSS utilizando BootstrapCDN (enlaces disponibles en la [documentación oficial](https://getbootstrap.com/docs/5.0/getting-started/introduction/)). Tal y como indica la web oficial, bastaría con lo siguiente:
 ```html
@@ -241,11 +241,17 @@ a) Referenciar las dependecias JS y CSS utilizando BootstrapCDN (enlaces disponi
 
 b) Descargar las dependecias ([enlace](https://getbootstrap.com/docs/4.4/getting-started/download/)) e incluirlas manualmente en las carpetas `/public/css` y `/public/js`. 
 
-c) Utilizar [Laravel Mix](https://laravel-mix.com/) para compilar nuestros archivos JS y CSS. Nota: Laravel ha sustituido Laravel Mix por Vite a partir de la versión `9.19`.
+c) Utilizar Vite como herramienta de compilación. Actualmente es la opción por defecto de Laravel.
 
-d) Utilizar Vite como herramienta de compilación. Actualmente es la opción por defecto de Laravel.
+d) Utilizar [Laravel Mix](https://laravel-mix.com/) para compilar nuestros archivos JS y CSS. 
 
-### Bootstrap en Laravel Mix
+!!! tip "Importante"
+    Laravel ha sustituido Laravel Mix por Vite a partir de la versión `9.19`, por lo que Vite es la opción más recomendada.
+
+### Bootstrap con Vite
+Sección en construcción.
+
+### Bootstrap en Laravel Mix (opción no recomendada actualmente)
 Laravel Mix es una herramienta basada en Webpack que sirve para compilar los recursos JS y CSS de la parte frontend. En este caso los recursos estarán inicialmente ubicados en la carpeta `/resources` y Laravel Mix dejará dentro de la carpeta `/public` los archivos resultantes ya minimizados.
 
 #### 1. Instalar el paquete Laravel/UI mediante composer.
@@ -312,9 +318,6 @@ En caso de tener algún problema con el reconocimiento de la herramienta Laravel
 ```
 
 El método `asset()` generará una URL a nuestros recursos en la carpeta `public/`. Si cambiamos la ubicación de nuestros recursos lo tendremos que especificar en la variable `ASSET_URL` del fichero `.env`.
-
-### Bootstrap con Vite
-Sección en construcción.
 
 ### Hands on! (opcional)
 Añade estilo a la aplicación mediante el framework Bootstrap 5.
@@ -386,15 +389,18 @@ Por defecto, si no indicamos lo contrario, el modelo de Eloquent utilizará como
 }
 ```
 Expliquemos la siguiente sentencia:
+
 ```php
 $table->foreignId('user_id')->constrained()->cascadeOnDelete();
 ```
+
 - `foreignId` crea una columna del tipo `UNSIGNED BIGINT` con el nombre especificado.
 - `constrained` utilizará las convenciones de Laravel para determinar la tabla y columna a la que se refiere. Nota: si no siguiésemos las convenciones, podríamos indicarle el nombre de la tabla pasándoselo como argumento: `constrainded('users')`.
 - `cascadeOnDelete` indica las acciones a realizar cuando se vaya a borrar el registro. El borrado en cascada determina que si el usuario que contiene los artículos es borrado, se borrarán también todos sus artículos. Otras opciones serían `restrictedOnDelete` (restringe el borrado mientras tenga artículos referenciados) o `nullOnDelete` (establece el valor `NULL` a la foreign key de los artículos relacionados).
 
-## Consejo: cómo añadir columnas a modelo existente
+### Consejo: cómo añadir columnas a modelo existente
 Existen dos escenarios posibles en los cuales queremos realizar cambios sobre modelos existentes:
+
 - Estamos desarrollando una nueva aplicación y no nos importa borrar los datos existentes.
 - Tenemos una aplicación en uso y queremos añadir columnas sin perder ningún registro.
 
@@ -403,6 +409,7 @@ En el primer caso, es suficiente con modificar la migración de la tabla corresp
 ```bash
 php artisan migrate:fresh
 ```
+
 Este comando eliminará todas las tablas de la base de datos y volverá a crearlas desde cero.
 
 Para el segundo caso (modificar una tabla sin perder datos), lo recomendable es crear una nueva migración y ejecutar el comando `php artisan migrate` para lanzar los cambios. Normalmente se incluyen los cambios en el propio nombre de la migración, por ejemplo:
@@ -434,6 +441,149 @@ public function up()
 ```
 ### Hands on!
 La vista de detalle de artículo mostrará los comentarios del artículo e incluirá la posibilidad de añadir nuevos comentarios.
+
+#### Solución
+
+Crear la migración para los comentarios e implementar el método `up()`. Deberá incluir un campo de texto para almacenar el comentario y la clave foránea indicando el artículo al que pertenece ek comentario:
+
+```php
+<?php
+
+...
+
+public function up()
+{
+    Schema::create('comentarios', function (Blueprint $table) {
+        $table->id();
+        $table->foreignId('articulo_id')->constrained()->cascadeOnDelete();
+        $table->text('texto');
+        $table->timestamps();
+    });
+}
+...
+```
+
+Crear el modelo `/App/Models/Comentario.php`:
+
+```php
+<?php
+
+namespace App\Models;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Comentario extends Model
+{
+    use HasFactory;
+    protected $fillable = [
+        'texto',
+    ];
+    
+    public function articulo()
+    {
+        return $this->belongsTo(Articulo::class);
+    }
+    
+}
+```
+
+Añadir las relación en la clase Articulo:
+
+`/App/Models/Articulo.php`:
+```php
+class Articulo extends Model
+{
+    ...
+
+    public function comentarios()
+    {
+        return $this->hasMany(Comentario::class);
+    }
+}
+```
+Actualizar la vista para que muestre el formulario de creación de un comentario y el listado de comentarios del artículo:
+
+`show.blade.php`:
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>RevistApp</title>
+</head>
+<body>
+	<h1>Revistapp</h1>
+    <h2>Detalle del artículo:</h2>
+    <ul>
+        <li>Fecha de creación: {{ $articulo->created_at }}</li>
+        <li>Fecha de última actualización: {{ $articulo->updated_at }}</li>
+        <li>Titulo: {{ $articulo->titulo }}</li>
+        <li>Contenido: {{ $articulo->contenido }}</li>
+    </ul>
+    <h3>Añadir comentario</h3>
+    <form method="POST" action="{{ route('comentarios.store', $articulo) }}">
+        @csrf
+        <div>
+            <label>Contenido:</label>
+        </div>
+        <div>
+            <textarea name="texto"></textarea>
+        </div>
+        <div>
+            <button type="submit">Crear</button>
+        </div>
+    </form>
+    <h3>Comentarios:</h3>
+    <ul>
+    @foreach ($articulo->comentarios as $comentario)
+        <li>
+            <small>{{ $comentario->created_at }}</small>: 
+            <span>{{ $comentario->texto }}</span>
+        </li>
+    @endforeach
+    </ul>
+
+    <a href="{{ route('articulos.index') }}">Volver</a>
+</body>
+</html>
+```
+
+Crear el nuevo controlador `ComentarioController.php` encargado de la creación de comentarios:
+
+```php
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Comentario;
+use App\Models\Articulo;
+use Illuminate\Http\Request;
+
+class ComentarioController extends Controller
+{
+
+    public function store(Request $request, Articulo $articulo)
+    {
+        $comentario = new Comentario;
+       
+        $comentario->texto = $request->texto;
+        $articulo->comentarios()->save($comentario);
+
+        /* Alternativa:
+        $comentario->articulo_id = $articulo->id;
+        $comentario->save();
+        */
+        
+        return redirect()->route('articulos.show', $articulo->id);
+    }
+}
+
+```
+
+Registrar la nueva ruta en el router `web.php`:
+
+```php
+Route::post('articulos/{articulo}/comentarios', [ComentarioController::class, 'store'])->name('comentarios.store');
+```
 
 ## Generar datos de prueba
 Laravel incluye un mecanismo llamado Seeder que sirve para rellenar la base de datos con datos de prueba. Por defecto nos incluye la clase DatabaseSeeder en la que podemos incluir el código que genere los datos de prueba:
@@ -561,9 +711,15 @@ Las opciones principales que provee Laravel para implementar la autenticación s
 A pesar de que la opción recomendada para crear la estructura inicial sea Laravel Breeze, la forma en la que accederemos a la información del usuario autenticado o el modo de securizar las rutas será el mismo.
 
 ### Laravel UI
+
+!!! warning inline end "Importante"
+
+    La opción que se recomienda actualmente para implementar la autenticación es Laravel Breeze.
+
 A partir de la versión 6 de Laravel es posible utilizar el paquete `laravel/ui` para implementar funcionalidades de autenticación. Laravel UI nos trae de serie algunos elementos necesarios para implementar la autenticación en nuestras aplicaciones y no tener que preocuparnos de hacer todas las tareas por nosotros mismos (login, registro, recuperación de contraseña, validación de usuario, etc.).
 
 En concreto necesitaremos lo siguiente:
+
 - Generar las vistas (login, registro, etc.), rutas y sus respectivas implementaciones.
 - Especificar las partes de nuestra web (rutas) que queramos proteger.
 
@@ -762,8 +918,11 @@ Laravel soporta el manejo de sesiones con distintos backends (bases de datos, fi
 Más información sobre la configuración en la [documentación oficial](https://laravel.com/docs/8.x/session).
 
 #### Uso de las sesiones
+
 Existen dos formas principales de acceder a la información de la sesión de usuario:
--  El helper global `session`
+
+-  El helper global `session`:
+
 ```php
 // Obtener un valor de la sesión
 $value = session('key');
@@ -774,6 +933,7 @@ $value = session('key', 'default');
 // Para almacenar un valor, le pasamos un Array:
 session(['key' => 'value']);
 ```
+
 -  Mediante la instancia `Request` (inyectada en los métodos de nuestros controladores)
 
 ```php
@@ -799,7 +959,9 @@ public function show(Request $request, $id)
 ```
  
 ### Hands on!
+
 Añade las siguientes funcionalidades a la aplicación:
+
 - Guardar en sesión los artículos leídos: cuando un usuario entre a ver un artículo, se almacenará en sesión que ya lo ha leído.
 - Guardar en sesión los artículos favoritos de un usuario: el usuario podrá hacer click en un enlace/botón que guarde en sesión ese artículo como favorito.
 
@@ -825,6 +987,7 @@ public function store(Request $request)
     return redirect(route('articulos.index'));
 }
 ```
+
 Si la validación pasa correctamente el código seguirá ejecutándose de forma normal y corriente. Pero si la validación falla, se redirigirá al usuario a la página desde la que se ha realizado el envío del formulario. 
 
 Puedes ver todas las reglas de validación disponibles [aquí](https://laravel.com/docs/9.x/validation#available-validation-rules).

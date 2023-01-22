@@ -750,9 +750,9 @@ Laravel Sail está disponible para macOS, Linux y Windows (vía WSL2).</p>
 <div class="highlight"><pre><span></span><code>curl -s &quot;https://laravel.build/example-app&quot; | bash
 </code></pre></div>
 Sustituye "example-app" por el nombre que quieres dar a tu aplicación. 
-Otro aspecto importante es que el comando anterior instalará por defecto mysql, redis, meilisearch, mailhog, y selenium. Puedes evitar esto y elegir los servicios que quieres instalar indicándolos como parámetro al final de la URL:
+Otro aspecto importante es que el comando anterior instalará por defecto mysql, redis, meilisearch, mailhog, y selenium. Puedes evitar esto y elegir los servicios que quieres instalar indicándolos como parámetro al final de la URL:</p>
 <div class="highlight"><pre><span></span><code>curl -s &quot;https://laravel.build/example-app?with=mysql,redis&quot; | bash
-</code></pre></div></p>
+</code></pre></div>
 <h4 id="2-inicia-el-entorno-de-desarrollo">2. Inicia el entorno de desarrollo</h4>
 <p>Espera a que Laravel Sail instale todas las dependencias necesarias para tu aplicación. Este proceso puede llevar varios minutos ya que debe preparar todos los contenedores para el desarrollo desde tu máquina local.</p>
 <p>Una vez que la instalación haya finalizado, entra en la carpeta creada para tu aplicación <code>cd example-app</code> y ejecuta el comando <code>./vendor/bin/sail up</code> para levantar el entorno de desarrollo local (utiliza <code>./vendor/bin/sail up -d</code> para arrancarlo en el background).</p>
@@ -761,12 +761,12 @@ Otro aspecto importante es que el comando anterior instalará por defecto mysql,
 <p>Puedes utilizar el comando <code>sail stop</code> para parar el entorno.</p>
 <h4 id="opcional-3-crea-un-alias-para-sail">(Opcional) 3. Crea un alias para sail</h4>
 <p>Para evitar tener que escribir <code>./vendor/bin/sail</code> continuamente, puedes crear un alias y así ejecutar simplemente <code>sail</code> directamente.</p>
-<p>Edita tu archivo añadiendo esto al final del fichero <code>~/.zshrc</code> o <code>~/.bashrc</code>:
+<p>Edita tu archivo añadiendo esto al final del fichero <code>~/.zshrc</code> o <code>~/.bashrc</code>:</p>
 <div class="highlight"><pre><span></span><code>alias sail=&#39;[ -f sail ] &amp;&amp; sh sail || sh vendor/bin/sail&#39;
-</code></pre></div></p>
-<p>Una forma sencilla de editar/crear el fichero puede ser mediante el editor de texto nano:
+</code></pre></div>
+<p>Una forma sencilla de editar/crear el fichero puede ser mediante el editor de texto nano:</p>
 <div class="highlight"><pre><span></span><code>nano ~/.zshrc
-</code></pre></div></p>
+</code></pre></div>
 <p>Vuelve a abrir el terminal y a partir de ahora ya podrás ejecutar comandos como <code>sail up</code> o <code>sail stop</code> directamente.</p>
 <h4 id="4-ejecutar-comandos-en-sail">4. Ejecutar comandos en Sail</h4>
 <p>En Laravel es muy común ejecutar comandos de utilizades como Composer, Artisan o Node.
@@ -785,12 +785,12 @@ sail artisan queue:work
 sail composer require laravel/sanctum
 sail node --version
 </code></pre></div>
-De todas formas, siempre tienes la opción de conectarte al contenedor con el siguiente comando:
+De todas formas, siempre tienes la opción de conectarte al contenedor con el siguiente comando:</p>
 <div class="highlight"><pre><span></span><code>docker exec -it &lt;id_contenedor&gt; bash
 </code></pre></div>
-Además del anterior comando, Laravel Sail también ofrece la posibilidad de acceder al contenedor mediante el siguiente comando:
+<p>Además del anterior comando, Laravel Sail también ofrece la posibilidad de acceder al contenedor mediante el siguiente comando:</p>
 <div class="highlight"><pre><span></span><code>sail shell
-</code></pre></div></p>
+</code></pre></div>
 <h4 id="5-configuracion-inicial">5. Configuración inicial</h4>
 <p>Todos los archivos de configuración sobre la aplicación se almacenan en el directorio de configuración <code>config</code>. Laravel trae una configuración establecida por defecto, por lo que no es necesario configurar nada adicional para comenzar a desarrollar. No obstante, puedes entrar a ver el archivo <code>config/app.php</code> para hacerte a la idea de distintos parámetros a configurar.</p>
 <p>La configuración relativa al entorno se almacena en el fichero <code>.env</code>. El tipo de configuración almacenada en este entorno es especialmente aquella que variará en función de si se trata de un entorno de desarrollo local, producción, etc. Nunca deberías subir este fichero a tu repositorio de código (por ejemplo Github).</p>
@@ -803,8 +803,8 @@ DB_PORT=3306
 DB_DATABASE=example_app
 DB_USERNAME=sail
 DB_PASSWORD=password
-</code></pre></div>
-Si deseas conectarte a la base de datos (mediante <a href="https://tableplus.com/">TablePlus</a> o <a href="https://www.mysql.com/products/workbench/">MySQL Workbench</a> por ejemplo) deberás utilizar los datos de conexión de este fichero.</p>
+</code></pre></div></p>
+<p>Si deseas conectarte a la base de datos (mediante <a href="https://tableplus.com/">TablePlus</a> o <a href="https://www.mysql.com/products/workbench/">MySQL Workbench</a> por ejemplo) deberás utilizar los datos de conexión de este fichero.</p>
 <p>La segunda es una base de datos llamada <code>test</code> que se utilizará para testing (en caso de necesitarlo).</p>
 <h4 id="7-configuracion-adicional">7. Configuración adicional</h4>
 <p>Si quieres saber más detalles sobre la configuración de Sail, como por ejemplo cambiar la versión de PHP por defecto o configurar opciones de testing, puedes visitar el siguiente enlace: <a href="https://laravel.com/docs/9.x/sail">https://laravel.com/docs/9.x/sail</a></p>
@@ -871,19 +871,21 @@ keys:
     - c:/Users/USER_NAME/.ssh/id_rsa
 </code></pre></div>
 <ul>
-<li><strong>Shared folders</strong>: en este apartado se indican los directorios de tu sistema operativo que se mantendrán sincronizados con la máquina virtual creada. Modifica el valor de 'map' y escribe la carpeta donde almacenas tus proyectos (p.ej. <code>/Users/USER_NAME/dev/proyectos</code> en Linux/Mac o <code>c:/dev/proyectos</code> en Windows).  En el siguiente ejemplo puedes ver cómo se sincronizarían los ficheros de nuestra carpeta <code>~/code/projects</code> en la carpeta <code>/home/vagrant/projects</code> de nuestra máquina virtual:
+<li><strong>Shared folders</strong>: en este apartado se indican los directorios de tu sistema operativo que se mantendrán sincronizados con la máquina virtual creada. Modifica el valor de 'map' y escribe la carpeta donde almacenas tus proyectos (p.ej. <code>/Users/USER_NAME/dev/proyectos</code> en Linux/Mac o <code>c:/dev/proyectos</code> en Windows).  En el siguiente ejemplo puedes ver cómo se sincronizarían los ficheros de nuestra carpeta <code>~/code/projects</code> en la carpeta <code>/home/vagrant/projects</code> de nuestra máquina virtual:</li>
+</ul>
 <div class="highlight"><pre><span></span><code>folders:
     - map: ~/code/projects
       to: /home/vagrant/projects
-</code></pre></div></li>
-<li><strong>Sites</strong>: La propiedad sites permite mapear fácilmente un dominio con un directorio de nuestro entorno virtual. De este forma podremos utilizar el dominio indicado (p.ej. aplicacion1.test) para acceder a nuestra aplicación desde el navegador. Ten en cuenta que el punto de entrada a una aplicación de Laravel es el archivo <code>index.php</code> ubicado en la carpeta <code>/public</code> de nuestro proyecto Laravel, por lo que el dominio tendrá que apuntar siempre a esta carpeta. Por ejemplo:
+</code></pre></div>
+<ul>
+<li><strong>Sites</strong>: La propiedad sites permite mapear fácilmente un dominio con un directorio de nuestro entorno virtual. De este forma podremos utilizar el dominio indicado (p.ej. aplicacion1.test) para acceder a nuestra aplicación desde el navegador. Ten en cuenta que el punto de entrada a una aplicación de Laravel es el archivo <code>index.php</code> ubicado en la carpeta <code>/public</code> de nuestro proyecto Laravel, por lo que el dominio tendrá que apuntar siempre a esta carpeta. Por ejemplo:</li>
+</ul>
 <div class="highlight"><pre><span></span><code>sites:
     - map: aplicacion1.test
       to: /home/vagrant/projects/aplicacion1/public
     - map: aplicacion2.test
       to: /home/vagrant/projects/aplicacion2/public
-</code></pre></div></li>
-</ul>
+</code></pre></div>
 <h4 id="8-configurar-el-archivo-local-hosts">8. Configurar el archivo local hosts</h4>
 <p>Es probable que vayas a utilizar el entorno virtual creado para múltiples proyectos o aplicaciones, por lo que necesitarás añadir los dominios indicados en el anterior apartado de 'sites' al archivo <code>hosts</code> de tu ordenador. De esta forma puedes redirigir las peticiones a dominios concretos a aplicaciones de tu entorno virtual Homestead.</p>
 <p>Modifica el archivo <code>hosts</code> (lo encontrarás en <code>/etc/hosts</code> en Mac/Linux y en <code>C:\Windows\System32\drivers\etc\hosts</code> en Windows):</p>

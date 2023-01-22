@@ -21,6 +21,7 @@ curl -s "https://laravel.build/example-app" | bash
 ```
 Sustituye "example-app" por el nombre que quieres dar a tu aplicación. 
 Otro aspecto importante es que el comando anterior instalará por defecto mysql, redis, meilisearch, mailhog, y selenium. Puedes evitar esto y elegir los servicios que quieres instalar indicándolos como parámetro al final de la URL:
+
 ```
 curl -s "https://laravel.build/example-app?with=mysql,redis" | bash
 ```
@@ -41,11 +42,13 @@ Puedes utilizar el comando `sail stop` para parar el entorno.
 Para evitar tener que escribir `./vendor/bin/sail` continuamente, puedes crear un alias y así ejecutar simplemente `sail` directamente.
 
 Edita tu archivo añadiendo esto al final del fichero `~/.zshrc` o `~/.bashrc`:
+
 ```
 alias sail='[ -f sail ] && sh sail || sh vendor/bin/sail'
 ```
 
 Una forma sencilla de editar/crear el fichero puede ser mediante el editor de texto nano:
+
 ```
 nano ~/.zshrc
 ```
@@ -71,13 +74,17 @@ sail composer require laravel/sanctum
 sail node --version
 ```
 De todas formas, siempre tienes la opción de conectarte al contenedor con el siguiente comando:
+
 ```
 docker exec -it <id_contenedor> bash
 ```
+
 Además del anterior comando, Laravel Sail también ofrece la posibilidad de acceder al contenedor mediante el siguiente comando:
+
 ```
 sail shell
 ```
+
 #### 5. Configuración inicial
 Todos los archivos de configuración sobre la aplicación se almacenan en el directorio de configuración `config`. Laravel trae una configuración establecida por defecto, por lo que no es necesario configurar nada adicional para comenzar a desarrollar. No obstante, puedes entrar a ver el archivo `config/app.php` para hacerte a la idea de distintos parámetros a configurar.
 
@@ -94,6 +101,7 @@ DB_DATABASE=example_app
 DB_USERNAME=sail
 DB_PASSWORD=password
 ```
+
 Si deseas conectarte a la base de datos (mediante [TablePlus](https://tableplus.com/) o [MySQL Workbench](https://www.mysql.com/products/workbench/) por ejemplo) deberás utilizar los datos de conexión de este fichero.
 
 La segunda es una base de datos llamada `test` que se utilizará para testing (en caso de necesitarlo).
@@ -186,12 +194,15 @@ keys:
 ```
 
 - **Shared folders**: en este apartado se indican los directorios de tu sistema operativo que se mantendrán sincronizados con la máquina virtual creada. Modifica el valor de 'map' y escribe la carpeta donde almacenas tus proyectos (p.ej. `/Users/USER_NAME/dev/proyectos` en Linux/Mac o `c:/dev/proyectos` en Windows).  En el siguiente ejemplo puedes ver cómo se sincronizarían los ficheros de nuestra carpeta `~/code/projects` en la carpeta `/home/vagrant/projects` de nuestra máquina virtual:
+
 ```
 folders:
     - map: ~/code/projects
       to: /home/vagrant/projects
 ```
+
 - **Sites**: La propiedad sites permite mapear fácilmente un dominio con un directorio de nuestro entorno virtual. De este forma podremos utilizar el dominio indicado (p.ej. aplicacion1.test) para acceder a nuestra aplicación desde el navegador. Ten en cuenta que el punto de entrada a una aplicación de Laravel es el archivo `index.php` ubicado en la carpeta `/public` de nuestro proyecto Laravel, por lo que el dominio tendrá que apuntar siempre a esta carpeta. Por ejemplo:
+
 ```
 sites:
     - map: aplicacion1.test
