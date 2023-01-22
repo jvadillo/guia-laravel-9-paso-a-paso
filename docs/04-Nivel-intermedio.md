@@ -553,18 +553,22 @@ php artisan make:factory ArticuloFactory
 ## Autenticación
 La autenticación es una funcionalidad presente en la gran mayoría de aplicaciones. Básicamente se trata de asegurar que un usuario es quién dice ser mediante un control de acceso a la aplicación.
 
-Las opciones principales que provee Laravel para implementarl la autenticación son:
-- Laravel UI
-- Laravel Breeze (opción recomendada a partir de Laravel 8)
+Las opciones principales que provee Laravel para implementar la autenticación son:
 
-### Autenticación con Laravel UI
+- Laravel UI
+- [Laravel Breeze](https://laravel.com/docs/9.x/starter-kits#laravel-breeze) (opción recomendada a partir de Laravel 8)
+
+A pesar de que la opción recomendada para crear la estructura inicial sea Laravel Breeze, la forma en la que accederemos a la información del usuario autenticado o el modo de securizar las rutas será el mismo.
+
+### Laravel UI
 A partir de la versión 6 de Laravel es posible utilizar el paquete `laravel/ui` para implementar funcionalidades de autenticación. Laravel UI nos trae de serie algunos elementos necesarios para implementar la autenticación en nuestras aplicaciones y no tener que preocuparnos de hacer todas las tareas por nosotros mismos (login, registro, recuperación de contraseña, validación de usuario, etc.).
 
 En concreto necesitaremos lo siguiente:
 - Generar las vistas (login, registro, etc.), rutas y sus respectivas implementaciones.
 - Especificar las partes de nuestra web (rutas) que queramos proteger.
 
-#### Paso 1: Crear la estructura necesaria
+#### Crear la estructura necesaria con Laravel UI
+
 El primer paso es instalar el paquete de laravel/ui mediante Composer:
 ```
 composer require laravel/ui
@@ -586,6 +590,7 @@ php artisan ui react --auth
 ```
 
 En el caso de esta guía ejecutaremos el comando que genera las funciones de login y registro utilizando el framework Bootstrap:
+
 ```
 php artisan ui bootstrap --auth
 ```
@@ -604,14 +609,14 @@ La segunda es simplemente un nuevo controlador autogenerado como ejemplo. Si int
 
 ¡Felicidades! Ya tienes la estructura básica de la aplicación creada. Puedes probar a registrar nuevos usuarios y realizar las acciones de login o logout con ellos.
 
-#### Paso 2: Configuración básica
-Una de las cosas que tendrás que configurar es la ruta a la que se envía al usuario tras autenticarse. Esto puede especificarse  mediante la variable `HOME` del archivo `RouteServiceProvider`:
+#### Configuración básica
+Una de las cosas que tendrás que configurar es la ruta a la que se envía al usuario tras autenticarse. Esto puede especificarse  mediante la variable `HOME` del archivo `RouteServiceProvider.php`:
 
 ```php
 public const HOME = '/home';
 ```
  
-Laravel utiliza por defecto el campo `email` para identificar a los usuarios. Puedes cambiar esto creando un método `username()` en el controlador `LoginController`.
+Laravel utiliza por defecto el campo `email` para identificar a los usuarios. Puedes cambiar esto creando un método `username()` en el controlador `LoginController.php`.
  
 ```php
 public function username()
@@ -628,14 +633,64 @@ protected function redirectTo($request)
     return route('login');
 }
 ```
- 
-#### Paso 3: Securizar rutas
+
+### Autenticación en Blade
+También podremos comprobar en nuestras vistas si un usuario está autenticado o no. Para ello tendremos la directiva `@auth` y `@guest`:
+
+```php
+@auth
+    // Si el usuario está autenticado...
+@endauth
+ 
+@guest
+    // Si el usuario no está autenticado...
+@endguest
+```
+
+### Laravel Breeze
+A partir de la versión 8 de Laravel se recomienda utilizar Laravel Breeze, el cual utiliza Tailwind CSS en lugar de Bootstrap. Este aspecto es importante ya que afecta a las vistas creadas. Laravel Breeze es una implementación sencilla de las funciones más habituales de autenticación como: login, registro, recuperación de contraseña, verificación de correo electrónico o confirmación de contraseña por correo. Para ello creará todas las vistas, rutas y controladores necesarios y además los dejará disponibles en el código de nuestro proyecto para que podamos modificar todo aquello que necesitemos.
+
+!!! note "Laravel Breeze debe instalarse tras la creación del proyecto"
+
+    Laravel Breeze debe instalarse sobre un proyecto recién creado de Laravel, ya que eliminará código existente en rutas, etc. Es lo que Laravel considera un [Starter Kit](https://laravel.com/docs/9.x/starter-kits).
+
+
+#### Crear la estructura necesaria con Laravel Breeze
+Para instalar Laravel Breeze es necesario lanzar el siguiente comando, el cual instalará el paquete utilizando Composer:
+
+```
+composer require laravel/breeze --dev
+```
+
+A continuación el siguiente comando generará todo el código necesario en tu proyecto:
+
+```
+php artisan breeze:install
+```
+
+El comando anterior habra hecho varios cambios en el proyecto, como por ejemplo:
+
+- Crear los controladores necesarios para el login, registro, recuperación de contraseña, etc.
+- Crear las vistas empleadas por los controladores (utilizando [Tailwind CSS](https://tailwindcss.com/)).
+- Crear una vista llamada Dashboard que utilizaremos cuando un usuario se autentica correctamente. Para ello también actualiza la variable `HOME` del archivo `RouteServiceProvider.php`.
+- Registrar la ruta `/dashboard` y cargar el archivo de rutas `auth.php`, el cual incluye las rutas necesarias para el login, registro, etc.
+- Crear los ficheros CSS y JS necesarios, que luego habrá que compilar. También añade al archivo `package.json` dependencias como TailwindCSS o AlpineJS.
+- Crear las rutas relacionadas con la autenticación en el archivo `auth.php`.
+
+Al igual que se hace con el resto de archivos estáticos que queremos compilar y publicar en la carpeta `/public`, tendremos que lanzar los comandos `npm install` y `npm run dev`.
+
+Por último, no olvides lanzar las migraciones necesarias mediante el comando `php artisan migrate`.
+
+### Securizar rutas
 Indicaremos las rutas que queramos proteger directamente en nuestro ruter `web.php`:
 
 ```php
 Route::get('profile', function () {
     // Solo podrán acceder usuarios autenticados.
 })->middleware('auth');
+
+// Otro ejemplo:
+Route::get('articulos', [ArticuloController::class, 'index'])->name('articulos.index')->middleware('auth');
 ```
 
 También podremos indicarlo directamente en el constructor de un controlador de la siguiente forma:
@@ -647,7 +702,7 @@ public function __construct()
 }
 ```
 
-#### Paso 4: Conseguir el usuario autenticado
+### Acceder al usuario autenticado
 
 Existen distintas formas de acceder al objeto del usuario autenticado. Desde cualquier punto de la aplicación podremos acceder utilizado la facade `Auth`:
 
@@ -661,7 +716,7 @@ $user = Auth::user();
 $id = Auth::id();
 ```
  
-También podremos conseguirlo desde cualquier petición:
+También podremos conseguirlo desde cualquier petición que reciba nuestro controlador:
 
 ```php
 public function update(Request $request)
@@ -670,7 +725,7 @@ public function update(Request $request)
 }
 ```
  
- Para comprobar si un usuario está autenticado, podemos emplear el método `check()`:
+Para comprobar si un usuario está autenticado, podemos emplear el método `check()`:
 
 ```php
 use Illuminate\Support\Facades\Auth;
@@ -680,37 +735,15 @@ if (Auth::check()) {
 }
 ```
 
-### Autenticación con Laravel Breeze
-A partir de la versión 8 de Laravel se recomienda utilizar Laravel Breeze, el cual utiliza Tailwind CSS en lugar de Bootstrap. Este aspecto es importante ya que afecta a las vistas creadas. Laravel Breeze es una implementación sencilla de las funciones más habituales de autenticación como: login, registro, recuperación de contraseña, verificación de correo electrónico o confirmación de contraseña por correo. Para ello creará todas las vistas, rutas y controladores necesarios y además los dejará disponibles en el código de nuestro proyecto para que podamos modificar todo aquello que necesitemos.
+### Redireccionar al usuario no autenticado a una página
+Cuando nuestro middleware de autenticación detecte que un usuario tiene que está autenticado para acceder a una ruta, automáticamente redirigirá al usuario donde nosotros le indiquemos (habitualmente una vista de login). Esto lo podremos indicar en el método `redirectTo()` del archivo `app/Http/Middleware/Authenticate.php`.
 
-!!! note "Laravel Breeze debe instalarse tras la creación del proyecto"
-
-    Laravel Breeze debe instalarse sobre un proyecto recién creado de Laravel, ya que eliminará código existente en rutas, etc. Es lo que Laravel considera un [Starter Kit](https://laravel.com/docs/9.x/starter-kits).
-
-
-Para instalar Laravel Breeze es necesario lanzar el siguiente comando para instalar el paquete utilizando Composer:
-
+```php
+protected function redirectTo($request)
+{
+    return route('login');
+}
 ```
-composer require laravel/breeze --dev
-```
-
-A continuación el siguiente comando generará todo el código necesario en tu proyecto:
-
-```
-php artisan breeze:install
-```
-
-El comando anterior habra hecho varios cambios en el proyecto, como por ejemplo:
-- Crear los controladores necesarios para el login, registro, recuperación de contraseña, etc.
-- Crear las vistas empleadas por los controladores (utilizando Tailwind CSS).
-- Crear una vista llamada Dashboard que utilizaremos cuando un usuario se autentica correctamente.
-- Crear los ficheros CSS y JS necesarios, que luego habrá que compilar.
-- Crear las rutas relacionadas con la autenticación en el archivo `auth.php`.
-
-Al igual que se hace con el resto de archivos estáticos que queremos compilar y publicar en la carpeta `/public`, tendremos que lanzar los comandos `npm install` y `
-npm run dev`.
-
-Por último, no olvides lanzar las migraciones necesarias mediante el comando `php artisan migrate`.
 
 ### Hands on!
 - Añade las funciones de login, registro y logout a la aplicación.
