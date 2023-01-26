@@ -951,6 +951,187 @@ También podremos comprobar en nuestras vistas si un usuario está autenticado o
 @endguest
 ```
 
+## Autorización
+Muchas veces la autenticación no es suficiente y queremos indicar qué acciones puede realizar cada usuario sobre una serie de recursos determinados. Por ejemplo: ¿Puede cualquier usuario autenticado insertar nuevos artículos en una aplicación, o únicamente debería poder hacerlo un usuario de tipo administrador?¿Quién puede modificar un artículo, cualquier usuario o únicamente su creador?
+
+Aparte de proveernos de mecanismos para la autenticación, Laravel también facilita la autorización de las acciones que pueden realizar los usuarios. Existen dos formas de gestionar la autorización:
+
+- **Gates**: Hacen referencia a los "permisos" tal y como los conocemos. Ejemplos de gates pueden ser: "crear_usuario", "editar_articulo", etc. En función de si un usuario tiene un permiso determinado, podrá por ejemplo visualizar una parte de nuestra vista o ejecutar una acción en un controlador.
+- **Policies**: Se utilizan cuando queremos definir permisos sobre modelos concretos. Es decir, agrupan las reglas de autorización sobre un modelo concreto.
+
+A la hora de definir las reglas de autorización de la aplicación, podrás elegir entre utilizar gates, policies o una combinación de las dos. En esta guía únicamente se abordará el uso de las gates.
+
+### Autorización mediante Gates
+Los pasos a seguir son siempre los siguientes:
+
+1. Definir el tipo de permiso o `Gate`.
+2. Comprobar el permiso en el front-end (por ejemplo mostrar u ocultar un contenido) o en el back-end (por ejemplo comprobar si el usuario puede insertar un dato).md-button
+
+#### Definir un Gate
+Los Gates se tiene que definir en el método `boot()` de la clase  `App\Providers\AuthServiceProvider.php`. Vemos un ejemplo donde se definen dos gates:
+
+```php
+<?php
+
+use App\Models\Post;
+use App\Models\User;
+use Illuminate\Support\Facades\Gate;
+ 
+/**
+ * Register any authentication / authorization services.
+ *
+ * @return void
+ */
+public function boot()
+{
+    $this->registerPolicies();
+ 
+    // Devuelve TRUE si el usuario tiene el valor 'is_admin' a 1.
+    Gate::define('manage_users', function(User $user) {
+        return $user->is_admin == 1;
+    });
+
+    // Devuelve TRUE si el usuario es el creador del Articulo.
+    Gate::define('update-articulo', function (User $user, Articulo $articulo) {
+        return $user->id === $articulo->user_id;
+    });
+}
+```
+
+Explicación de las dos Gates anteriores:
+
+- `'manage_users'`: esta Gate comprobará que el usuario es de tipo administrador, es decir, que tiene el atributo `is_admin` con el valor 1. Devolverá `true` si se cumple la condición. 
+- `'update-articulo'`: esta Gate comprobará que el creador del Articulo es el usuario actual. Para ello comprobará que el `id` del usuario sea el mismo que el del creador del Articulo (atributo `user_id`). 
+
+#### Comprobar un permiso en el front-end
+Tendremos disponible la directiva `@can` o `@cannot` en Blade:
+
+```html
+<ul>
+    <li>
+        <a href="{{ route('articulos.index') }}">Articulos</a>
+    </li>
+    @can('manage_users')
+    <li>
+        <a href="{{ route('users.index') }}">Usuarios</a>
+    </li>
+    @endcan
+</ul>
+```
+
+O por ejemplo:
+
+```html
+@can('update-articulo', $post)
+    <!-- El usuario actual puede actualizar el artículo... -->
+    <li>
+        <a href="{{ route('articulos.edit') }}">Editar</a>
+    </li>
+@elsecan('create-articulo', App\Models\Post::class)
+    <!-- El usuario actual NO puede actualizar el artículo... -->
+    <li>
+        <a href="{{ route('articulos.create') }}">Editar</a>
+    </li>
+@else
+    <!-- El usuario actual NO puede actualizar el artículo... -->
+    <li>
+        <span>No puedes crear ni editar</span>
+    </li>
+@endcan
+```
+
+#### Comprobar un permiso en el Controlador
+Laravel habilita la facade `Gate` para que podamos utilizarla desde nuestros controladores:
+
+```php
+<?php
+ 
+namespace App\Http\Controllers;
+ 
+use App\Http\Controllers\Controller;
+use App\Models\Articulo;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
+ 
+class ArticuloController extends Controller
+{
+    /**
+     * Update the given articulo.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Articulo  $articulo
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, Articulo $articulo)
+    {
+        if (! Gate::allows('update-article', $articulo)) {
+            abort(403);
+        }
+ 
+        // Actualizar el articulo...
+    }
+}
+```
+
+Es posible realizar comprobaciones de varios permisos mediante los métodos `any()` o `none()`:
+
+```php
+<?php
+if (Gate::any(['update-articulo', 'delete-articulo'], $post)) {
+    // El usuario puede actualizar o borrar el articulo...
+}
+ 
+if (Gate::none(['update-articulo', 'delete-articulo'], $post)) {
+    // El usuario no puede actualizar o borrar el artículo...
+}
+```
+
+También tendremos disponibles los métodos `can()` y `cannot()` en el objeto del usuario actual:
+
+```php
+<?php
+
+public function store(Request $request)
+{
+    if (!$request->user()->can('create_users'))
+        abort(403);
+    }
+}
+```
+
+```php
+<?php
+
+public function store(Request $request)
+{
+    if ($request->user()->cannot('create_users'))
+        abort(403);
+    }
+}
+```
+
+Si no tienes el objeto `$request` puedes utilizar `auth()`:
+
+```php
+<?php
+
+public function create()
+{
+    if (!auth()->user()->can('create_users'))
+        abort(403);
+    }
+}
+```
+
+#### Comprobar un permiso en el Router
+
+```php
+<?php
+
+Route::post('users', [UserController::class, 'store'])
+    ->middleware('can:create_users');
+
+```
 
 ## Manejo de sesiones
 HTTP es un protocolo sin estado (stateless), es decir, no guarda ninguna información sobre conexiones anteriores. Esto quiere decir que nuestra aplicación no tiene "memoria", y cada petición realizada por un usuario es nueva para la aplicación. Las sesiones permiten afrontar este problema, ya que son un mecanismo para almacenar información entre las peticiones que realiza un usuario al navegar por nuestra aplicación. Laravel implementa las sesiones de forma que su uso es muy sencillo para los desarrolladores.
