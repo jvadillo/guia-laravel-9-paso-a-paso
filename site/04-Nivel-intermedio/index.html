@@ -696,6 +696,60 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#autorizacion" class="md-nav__link">
+    Autorización
+  </a>
+  
+    <nav class="md-nav" aria-label="Autorización">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#autorizacion-mediante-gates" class="md-nav__link">
+    Autorización mediante Gates
+  </a>
+  
+    <nav class="md-nav" aria-label="Autorización mediante Gates">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#definir-un-gate" class="md-nav__link">
+    Definir un Gate
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comprobar-un-permiso-en-el-front-end" class="md-nav__link">
+    Comprobar un permiso en el front-end
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comprobar-un-permiso-en-el-controlador" class="md-nav__link">
+    Comprobar un permiso en el Controlador
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comprobar-un-permiso-en-el-router" class="md-nav__link">
+    Comprobar un permiso en el Router
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#manejo-de-sesiones" class="md-nav__link">
     Manejo de sesiones
   </a>
@@ -1196,6 +1250,60 @@
   <a href="#autenticacion-en-blade" class="md-nav__link">
     Autenticación en Blade
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#autorizacion" class="md-nav__link">
+    Autorización
+  </a>
+  
+    <nav class="md-nav" aria-label="Autorización">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#autorizacion-mediante-gates" class="md-nav__link">
+    Autorización mediante Gates
+  </a>
+  
+    <nav class="md-nav" aria-label="Autorización mediante Gates">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#definir-un-gate" class="md-nav__link">
+    Definir un Gate
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comprobar-un-permiso-en-el-front-end" class="md-nav__link">
+    Comprobar un permiso en el front-end
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comprobar-un-permiso-en-el-controlador" class="md-nav__link">
+    Comprobar un permiso en el Controlador
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comprobar-un-permiso-en-el-router" class="md-nav__link">
+    Comprobar un permiso en el Router
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -2038,6 +2146,163 @@ php artisan ui react --auth
 <span class="x">    // Si el usuario no está autenticado...</span>
 <span class="x">@endguest</span>
 </code></pre></div>
+<h2 id="autorizacion">Autorización</h2>
+<p>Muchas veces la autenticación no es suficiente y queremos especificar <strong>qué acciones puede realizar cada usuario sobre una serie de recursos determinados</strong>. Por ejemplo: ¿Puede cualquier usuario autenticado insertar nuevos artículos en una aplicación, o únicamente debería poder hacerlo un usuario de tipo administrador?¿Quién puede modificar un artículo, cualquier usuario o únicamente su creador?</p>
+<p>Aparte de proveernos de mecanismos para la autenticación, Laravel también facilita la <a href="https://laravel.com/docs/9.x/authorization">autorización</a> de las acciones que pueden realizar los usuarios. Existen dos formas de gestionar la autorización:</p>
+<ul>
+<li><strong>Gates</strong>: Hacen referencia a los "permisos" tal y como los conocemos. Ejemplos de gates pueden ser: "crear_usuario", "editar_articulo", etc. En función de si un usuario tiene un permiso determinado, podrá por ejemplo visualizar una parte de nuestra vista o ejecutar una acción en un controlador.</li>
+<li><strong>Policies</strong>: Se utilizan cuando queremos definir permisos sobre modelos concretos. Es decir, agrupan las reglas de autorización sobre un modelo concreto.</li>
+</ul>
+<p>A la hora de definir las reglas de autorización de la aplicación, podrás elegir entre utilizar gates, policies o una combinación de las dos. En esta guía únicamente se abordará el uso de las gates.</p>
+<h3 id="autorizacion-mediante-gates">Autorización mediante Gates</h3>
+<p>Los pasos a seguir son siempre los siguientes:</p>
+<ol>
+<li>Definir el tipo de permiso o <code>Gate</code>.</li>
+<li>Comprobar el permiso en el front-end (por ejemplo mostrar u ocultar un contenido) o en el back-end (por ejemplo comprobar si el usuario puede insertar un dato).</li>
+</ol>
+<h4 id="definir-un-gate">Definir un Gate</h4>
+<p>Los Gates se tiene que definir en el método <code>boot()</code> de la clase  <code>App\Providers\AuthServiceProvider.php</code>. Vemos un ejemplo donde se definen dos gates:</p>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+
+<span class="k">use</span> <span class="nx">App\Models\Post</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">App\Models\User</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Illuminate\Support\Facades\Gate</span><span class="p">;</span>
+
+<span class="sd">/**</span>
+<span class="sd"> * Register any authentication / authorization services.</span>
+<span class="sd"> *</span>
+<span class="sd"> * @return void</span>
+<span class="sd"> */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="nf">boot</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">registerPolicies</span><span class="p">();</span>
+
+    <span class="c1">// Devuelve TRUE si el usuario tiene el valor &#39;is_admin&#39; a 1.</span>
+    <span class="nx">Gate</span><span class="o">::</span><span class="na">define</span><span class="p">(</span><span class="s1">&#39;manage_users&#39;</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nx">User</span> <span class="nv">$user</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$user</span><span class="o">-&gt;</span><span class="na">is_admin</span> <span class="o">==</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="p">});</span>
+
+    <span class="c1">// Devuelve TRUE si el usuario es el creador del Articulo.</span>
+    <span class="nx">Gate</span><span class="o">::</span><span class="na">define</span><span class="p">(</span><span class="s1">&#39;update-articulo&#39;</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nx">User</span> <span class="nv">$user</span><span class="p">,</span> <span class="nx">Articulo</span> <span class="nv">$articulo</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$user</span><span class="o">-&gt;</span><span class="na">id</span> <span class="o">===</span> <span class="nv">$articulo</span><span class="o">-&gt;</span><span class="na">user_id</span><span class="p">;</span>
+    <span class="p">});</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Explicación de las dos Gates anteriores:</p>
+<ul>
+<li><code>'manage_users'</code>: esta Gate comprobará que el usuario es de tipo administrador, es decir, que tiene el atributo <code>is_admin</code> con el valor 1. Devolverá <code>true</code> si se cumple la condición. </li>
+<li><code>'update-articulo'</code>: esta Gate comprobará que el creador del Articulo es el usuario actual. Para ello comprobará que el <code>id</code> del usuario sea el mismo que el del creador del Articulo (atributo <code>user_id</code>). </li>
+</ul>
+<h4 id="comprobar-un-permiso-en-el-front-end">Comprobar un permiso en el front-end</h4>
+<p>Tendremos disponible la directiva <code>@can</code> o <code>@cannot</code> en Blade:</p>
+<div class="highlight"><pre><span></span><code><span class="p">&lt;</span><span class="nt">ul</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;{{ route(&#39;articulos.index&#39;) }}&quot;</span><span class="p">&gt;</span>Articulos<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+    @can(&#39;manage_users&#39;)
+    <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;{{ route(&#39;users.index&#39;) }}&quot;</span><span class="p">&gt;</span>Usuarios<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+    @endcan
+<span class="p">&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span>
+</code></pre></div>
+<p>O por ejemplo:</p>
+<div class="highlight"><pre><span></span><code>@can(&#39;update-articulo&#39;, $post)
+    <span class="cm">&lt;!-- El usuario actual puede actualizar el artículo... --&gt;</span>
+    <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;{{ route(&#39;articulos.edit&#39;) }}&quot;</span><span class="p">&gt;</span>Editar<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+@elsecan(&#39;create-articulo&#39;, App\Models\Post::class)
+    <span class="cm">&lt;!-- El usuario actual NO puede actualizar el artículo... --&gt;</span>
+    <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;{{ route(&#39;articulos.create&#39;) }}&quot;</span><span class="p">&gt;</span>Editar<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+@else
+    <span class="cm">&lt;!-- El usuario actual NO puede actualizar el artículo... --&gt;</span>
+    <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">span</span><span class="p">&gt;</span>No puedes crear ni editar<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+@endcan
+</code></pre></div>
+<h4 id="comprobar-un-permiso-en-el-controlador">Comprobar un permiso en el Controlador</h4>
+<p>Laravel habilita la facade <code>Gate</code> para que podamos utilizarla desde nuestros controladores:</p>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+
+<span class="k">namespace</span> <span class="nx">App\Http\Controllers</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">App\Http\Controllers\Controller</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">App\Models\Articulo</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Illuminate\Http\Request</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Illuminate\Support\Facades\Gate</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">ArticuloController</span> <span class="k">extends</span> <span class="nx">Controller</span>
+<span class="p">{</span>
+    <span class="sd">/**</span>
+<span class="sd">     * Update the given articulo.</span>
+<span class="sd">     *</span>
+<span class="sd">     * @param  \Illuminate\Http\Request  $request</span>
+<span class="sd">     * @param  \App\Models\Articulo  $articulo</span>
+<span class="sd">     * @return \Illuminate\Http\Response</span>
+<span class="sd">     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">update</span><span class="p">(</span><span class="nx">Request</span> <span class="nv">$request</span><span class="p">,</span> <span class="nx">Articulo</span> <span class="nv">$articulo</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span> <span class="nx">Gate</span><span class="o">::</span><span class="na">allows</span><span class="p">(</span><span class="s1">&#39;update-article&#39;</span><span class="p">,</span> <span class="nv">$articulo</span><span class="p">))</span> <span class="p">{</span>
+            <span class="nx">abort</span><span class="p">(</span><span class="mi">403</span><span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="c1">// Actualizar el articulo...</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Es posible realizar comprobaciones de varios permisos mediante los métodos <code>any()</code> o <code>none()</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="nx">Gate</span><span class="o">::</span><span class="na">any</span><span class="p">([</span><span class="s1">&#39;update-articulo&#39;</span><span class="p">,</span> <span class="s1">&#39;delete-articulo&#39;</span><span class="p">],</span> <span class="nv">$post</span><span class="p">))</span> <span class="p">{</span>
+    <span class="c1">// El usuario puede actualizar o borrar el articulo...</span>
+<span class="p">}</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="nx">Gate</span><span class="o">::</span><span class="na">none</span><span class="p">([</span><span class="s1">&#39;update-articulo&#39;</span><span class="p">,</span> <span class="s1">&#39;delete-articulo&#39;</span><span class="p">],</span> <span class="nv">$post</span><span class="p">))</span> <span class="p">{</span>
+    <span class="c1">// El usuario no puede actualizar o borrar el artículo...</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>También tendremos disponibles los métodos <code>can()</code> y <code>cannot()</code> en el objeto del usuario actual:</p>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+
+<span class="k">public</span> <span class="k">function</span> <span class="nf">store</span><span class="p">(</span><span class="nx">Request</span> <span class="nv">$request</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nv">$request</span><span class="o">-&gt;</span><span class="na">user</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">can</span><span class="p">(</span><span class="s1">&#39;create_users&#39;</span><span class="p">))</span>
+        <span class="nx">abort</span><span class="p">(</span><span class="mi">403</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+
+<span class="k">public</span> <span class="k">function</span> <span class="nf">store</span><span class="p">(</span><span class="nx">Request</span> <span class="nv">$request</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nv">$request</span><span class="o">-&gt;</span><span class="na">user</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">cannot</span><span class="p">(</span><span class="s1">&#39;create_users&#39;</span><span class="p">))</span>
+        <span class="nx">abort</span><span class="p">(</span><span class="mi">403</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Si no tienes el objeto <code>$request</code> puedes utilizar también el método <code>auth()</code> para acceder al objeto del usuario autenticado:</p>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+
+<span class="k">public</span> <span class="k">function</span> <span class="nf">create</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">auth</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">user</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">can</span><span class="p">(</span><span class="s1">&#39;create_users&#39;</span><span class="p">))</span>
+        <span class="nx">abort</span><span class="p">(</span><span class="mi">403</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<h4 id="comprobar-un-permiso-en-el-router">Comprobar un permiso en el Router</h4>
+<p>Otro forma de realizar la autorización es indicándola como middleware en la ruta:</p>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+
+<span class="nx">Route</span><span class="o">::</span><span class="na">post</span><span class="p">(</span><span class="s1">&#39;users&#39;</span><span class="p">,</span> <span class="p">[</span><span class="nx">UserController</span><span class="o">::</span><span class="na">class</span><span class="p">,</span> <span class="s1">&#39;store&#39;</span><span class="p">])</span>
+    <span class="o">-&gt;</span><span class="na">middleware</span><span class="p">(</span><span class="s1">&#39;can:create_users&#39;</span><span class="p">);</span>
+</code></pre></div>
+<p>El formato siempre será el mismo: <code>can:xxxxx</code> o <code>cannot:xxxxx</code>.</p>
+<p>Tienes más información sobre la autorización en la <a href="https://laravel.com/docs/9.x/authorization">documentación oficial de Laravel</a>.</p>
 <h2 id="manejo-de-sesiones">Manejo de sesiones</h2>
 <p>HTTP es un protocolo sin estado (stateless), es decir, no guarda ninguna información sobre conexiones anteriores. Esto quiere decir que nuestra aplicación no tiene "memoria", y cada petición realizada por un usuario es nueva para la aplicación. Las sesiones permiten afrontar este problema, ya que son un mecanismo para almacenar información entre las peticiones que realiza un usuario al navegar por nuestra aplicación. Laravel implementa las sesiones de forma que su uso es muy sencillo para los desarrolladores.</p>
 <h4 id="configuracion">Configuración</h4>

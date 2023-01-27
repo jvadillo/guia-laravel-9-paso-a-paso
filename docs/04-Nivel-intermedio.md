@@ -952,9 +952,9 @@ También podremos comprobar en nuestras vistas si un usuario está autenticado o
 ```
 
 ## Autorización
-Muchas veces la autenticación no es suficiente y queremos indicar qué acciones puede realizar cada usuario sobre una serie de recursos determinados. Por ejemplo: ¿Puede cualquier usuario autenticado insertar nuevos artículos en una aplicación, o únicamente debería poder hacerlo un usuario de tipo administrador?¿Quién puede modificar un artículo, cualquier usuario o únicamente su creador?
+Muchas veces la autenticación no es suficiente y queremos especificar **qué acciones puede realizar cada usuario sobre una serie de recursos determinados**. Por ejemplo: ¿Puede cualquier usuario autenticado insertar nuevos artículos en una aplicación, o únicamente debería poder hacerlo un usuario de tipo administrador?¿Quién puede modificar un artículo, cualquier usuario o únicamente su creador?
 
-Aparte de proveernos de mecanismos para la autenticación, Laravel también facilita la autorización de las acciones que pueden realizar los usuarios. Existen dos formas de gestionar la autorización:
+Aparte de proveernos de mecanismos para la autenticación, Laravel también facilita la [autorización](https://laravel.com/docs/9.x/authorization) de las acciones que pueden realizar los usuarios. Existen dos formas de gestionar la autorización:
 
 - **Gates**: Hacen referencia a los "permisos" tal y como los conocemos. Ejemplos de gates pueden ser: "crear_usuario", "editar_articulo", etc. En función de si un usuario tiene un permiso determinado, podrá por ejemplo visualizar una parte de nuestra vista o ejecutar una acción en un controlador.
 - **Policies**: Se utilizan cuando queremos definir permisos sobre modelos concretos. Es decir, agrupan las reglas de autorización sobre un modelo concreto.
@@ -965,7 +965,7 @@ A la hora de definir las reglas de autorización de la aplicación, podrás eleg
 Los pasos a seguir son siempre los siguientes:
 
 1. Definir el tipo de permiso o `Gate`.
-2. Comprobar el permiso en el front-end (por ejemplo mostrar u ocultar un contenido) o en el back-end (por ejemplo comprobar si el usuario puede insertar un dato).md-button
+2. Comprobar el permiso en el front-end (por ejemplo mostrar u ocultar un contenido) o en el back-end (por ejemplo comprobar si el usuario puede insertar un dato).
 
 #### Definir un Gate
 Los Gates se tiene que definir en el método `boot()` de la clase  `App\Providers\AuthServiceProvider.php`. Vemos un ejemplo donde se definen dos gates:
@@ -1077,6 +1077,7 @@ Es posible realizar comprobaciones de varios permisos mediante los métodos `any
 
 ```php
 <?php
+
 if (Gate::any(['update-articulo', 'delete-articulo'], $post)) {
     // El usuario puede actualizar o borrar el articulo...
 }
@@ -1110,7 +1111,7 @@ public function store(Request $request)
 }
 ```
 
-Si no tienes el objeto `$request` puedes utilizar `auth()`:
+Si no tienes el objeto `$request` puedes utilizar también el método `auth()` para acceder al objeto del usuario autenticado:
 
 ```php
 <?php
@@ -1125,6 +1126,8 @@ public function create()
 
 #### Comprobar un permiso en el Router
 
+Otro forma de realizar la autorización es indicándola como middleware en la ruta:
+
 ```php
 <?php
 
@@ -1132,6 +1135,10 @@ Route::post('users', [UserController::class, 'store'])
     ->middleware('can:create_users');
 
 ```
+
+El formato siempre será el mismo: `can:xxxxx` o `cannot:xxxxx`.
+
+Tienes más información sobre la autorización en la [documentación oficial de Laravel](https://laravel.com/docs/9.x/authorization).
 
 ## Manejo de sesiones
 HTTP es un protocolo sin estado (stateless), es decir, no guarda ninguna información sobre conexiones anteriores. Esto quiere decir que nuestra aplicación no tiene "memoria", y cada petición realizada por un usuario es nueva para la aplicación. Las sesiones permiten afrontar este problema, ya que son un mecanismo para almacenar información entre las peticiones que realiza un usuario al navegar por nuestra aplicación. Laravel implementa las sesiones de forma que su uso es muy sencillo para los desarrolladores.
