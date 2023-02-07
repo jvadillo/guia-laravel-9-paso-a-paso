@@ -23,14 +23,18 @@ Igualmente se puede hacer en el controlador:
 use App\Http\Controllers\ArticuloController;
 use App\Models\Articulo;
  
-// Definición de la ruta:
-Route::get('/articulos/{articulo}', [UserController::class, 'show']);
- 
 // Definición del método en el Controlador:
 public function show(Articulo $articulo)
 {
     return view('articulos.index', ['articulo' => $articulo]);
 }
+```
+
+ ```php
+<?php
+
+// Definición de la ruta en web.php:
+Route::get('/articulos/{articulo}', [ArticuloController::class, 'show']);
 ```
 
 ### Hands on!
@@ -210,6 +214,22 @@ export default defineConfig({
 });
 ```
 La configuración por defecto ya indica a Vite dónde se ubican los archivos `.css` y `.js`.
+
+Nota importante: si estás trabajando con Laravel Sail desde WSL, es posible que tengas problemas para que el comando `npm run dev` esté pendiente de los cambios en los archivos estáticos. Para que funcione correctamente tendrás que añadir lo siguiente a en el archivo ``vite.config.js`:
+
+```js
+server: {
+    hmr: {
+        host: 'localhost',
+    },
+    watch: {
+        usePolling: true,
+    },
+},
+plugins: [
+    ...
+```
+
 
 ### Instalar las dependencias e iniciar el servidor de Vite
 Para utilizar Vite es necesario tener Node instalado, ya que utilizaremos NPM para instalar las dependencias. Compruébalo mediante el siguiente comando:
